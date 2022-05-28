@@ -1,0 +1,18 @@
+1. Jaki problem rozwiązuje aplikacja?
+2. Jaka jest grupa docelowa?
+3. Jak jest konkurencja dla apki?
+4. Dane statystyczne (to niekoniecznie teraz)
+5. Jak zarabiać na aplikacji
+
+
+
+====================
+
+
+
+
+1. The app is a next generation e-commerce software. It enables customers to watch the goods, add them to shopping cart and buy. 
+On the company side, the app enable to store all orders, payments and categorised goods. The app also provide a reports  which enable company to improve sales.
+2. Our target group is a small companies. Such companies usually doesn't have big budget to buy large, personalised e-commerce software but thanks to simplicity of my app, the cost is not big and they can have smaller but more personalized app. If someone will want an extra functionality, it will be not hard to expand an app.
+3. Main competition of my app is an Amazon and Allegro.
+5. Monetizing - the app will be selling by lifetime license or complete for free with making money through ads.

@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+* {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+header {
+    color: white;
+    background-color: #143636;
+}
+    .header__wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin: auto;
+    }
+    .header__items {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    .header__item {
+        cursor: pointer;
+    }
+    .header__item > a {
+        text-decoration: none;
+        color:  white;
+    }
+.logo {
+    cursor: pointer;
+}
+.shopcart {
+    cursor: pointer;
+    right: 10px;
+    top: 0;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+h2 {
+    text-align: center;
+}
+.categories {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    background-color: #224444c0;
+    padding: 5px;
+    margin: 0;
+}
+    .category {
+        padding: 5px;
+        border-radius: 5px;
+        margin: 0 5px;
+        cursor: pointer;
+        border-style: hidden;
+        border: 1px solid transparent;
+    }
+    .category:hover {
+        border-style:inherit;
+        border: 1px solid white;
+    }
+.shopbar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 20px;
+    text-align: center;
+    margin-top: 5%;
+}
+    .shopbar__item {
+        width: 31%;
+        background-color:#b9cc74b6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        border-radius: 5px
+    }
+        .shopbar__item--img {
+            max-width: 125px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        .shopbar__item--name {
+            font-size: 20px;
+            padding: 5px;
+        }
+        .shopbar__item--desc {
+            font-size: 12px;
+        }
+        .shopbar__item--price {
+            font-size: 16px;
+    }
+
+
+
+
+.test__div1 {
+    background-color: #0F1111;
+    height: 200px;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* footer {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #879948;
+}
+footer > ul {
+    list-style: none;
+} */
+
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #143636;
+    width: 100%;
+    height: 100%;
+    margin-top: 5%;
+    color: white;
+}
+    footer > ul {
+        list-style: none;
+    }

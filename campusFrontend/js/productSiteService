@@ -1,0 +1,28 @@
+const retrieveProducts = () => {
+    return new Promise( (resolve, reject) => {
+        fetch('http://localhost:8080/api/product/7')
+            .then( async result => {
+
+                const data = await result.json();
+                resolve(data);
+
+            } )
+            .catch( err => {
+                reject(err);
+            } );
+    } );
+}
+
+retrieveProducts()
+    .then( product => {
+        const wrapper = document.querySelector('#productWrapper__details');
+        console.log(product);
+
+
+        // products.forEach( product => {
+            wrapper.innerHTML += `
+            <h3>Zegarek XYZ</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores sunt officia inventore soluta modi repudiandae ducimus deserunt, illum, aperiam cupiditate, error nostrum molestiae temporibus atque facilis accusantium numquam odio? Quos pariatur porro quae dolor consequatur, nihil perspiciatis repellat necessitatibus voluptate, asperiores nulla eius provident dolorum tenetur optio exercitationem tempore nostrum.</p>
+            <p class="productWrapper__details--price">100 $</p>`
+        // } );
+    } );

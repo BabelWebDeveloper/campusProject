@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+* {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+header {
+    color: white;
+    background-color: #143636;
+}
+    .header__wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin: auto;
+    }
+    .header__items {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    .header__item {
+        cursor: pointer;
+    }
+    .header__item > a {
+        text-decoration: none;
+        color:  white;
+    }
+.logo {
+    cursor: pointer;
+}
+
+main {
+    color: #454D2C;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+}
+.order > h2 {
+    text-align: center;
+    padding: 20px;
+}
+.order__invoice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.order__items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.order__details {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+caption {
+    font-size: 20px;
+    padding: 10px;
+}
+td {
+    padding: 5px 40px;
+}
+
+hr {
+    border: 1px solid #5C663A;
+    background-color: #5C663A;
+}
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #143636;
+    width: 100%;
+    height: 100%;
+    margin-top: 5%;
+    color: white;
+}
+    footer > ul {
+        list-style: none;
+    }
