@@ -28,7 +28,7 @@ public class ProductController {
     }
 //tutaj metoda dla jednego produktu z innym mappingiem
 
-
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/{productId}")
     public Optional<Product> getProduct(@PathVariable int productId) {
         return this.productService.retrieve(productId);

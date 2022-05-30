@@ -380,6 +380,44 @@ h2 {
         }
 /* PRODUCT END: */
 
+/* LOGIN START: */
+.login{
+    width: 70%;
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    -webkit-box-shadow: 5px 7px 29px -12px rgba(20, 54, 54, 1);
+    -moz-box-shadow: 5px 7px 29px -12px rgba(20, 54, 54, 1);
+    box-shadow: 5px 7px 29px -12px rgba(20, 54, 54, 1);
+}
+    .login__email, .login__password{
+        border: 1px solid #d1d1d1;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .login__email:hover, .login__password:hover{
+        border-color: #143636;
+    }
+
+    .login__email:focus, .login__password:focus{
+        border-color: #9dc41f;
+    }
+
+    .login__button{
+        border-radius: 10px;
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    .login__button:hover{
+        background-color: #143636;
+        color: white;
+        cursor: pointer;
+    }
+/* LOGIN END */
+
 /* FOOTER START: */
     footer {
         display: flex;

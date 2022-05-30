@@ -1,36 +1,3 @@
-// Input number control:
-const incrementBtn = document.getElementsByClassName('incr');
-const decrementBtn = document.getElementsByClassName('decr');
-
-for(let i = 0; i < incrementBtn.length; i++){
-    const button = incrementBtn[i];
-    button.addEventListener('click', event => {
-
-        const buttonClicked = event.target;
-        const input = buttonClicked.parentElement.children[1].children[0];
-        const inputvalue = input.value;
-        const newValue = parseInt(inputvalue) + 1;
-        input.value = newValue;
-    })
-}
-
-for(let i = 0; i < decrementBtn.length; i++){
-    const button = decrementBtn[i];
-    button.addEventListener('click', event => {
-
-        const buttonClicked = event.target;
-        const input = buttonClicked.parentElement.children[1].children[0];
-        const inputvalue = input.value;
-        const newValue = parseInt(inputvalue) - 1;
-
-        if (newValue >= 1) {
-            input.value = newValue;
-        } else {
-            input.value = 1;
-        }
-    })
-}
-// =====================
 // Load products:
 const retrieveCartproducts = () => {
     return new Promise( (resolve, reject) => {
@@ -101,11 +68,38 @@ retrieveCartproducts()
             console.log(total += cartproduct.product.price * cartproduct.quantity);
             totalOutput.textContent = total + " zł"
         } );
-    } );
 
-// Update total cost: async!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const productPrices = document.getElementsByClassName('cartProduct__details--productName');
-for (let i = 0; i < productPrices.length; i++) {
-    const productPrice = productPrices[i];
-    console.log(productPrice);
-}
+        // Input number control:
+        const incrementBtn = document.getElementsByClassName('incr');
+        const decrementBtn = document.getElementsByClassName('decr');
+
+        for(let i = 0; i < incrementBtn.length; i++){
+            const button = incrementBtn[i];
+            button.addEventListener('click', event => {
+
+                const buttonClicked = event.target;
+                const input = buttonClicked.parentElement.children[1].children[0];
+                const inputvalue = input.value;
+                const newValue = parseInt(inputvalue) + 1;
+                input.value = newValue;
+            })
+        }
+
+        for(let i = 0; i < decrementBtn.length; i++){
+            const button = decrementBtn[i];
+            button.addEventListener('click', event => {
+
+                const buttonClicked = event.target;
+                const input = buttonClicked.parentElement.children[1].children[0];
+                const inputvalue = input.value;
+                const newValue = parseInt(inputvalue) - 1;
+
+                if (newValue >= 1) {
+                    input.value = newValue;
+                } else {
+                    input.value = 1;
+                }
+            })
+        }
+// =====================
+    } );

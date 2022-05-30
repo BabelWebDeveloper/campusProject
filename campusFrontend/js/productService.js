@@ -19,7 +19,7 @@ retrieveProducts()
         products.forEach( product => {
             wrapper.innerHTML += `
             <article class="shopbar__item">
-                <a href="indexProduct.html" class="shopbar__item--img" role="link" href="indexProduct.html" style="background-image: url(img/products/${product.id}.jpg);">
+                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
                 </a>
 
                 <div class="shopbar__item--details">
@@ -34,4 +34,18 @@ retrieveProducts()
             </article>
             `
         } );
+
+        getitemsId();
+        
     } );
+
+    export let getitemsId = () => {
+    let getitems = document.querySelectorAll('.shopbar__item--img')
+    for (let i = 0; i < getitems.length; i++) {
+            getitems[i].addEventListener('click',() => {
+                let itemId = getitems[i].id;
+                console.log(itemId);
+                return itemId;
+        });
+    }
+}
