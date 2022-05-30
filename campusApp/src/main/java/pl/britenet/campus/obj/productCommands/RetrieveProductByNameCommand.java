@@ -5,11 +5,11 @@ import pl.britenet.campus.service.ProductService;
 
 import java.util.Scanner;
 
-public class RetrieveProductCommand extends Command {
+public class RetrieveProductByNameCommand extends Command {
     private final ProductService productService;
 
-    public RetrieveProductCommand(ProductService productService) {
-        super("retrieve-product");
+    public RetrieveProductByNameCommand(ProductService productService) {
+        super("retrieve-product-name");
 
         this.productService = productService;
     }
@@ -18,15 +18,15 @@ public class RetrieveProductCommand extends Command {
     public void perform() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Wprowadź ID produktu, który chcesz wyświetlić.");
-        int id = scanner.nextInt();
+        System.out.println("Wprowadź nazwę produktu, który chcesz wyświetlić.");
+        String name = scanner.nextLine();
 
-//        try {
-            productService.display(id);
-//        }
-//        catch (NullPointerException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            productService.retrieve(name);
+        }
+        catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 }

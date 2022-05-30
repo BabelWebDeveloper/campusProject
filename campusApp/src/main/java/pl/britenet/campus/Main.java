@@ -28,10 +28,7 @@ import pl.britenet.campus.obj.paymentCommands.CreatePaymentCommand;
 import pl.britenet.campus.obj.paymentCommands.DeletePaymentCommand;
 import pl.britenet.campus.obj.paymentCommands.RetrievePaymentCommand;
 import pl.britenet.campus.obj.paymentCommands.UpdatePaymentCommand;
-import pl.britenet.campus.obj.productCommands.CreateProductCommand;
-import pl.britenet.campus.obj.productCommands.DeleteProductCommand;
-import pl.britenet.campus.obj.productCommands.RetrieveProductCommand;
-import pl.britenet.campus.obj.productCommands.UpdateProductCommand;
+import pl.britenet.campus.obj.productCommands.*;
 import pl.britenet.campus.obj.reportCommands.*;
 import pl.britenet.campus.service.*;
 import pl.britenet.campus.service.database.DatabaseService;
@@ -76,6 +73,7 @@ public class Main {
         commandService.registerCommand(new RetrieveProductCommand(productService));
         commandService.registerCommand(new UpdateProductCommand(productService));
         commandService.registerCommand(new DeleteProductCommand(productService));
+        commandService.registerCommand(new RetrieveProductByNameCommand(productService));
 
         commandService.registerCommand(new CreateCategoryCommand(categoryService));
         commandService.registerCommand(new RetrieveCategoryCommand(categoryService));

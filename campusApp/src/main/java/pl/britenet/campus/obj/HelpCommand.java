@@ -14,6 +14,7 @@ public class HelpCommand extends Command {
                 "\n" +
                 "create- -> Stwórz nowy\n" +
                 "retrieve- -> Wybierz i wyświetl \n" +
+                "retrieve-product-name -> produkt po nazwie\n" +
                 "update- -> Zaktualizuj\n" +
                 "delete- -> Usuń\n" +
                 "=======================\n" +

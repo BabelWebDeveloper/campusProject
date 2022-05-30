@@ -39,13 +39,13 @@ retrieveProducts()
         
     } );
 
-    export let getitemsId = () => {
+    let getitemsId = () => {
     let getitems = document.querySelectorAll('.shopbar__item--img')
-    for (let i = 0; i < getitems.length; i++) {
-            getitems[i].addEventListener('click',() => {
-                let itemId = getitems[i].id;
-                console.log(itemId);
-                return itemId;
-        });
+        for (let i = 0; i < getitems.length; i++) {
+                getitems[i].addEventListener('click',() => {
+                    let itemId = getitems[i].id;
+                    console.log(itemId);
+                    return itemId;
+            });
+        }
     }
-}

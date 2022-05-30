@@ -82,7 +82,40 @@ public class ProductService {
                 return null;
 
             });
+            return Optional.of(product);
 
+        } catch (RuntimeException e) {
+            System.out.println("ERROR!");
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
+
+    }
+
+    public Optional<Product> retrieve(String name) {
+        String sqlQuery = String.format("SELECT * FROM product WHERE name = '%s'", name);
+
+        try {
+            Product product = this.databaseService.performQuery(sqlQuery, resultSet -> {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String description = resultSet.getString("description");
+                    double price = resultSet.getDouble("price");
+                    int discount_id = resultSet.getInt("discountId");
+                    int category_id = resultSet.getInt("categoryId");
+
+                    return new ProductBuilder(id)
+                            .setName(name)
+                            .setDescription(description)
+                            .setPrice(price)
+                            .setDiscount(discount_id)
+                            .setCategoryId(category_id)
+                            .getProduct();
+                }
+                return null;
+
+            });
+            System.out.println(product);
             return Optional.of(product);
 
         } catch (RuntimeException e) {

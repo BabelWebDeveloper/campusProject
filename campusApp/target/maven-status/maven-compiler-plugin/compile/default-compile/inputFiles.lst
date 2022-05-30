@@ -10,6 +10,7 @@ C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\jav
 C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\java\pl\britenet\campus\obj\cartProductCommands\DeleteCartProductCommand.java
 C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\java\pl\britenet\campus\obj\ExitCommand.java
 C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\java\pl\britenet\campus\obj\reportCommands\CreateOrderByDiscountReport.java
+C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\java\pl\britenet\campus\obj\productCommands\RetrieveProductByNameCommand.java
 C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\java\pl\britenet\campus\obj\model\reportModel\SalesInYearReport.java
 C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\java\pl\britenet\campus\Main.java
 C:\Users\przemyslaw.babel\OneDrive\Britenet\campusProject\campusApp\src\main\java\pl\britenet\campus\service\reportService\ProductInCartService.java
