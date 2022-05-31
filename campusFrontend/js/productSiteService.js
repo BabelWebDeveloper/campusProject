@@ -1,6 +1,6 @@
 const retrieveProduct = () => {
     return new Promise( (resolve, reject) => {
-        fetch('http://localhost:8080/api/product/' + '24')
+        fetch('http://localhost:8080/api/product/23')
             .then( async result => {
 
                 const data = await result.json();

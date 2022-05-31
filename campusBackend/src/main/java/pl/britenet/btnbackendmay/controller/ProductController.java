@@ -19,25 +19,24 @@ public class ProductController {
         this.productService = productService;
     }
 
-
-
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping
     public List<Product> getProducts() {
         return this.productService.retrieveAll();
     }
-//tutaj metoda dla jednego produktu z innym mappingiem
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/{productId}")
     public Optional<Product> getProduct(@PathVariable int productId) {
+        System.out.println("Here");
         return this.productService.retrieve(productId);
     }
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
-    @GetMapping("/{name}")
-    public Optional<Product> getProduct(@PathVariable String name) {
-        return this.productService.retrieve(name);
+    @GetMapping("/search")
+    public Optional<Product> getProduct(@RequestParam(name = "name") @PathVariable String name) {
+        System.out.println("Here2");
+        return this.productService.retrieveName(name);
     }
 
     @PostMapping

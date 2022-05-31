@@ -22,7 +22,7 @@ public class RetrieveProductByNameCommand extends Command {
         String name = scanner.nextLine();
 
         try {
-            productService.retrieve(name);
+            productService.display(name);
         }
         catch (NullPointerException e) {
             System.out.println(e.getMessage());

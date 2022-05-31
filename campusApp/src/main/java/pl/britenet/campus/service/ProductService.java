@@ -92,8 +92,9 @@ public class ProductService {
 
     }
 
-    public Optional<Product> retrieve(String name) {
-        String sqlQuery = String.format("SELECT * FROM product WHERE name = '%s'", name);
+    public Optional<Product> retrieveName(String name) {
+        String sqlQuery = String.format("SELECT c.name, p.name, p.price, p.id, p.description, p.categoryId, p.discountId, c.id FROM category c INNER JOIN product p ON p.categoryId = c.id WHERE p.name = '%s'", name);
+        System.out.println(sqlQuery);
 
         try {
             Product product = this.databaseService.performQuery(sqlQuery, resultSet -> {
@@ -103,6 +104,11 @@ public class ProductService {
                     double price = resultSet.getDouble("price");
                     int discount_id = resultSet.getInt("discountId");
                     int category_id = resultSet.getInt("categoryId");
+                    String categoryName = resultSet.getString("c.name");
+
+                    Category category = new CategoryBuilder(category_id)
+                            .setName(categoryName)
+                            .getCategory();
 
                     return new ProductBuilder(id)
                             .setName(name)
@@ -110,12 +116,14 @@ public class ProductService {
                             .setPrice(price)
                             .setDiscount(discount_id)
                             .setCategoryId(category_id)
+                            .setCategory(category)
                             .getProduct();
+
                 }
                 return null;
 
             });
-            System.out.println(product);
+            System.out.println("here");
             return Optional.of(product);
 
         } catch (RuntimeException e) {
@@ -175,6 +183,15 @@ public class ProductService {
     public void display(int id){
         try {
             Product product = this.retrieve(id).orElseThrow();
+            System.out.println(product);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void display(String name){
+        try {
+            Product product = this.retrieveName(name).orElseThrow();
             System.out.println(product);
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());

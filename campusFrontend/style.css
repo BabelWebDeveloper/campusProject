@@ -11,7 +11,7 @@ body {
 header {
     color: white;
     background-color: #143636;
-    height: 6vh;
+    min-height: 6vh;
 
 }
     .header__wrapper {
@@ -19,24 +19,25 @@ header {
         justify-content: space-between;
         width: 90%;
         margin: 0 auto;
+        flex-wrap: wrap;
     }
-        .header__wrapper--search{
+        .header__items{
             display: flex;
             flex-direction: row;
+            justify-content: center;
             align-items: center;
-            height: 6vh;
         }
-            .header__wrapper--search > input{
-                padding: 5px;
-                border-radius: 5px;
-            }
-            .header__wrapper--search--p{
-                font-size: 30px;
-                margin: 0;
-                transform: rotate(180deg);
-                padding: 0 10px;
-                cursor: pointer;
-            }
+        .header__items--searchInput{
+            height: 30px;
+            border-radius: 5px;
+        }
+        .header__items--searchSubmit{
+            font-size: 30px;
+            background-color: #143636;
+            color: white;
+            transform: rotate(180deg);
+        }
+            
         .header__wrapper--logo{
             display: flex;
             justify-content: center;
@@ -475,7 +476,7 @@ h2 {
         justify-content: space-evenly;
         align-items: center;
         flex-direction: row;
-        /* padding: 20px 0; */
+        padding: 20px 0;
         background-color: #143636;
         width: 100%;
         color: white;
@@ -490,8 +491,12 @@ h2 {
 /* FOOTER END: */
     
 @media only screen and (max-width:1000px) {
+    body{
+        padding-bottom: 20vh;
+    }
     footer{
         flex-direction: column;
+        height: 10vh;
     }
     .cartProductMain {
         flex-direction: column-reverse;
