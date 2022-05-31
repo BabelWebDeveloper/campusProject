@@ -14,7 +14,7 @@ public class PaymentService {
         this.databaseService = databaseService;
     }
 
-    public List<Payment> retrieveOrders(int pId) {
+    public List<Payment> retrieveOrders() {
         String sqlQuery = "SELECT p.id, p.name AS productName, p.price AS price, cp.quantity AS quantity, py.date AS paymentDate, c.isOrdered AS status, ct.first_name AS firstName, cp.id, ct.last_name AS lastName, ct.email AS email, ct.address AS address, ct.id, c.id AS cartId, py.id\n" +
                 "FROM product p\n" +
                 "INNER JOIN cartproduct cp ON cp.productId = p.id\n" +
@@ -76,6 +76,78 @@ public class PaymentService {
                     paymentList.add(payment);
                 }
 
+                return paymentList;
+
+            });
+        } catch (RuntimeException exception) {
+            System.out.println("ERROR!");
+            System.out.println(exception.getMessage());
+
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Payment> retrieveOrdersLogin(String email) {
+        String sqlQuery = String.format("SELECT p.id, p.name AS productName, p.price AS price, cp.quantity AS quantity, py.date AS paymentDate, c.isOrdered AS status, ct.first_name AS firstName, cp.id, ct.last_name AS lastName, ct.email AS email, ct.address AS address, ct.id, c.id AS cartId, py.id\n" +
+                "FROM product p\n" +
+                "INNER JOIN cartproduct cp ON cp.productId = p.id\n" +
+                "INNER JOIN cart c ON c.id = cp.cartId\n" +
+                "INNER JOIN payment py ON py.cartId = c.id\n" +
+                "INNER JOIN customer ct ON c.customerId = ct.id\n" +
+                "WHERE ct.email LIKE '%s'", email);
+
+
+        try {
+            return this.databaseService.performQuery(sqlQuery, resultSet -> {
+
+                List<Payment> paymentList = new ArrayList<>();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    int cartId = resultSet.getInt("cartId");
+                    int productId = resultSet.getInt("p.id");
+                    int cartproductId = resultSet.getInt("cp.id");
+                    int customerId = resultSet.getInt("ct.id");
+
+                    double productPrice = resultSet.getDouble("price");
+                    int productQuantity = resultSet.getInt("quantity");
+                    String paymentDate = resultSet.getString("paymentDate");
+                    String productName = resultSet.getString("productName");
+                    boolean status = resultSet.getBoolean("status");
+
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    String address = resultSet.getString("address");
+
+                    Cart cart = new CartBuilder(cartId)
+                            .setOrdered(status)
+                            .getCard();
+
+                    Product product = new ProductBuilder(productId)
+                            .setPrice(productPrice)
+                            .setName(productName)
+                            .getProduct();
+
+                    CartProduct cartProduct = new CartProductBuilder(cartproductId)
+                            .setQuantity(productQuantity)
+                            .getCardProduct();
+
+                    Customer customer = new CustomerBuilder(customerId)
+                            .setFirstName(firstName)
+                            .setLastName(lastName)
+                            .setAddress(address)
+                            .setEmail(email)
+                            .getCustomer();
+
+                    Payment payment = new PaymentBuilder(id)
+                            .setDate(paymentDate)
+                            .setCart(cart)
+                            .setProduct(product)
+                            .setCartProduct(cartProduct)
+                            .setCustomer(customer)
+                            .getPayment();
+
+                    paymentList.add(payment);
+                }
                 return paymentList;
 
             });

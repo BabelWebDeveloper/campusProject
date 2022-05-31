@@ -64,6 +64,63 @@ public class CartProductService {
         }
     }
 
+    public List<CartProduct> retrieveCartProducts(String email) {
+        String sqlQuery = String.format("SELECT p.name AS \"name\", p.id AS productId, SUM(cp.quantity) AS quantity, c.id AS cartId,ct.id,ct.email, cp.id AS catproductId, p.price AS price, ct.email,\n" +
+                "SUM(cp.quantity) * price AS totalPrice FROM product p\n" +
+                "INNER JOIN cartproduct cp ON cp.productId = p.id\n" +
+                "INNER JOIN cart c ON c.id = cp.cartId\n" +
+                "INNER JOIN customer ct ON ct.id = c.customerId\n" +
+                "WHERE ct.email LIKE '%s'\n" +
+                "GROUP BY p.name", email);
+
+
+        try {
+            return this.databaseService.performQuery(sqlQuery, resultSet -> {
+
+                List<CartProduct> cartProductList = new ArrayList<>();
+                while (resultSet.next()) {
+                    int productId = resultSet.getInt("productId");
+                    String name = resultSet.getString("name");
+                    double productPrice = resultSet.getDouble("price");
+
+                    int cpQuantity = resultSet.getInt("quantity");
+                    int cartId = resultSet.getInt("cartId");
+
+                    int cpId = resultSet.getInt("catproductId");
+                    int customerId = resultSet.getInt("ct.id");
+
+                    Customer customer = new CustomerBuilder(customerId)
+                            .setEmail(email)
+                            .getCustomer();
+
+                    Cart cart = new CartBuilder(cartId)
+                            .getCard();
+
+                    Product product = new ProductBuilder(productId)
+                            .setPrice(productPrice)
+                            .setName(name)
+                            .getProduct();
+
+                    CartProduct cartProduct = new CartProductBuilder(cpId)
+                            .setQuantity(cpQuantity)
+                            .setCart(cart)
+                            .setProduct(product)
+                            .getCardProduct();
+
+                    cartProductList.add(cartProduct);
+                }
+
+                return cartProductList;
+
+            });
+        } catch (RuntimeException exception) {
+            System.out.println("ERROR!");
+            System.out.println(exception.getMessage());
+
+            return new ArrayList<>();
+        }
+    }
+
     public Optional<CartProduct> retrieve(int id) {
         String sqlQuery = String.format("SELECT * FROM cartproduct WHERE id =%d", id);
 

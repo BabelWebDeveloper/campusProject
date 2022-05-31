@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.britenet.campus.obj.model.Cart;
 import pl.britenet.campus.obj.model.CartProduct;
+import pl.britenet.campus.obj.model.Payment;
 import pl.britenet.campus.obj.model.Product;
 import pl.britenet.campus.service.CartProductService;
 import pl.britenet.campus.service.CartService;
@@ -33,6 +34,13 @@ public class CartproductController {
     @GetMapping("/{cartId}")
     public Optional<CartProduct> getCartProduct(@PathVariable int cartId) {
         return this.cartProductService.retrieve(cartId);
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/cart")
+    public List<CartProduct> getCartProduct(@RequestParam(name = "email") @PathVariable String email) {
+        System.out.println("Order2");
+        return this.cartProductService.retrieveCartProducts(email);
     }
 
     @PostMapping

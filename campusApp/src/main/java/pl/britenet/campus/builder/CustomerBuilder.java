@@ -29,6 +29,12 @@ public class CustomerBuilder {
         return this;
     }
 
+    public CustomerBuilder setPassword(String password) {
+        this.customer.setAddress(password);
+        return this;
+    }
+
+
 //    public CustomerBuilder setCategory (Category category) {
 //        this.customer.setCategory(category);
 //        return this;

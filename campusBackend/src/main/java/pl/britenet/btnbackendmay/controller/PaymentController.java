@@ -24,14 +24,23 @@ public class PaymentController {
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping
     public List<Payment> getPayments() {
-        return this.paymentService.retrieveOrders(0);
+        return this.paymentService.retrieveOrders();
     }
 
-
-    @GetMapping("/{paymentId}")
-    public Optional<Payment> getPayment(@PathVariable int paymentId) {
-        return this.paymentService.retrieve(paymentId);
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/order")
+    public List<Payment> getPayment() {
+        System.out.println("Payment");
+        return this.paymentService.retrieveOrders();
     }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/orders")
+    public List<Payment> getPayment(@RequestParam(name = "email") @PathVariable String email) {
+        System.out.println("Payment2");
+        return this.paymentService.retrieveOrdersLogin(email);
+    }
+
 
     @PostMapping
     public void createPayment(@RequestBody Payment payment) {

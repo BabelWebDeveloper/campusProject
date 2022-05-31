@@ -8,6 +8,8 @@ public class Customer {
     private String email;
     private String address;
 
+    private String password;
+
 //    private Cart cart;
 //    private CartProduct cartProduct;
 //    private Product product;
@@ -56,7 +58,15 @@ public class Customer {
         this.address = address;
     }
 
-//    public Cart getCart() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    //    public Cart getCart() {
 //        return cart;
 //    }
 //

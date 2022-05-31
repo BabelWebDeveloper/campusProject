@@ -27,12 +27,14 @@ public class CustomerService {
                     String lastName = resultSet.getString("last_name");
                     String email = resultSet.getString("email");
                     String address = resultSet.getString("address");
+                    String password = resultSet.getString("passw");
 
                     Customer customer = new CustomerBuilder(id)
                             .setFirstName(firstName)
                             .setLastName(lastName)
                             .setEmail(email)
                             .setAddress(address)
+                            .setPassword(password)
                             .getCustomer();
 
                     customers.add(customer);
@@ -58,12 +60,41 @@ public class CustomerService {
                     String last_name = resultSet.getString("last_name");
                     String email = resultSet.getString("email");
                     String address = resultSet.getString("address");
+                    String password = resultSet.getString("passw");
 
                     return new CustomerBuilder(id)
                             .setFirstName(first_name)
                             .setLastName(last_name)
                             .setEmail(email)
                             .setAddress(address)
+                            .setPassword(password)
+                            .getCustomer();
+                }
+                return null;
+
+            });
+
+            return Optional.of(customer);
+        } catch (RuntimeException e) {
+            System.out.println("ERROR!");
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
+
+    }
+
+    public Optional<Customer> retrieve(String email, String password) {
+        String sqlQuery = String.format("SELECT * FROM customer c\n" +
+                "WHERE c.email LIKE '%s' AND c.passw LIKE '%s'", email, password);
+        try {
+            Customer customer = this.databaseService.performQuery(sqlQuery, resultSet -> {
+
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+
+                    return new CustomerBuilder(id)
+                            .setEmail(email)
+                            .setPassword(password)
                             .getCustomer();
                 }
                 return null;

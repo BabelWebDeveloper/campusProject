@@ -41,6 +41,9 @@ retrieveCartproducts()
                     <tr>
                         <td class="cartProduct__details--productName">${cartproduct.product.price} zł</td>
                     </tr>
+                    <tr>
+                        <td class="cartProduct__details--productName">Ilość: ${cartproduct.quantity}</td>
+                    </tr>
                     </tbody>
                 </table>
 
