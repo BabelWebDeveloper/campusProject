@@ -36,6 +36,7 @@ header {
             background-color: #143636;
             color: white;
             transform: rotate(180deg);
+            cursor: pointer;
         }
             
         .header__wrapper--logo{
@@ -319,7 +320,7 @@ h2 {
     gap: 30px;
     text-align: center;
     margin-top: 5%;
-    width: 80%;
+    width: 100%;
 }
     .shopbar__item {
         width: 25%;

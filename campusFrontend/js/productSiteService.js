@@ -1,6 +1,8 @@
+let id = window.location.href.slice(-2);
+console.log(id)
 const retrieveProduct = () => {
     return new Promise( (resolve, reject) => {
-        fetch('http://localhost:8080/api/product/23')
+        fetch('http://localhost:8080/api/product/' + id)
             .then( async result => {
 
                 const data = await result.json();
@@ -23,7 +25,7 @@ retrieveProduct()
             <div class="productWrapper__details" id="productWrapper__details">
                 <h2>${product.name}</h2>
                 <p>${product.description}</p>
-                <p>${product.price}</p>
+                <p>${product.price} zł</p>
                 <p class="productWrapper__details--button" role="button">Dodaj do koszyka</p>
             </div>
             `
