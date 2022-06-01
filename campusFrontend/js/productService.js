@@ -1,58 +1,21 @@
 // CATEGORIES:
-// const retrieveCategories = () => {
-//   return new Promise( (resolve, reject) => {
-//       fetch('http://localhost:8080/api/category/categories')
-//           .then( async result => {
-
-//               const data = await result.json();
-//               resolve(data);
-
-//           } )
-//           .catch( err => {
-//               reject(err);
-//           } );
-//   } );
-// }
-// retrieveCategories()
-//   .then( categories => {
-//     const categoriesNav = document.querySelector('#categories');
-//     categories.forEach(category => {
-//       categoriesNav.innerHTML += `<p class="category" role="listitem">${category.name}</p>`
-//     })
-//   }
-
-//   )
-// wyszukiwanie:
-const retrieveCategoriesByName = (name) => {
-  url = 'http://localhost:8080/api/category/search?name=' + name;
+const retrieveCategories = () => {
   return new Promise( (resolve, reject) => {
-      fetch(url)
+      fetch('http://localhost:8080/api/category/categories')
           .then( async result => {
 
               const data = await result.json();
               resolve(data);
+              console.log(data)
+
           } )
           .catch( err => {
               reject(err);
           } );
   } );
 }
-retrieveCategoriesByName('Stoły')
-  .then(items => {
-    items.forEach(item => {
-      console.log(item.product.name)
-    })
-  })
+// retrieveCategories()
 
-// przyciski:
-const categoriesBtn = document.getElementsByClassName('category');
-// for (let index = 0; index < categoriesBtn.length; index++) {
-//   const element = categoriesBtn[index];
-//   categoriesBtn.addEventListener('click', (e) => {
-//     console.log(e.target);
-//   })
-// }
-// ============================================
 // INDEX SHOP:
 const retrieveProducts = () => {
     return new Promise( (resolve, reject) => {
@@ -83,10 +46,10 @@ retrieveProducts()
                   <p class="shopbar__item--details--name">${product.name}</p>
                   <p class="shopbar__item--details--desc">${product.description}</p>
   
-                  <div class="shopbar__item--details--cartPriceBar">
+                  <form class="shopbar__item--details--cartPriceBar">
                     <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                    <p role="button" class="shopbar__item--details--cartPriceBar-button">Dodaj do koszyka</p>
-                  </div>
+                    <input type="submit" class="shopbar__item--details--cartPriceBar-button" value="Dodaj do koszyka"></input>
+                  </form>
                 </div>
             </article>
             `
@@ -96,7 +59,9 @@ retrieveProducts()
              
     } );
 
-// wyszukiwanie:
+// ============================================
+
+// WYSZUKIWANIE:
 const retrieveProductByName = (name) => {
     url = 'http://localhost:8080/api/product/search?name=' + name;
     return new Promise( (resolve, reject) => {
@@ -117,10 +82,9 @@ const search = () => {
     retrieveProductByName(searchPhrase)
     .then( product => {
         const wrapper = document.querySelector('#shopbar');
-        if (wrapper) {
-          if (product == null) {
+        if (product == null) {
             alert("Nie ma takiego produktu.")
-          } else {
+        } else {
             wrapper.innerHTML = ``;
             console.log(product)
             wrapper.innerHTML += `
@@ -139,11 +103,7 @@ const search = () => {
                 </div>
             </article>
             `
-          }
-        } else {
-          fetch('./indexShop.html')
         }
-        
     })
         return false;  
     };
@@ -385,7 +345,7 @@ retrieveCartproducts()
 // STRONA PRODUKTU:
 
 let id = window.location.href.slice(-2);
-// console.log(window.location.href)
+console.log(id)
 
 const retrieveProduct = () => {
     return new Promise( (resolve, reject) => {

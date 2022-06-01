@@ -25,7 +25,7 @@ public class CartController {
         return this.cartService.retrieve(cartId);
     }
 
-//    metoda do sprawdzania czy istnieje cart przypisany do customera:
+//    metoda do sprawdzania czy istnieje cart przypisany do customera (działa):
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/checkCart")
     public Optional<Cart> getCartCustomer(@RequestParam(name = "id") @PathVariable int id) {
