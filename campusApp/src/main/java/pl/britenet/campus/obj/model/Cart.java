@@ -8,6 +8,8 @@ public class Cart {
 
     private boolean isOrdered;
 
+    private Customer customer;
+
     public Cart(int id) {
         this.id = id;
     }
@@ -32,14 +34,20 @@ public class Cart {
     }
 
     public void setTotal_cost(double total_cost) {
-        this.total_cost = total_cost;
+        this.total_cost = 0;
     }
 
     public boolean isOrdered() {
         return isOrdered;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public void setOrdered(boolean ordered) {
         isOrdered = ordered;

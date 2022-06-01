@@ -133,7 +133,7 @@ public class Main {
 //                System.out.println("Nieznana komenda.");
 //            }
 //        }
-        System.out.println(cartProductService.retrieveCartProducts2(4));
+        System.out.println(cartService.retrieveCartCustomer(3));
     }
 
 }

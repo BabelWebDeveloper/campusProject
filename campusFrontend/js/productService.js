@@ -1,3 +1,58 @@
+// CATEGORIES:
+// const retrieveCategories = () => {
+//   return new Promise( (resolve, reject) => {
+//       fetch('http://localhost:8080/api/category/categories')
+//           .then( async result => {
+
+//               const data = await result.json();
+//               resolve(data);
+
+//           } )
+//           .catch( err => {
+//               reject(err);
+//           } );
+//   } );
+// }
+// retrieveCategories()
+//   .then( categories => {
+//     const categoriesNav = document.querySelector('#categories');
+//     categories.forEach(category => {
+//       categoriesNav.innerHTML += `<p class="category" role="listitem">${category.name}</p>`
+//     })
+//   }
+
+//   )
+// wyszukiwanie:
+const retrieveCategoriesByName = (name) => {
+  url = 'http://localhost:8080/api/category/search?name=' + name;
+  return new Promise( (resolve, reject) => {
+      fetch(url)
+          .then( async result => {
+
+              const data = await result.json();
+              resolve(data);
+          } )
+          .catch( err => {
+              reject(err);
+          } );
+  } );
+}
+retrieveCategoriesByName('Stoły')
+  .then(items => {
+    items.forEach(item => {
+      console.log(item.product.name)
+    })
+  })
+
+// przyciski:
+const categoriesBtn = document.getElementsByClassName('category');
+// for (let index = 0; index < categoriesBtn.length; index++) {
+//   const element = categoriesBtn[index];
+//   categoriesBtn.addEventListener('click', (e) => {
+//     console.log(e.target);
+//   })
+// }
+// ============================================
 // INDEX SHOP:
 const retrieveProducts = () => {
     return new Promise( (resolve, reject) => {
@@ -17,10 +72,11 @@ const retrieveProducts = () => {
 retrieveProducts()
     .then( products => {
         const wrapper = document.querySelector('#shopbar');
-        products.forEach( product => {
+        if (wrapper) {
+          products.forEach( product => {
             wrapper.innerHTML += `
             <article class="shopbar__item">
-                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?xyz='+${product.id};return false;" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
+                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
                 </a>
 
                 <div class="shopbar__item--details">
@@ -35,12 +91,12 @@ retrieveProducts()
             </article>
             `
         } );
+        }
+        
              
     } );
 
-// ============================================
-
-// WYSZUKIWANIE:
+// wyszukiwanie:
 const retrieveProductByName = (name) => {
     url = 'http://localhost:8080/api/product/search?name=' + name;
     return new Promise( (resolve, reject) => {
@@ -61,9 +117,10 @@ const search = () => {
     retrieveProductByName(searchPhrase)
     .then( product => {
         const wrapper = document.querySelector('#shopbar');
-        if (product == null) {
+        if (wrapper) {
+          if (product == null) {
             alert("Nie ma takiego produktu.")
-        } else {
+          } else {
             wrapper.innerHTML = ``;
             console.log(product)
             wrapper.innerHTML += `
@@ -82,7 +139,11 @@ const search = () => {
                 </div>
             </article>
             `
+          }
+        } else {
+          fetch('./indexShop.html')
         }
+        
     })
         return false;  
     };
@@ -125,7 +186,9 @@ const reformatStatus = (order) => {
 retrieveOrders()
     .then( orders => {
         const wrapper = document.querySelector('#mainOrders');
-        orders.forEach( order => {
+
+        if (wrapper) {
+          orders.forEach( order => {
             wrapper.innerHTML += `
             <section class="order">
             <h2>Zamówienie:</h2>
@@ -190,6 +253,8 @@ retrieveOrders()
           <hr>`
           
         } );
+        }
+        
     } );
 
 // ===========================
@@ -246,18 +311,22 @@ const retrieveCartproducts = () => {
   } );
 }
 
+let total = 0;
+
 const calculateTotalCart = (price, quantity) => {
-  let total = 0;
+  
   total += price * quantity;
   console.log(total)
-  return total;
+  return total.toFixed(2);
 }
 
 retrieveCartproducts()
   .then( cartproducts => {
       const wrapper = document.querySelector('#cartProducts');
       const totalOutput = document.querySelector('#payment__total');
-      cartproducts.forEach( cartproduct => {
+
+      if (wrapper) {
+        cartproducts.forEach( cartproduct => {
           wrapper.innerHTML += `
           <article class="cartProduct">
               <div class="cartProduct__image">
@@ -308,4 +377,45 @@ retrieveCartproducts()
           totalOutput.textContent = calculateTotalCart(cartproduct.product.price, cartproduct.quantity) + ' zł';
       } )
       quantityinputControl()
+      }
+      
   } );
+
+// ===========================
+// STRONA PRODUKTU:
+
+let id = window.location.href.slice(-2);
+// console.log(window.location.href)
+
+const retrieveProduct = () => {
+    return new Promise( (resolve, reject) => {
+        fetch('http://localhost:8080/api/product/' + id)
+            .then( async result => {
+
+                const data = await result.json();
+                resolve(data);
+
+            } )
+            .catch( err => {
+                reject(err);
+            } );
+    } );
+}
+
+retrieveProduct()
+    .then( product => {
+        const wrapper = document.querySelector('#productWrapper');
+        if (wrapper) {
+          wrapper.innerHTML += `
+          <div class="productWrapper__image">
+              <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
+          </div>
+          <div class="productWrapper__details" id="productWrapper__details">
+              <h2>${product.name}</h2>
+              <p>${product.description}</p>
+              <p>${product.price} zł</p>
+              <p class="productWrapper__details--button" role="button">Dodaj do koszyka</p>
+          </div>
+          `
+        }
+    } );

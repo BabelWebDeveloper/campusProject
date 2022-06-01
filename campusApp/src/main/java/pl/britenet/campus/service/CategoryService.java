@@ -46,6 +46,48 @@ public class CategoryService {
             return new ArrayList<>();
         }
     }
+
+    public List<Category> retrieveAllByName(String name) {
+        String sqlQuery = String.format("SELECT p.name, p.description, p.price, p.id\n" +
+                "FROM product p\n" +
+                "INNER JOIN category c ON p.categoryId = c.id\n" +
+                "WHERE c.name LIKE '%s'", name);
+
+        try {
+            return this.databaseService.performQuery(sqlQuery, resultSet -> {
+
+                List<Category> categories = new ArrayList<>();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    int productId = resultSet.getInt("p.id");
+                    String productDesc = resultSet.getString("p.description");
+                    String productName = resultSet.getString("p.name");
+                    double productPrice = resultSet.getDouble("p.price");
+
+                    Product product = new ProductBuilder(productId)
+                            .setName(productName)
+                            .setDescription(productDesc)
+                            .setPrice(productPrice)
+                            .getProduct();
+
+                    Category category = new CategoryBuilder(id)
+                            .setName(name)
+                            .setProduct(product)
+                            .getCategory();
+
+                    categories.add(category);
+                }
+
+                return categories;
+
+            });
+        } catch (RuntimeException exception) {
+            System.out.println("ERROR!");
+            System.out.println(exception.getMessage());
+
+            return new ArrayList<>();
+        }
+    }
     public Optional<Category> retrieve(int id) {
         String sqlQuery = String.format("SELECT * FROM category WHERE id=%d", id);
 

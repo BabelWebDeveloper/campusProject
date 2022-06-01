@@ -257,11 +257,15 @@ caption {
             border-radius: 10px;
             border: 1px solid black;
             width: 70%;
+            text-align: center;
         }
         .payment__total {
             padding: 10px;
+            border-radius: 5px;
             background-color: #143636;
             color: white;
+            width: 70%;
+            text-align: center;
         }
         .payment > a {
             text-decoration: underline;

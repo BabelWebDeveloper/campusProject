@@ -1,19 +1,20 @@
-var email = document.getElementById('login__emailid').value;
-let password = document.querySelector('#login__password').value;
+const btn = document.querySelector('#login__button')
+btn.onclick = () => {
+    const email = document.getElementById('login__emailid').value;
+    const password = document.getElementById('login__password').value;
+    console.log(email, password)
 
-let btn = document.querySelector('#login__button')
-btn.onclick = (email) => {
-    console.log(email);
+    login(email,password)
 }
 
-const login = (username, password) => {
+const login = (email, password) => {
     fetch('http://localhost:8080/api/auth', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email: username,
+            email: email,
             passw: password
         })
     })
@@ -30,4 +31,4 @@ const login = (username, password) => {
         });
 }
 
-login("@skoki.co","123")
+// login("@boks.com","124")

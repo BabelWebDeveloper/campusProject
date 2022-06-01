@@ -2,11 +2,11 @@ package pl.britenet.btnbackendmay.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.britenet.campus.obj.model.Category;
-import pl.britenet.campus.obj.model.Customer;
+import pl.britenet.campus.obj.model.*;
 import pl.britenet.campus.service.CategoryService;
 import pl.britenet.campus.service.CustomerService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +23,19 @@ public class CategoryController {
     @GetMapping("/{categoryId}")
     public Optional<Category> getCategory(@PathVariable int categoryId) {
         return this.categoryService.retrieve(categoryId);
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/categories")
+    public List<Category> getCategories() {
+        return this.categoryService.retrieveAll();
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/search")
+    public List<Category> getProductCategories(@RequestParam(name = "name") @PathVariable String name) {
+        System.out.println("Here2");
+        return this.categoryService.retrieveAllByName(name);
     }
 
     @PostMapping

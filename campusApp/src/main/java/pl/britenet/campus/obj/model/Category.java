@@ -5,6 +5,8 @@ public class Category {
     private final int id;
     private String name;
 
+    private Product product;
+
     public Category(int id) {
         this.id = id;
     }
@@ -23,6 +25,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override

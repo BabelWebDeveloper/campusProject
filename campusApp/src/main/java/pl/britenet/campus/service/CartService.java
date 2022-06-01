@@ -4,6 +4,7 @@ import pl.britenet.campus.builder.CartBuilder;
 import pl.britenet.campus.builder.CartProductBuilder;
 import pl.britenet.campus.obj.model.Cart;
 import pl.britenet.campus.obj.model.CartProduct;
+import pl.britenet.campus.obj.model.Customer;
 import pl.britenet.campus.service.database.DatabaseService;
 
 import java.util.*;
@@ -40,6 +41,33 @@ public class CartService {
             System.out.println(exception.getMessage());
 
             return new ArrayList<>();
+        }
+    }
+
+    public Optional<Cart> retrieveCartCustomer(int id) {
+        String sqlQuery = String.format("SELECT c.id\n" +
+                "FROM cart c\n" +
+                "WHERE c.customerId = %d", id);
+
+        try {
+            Cart cart = this.databaseService.performQuery(sqlQuery, resultSet -> {
+
+                if (resultSet.next()) {
+                    int cartId = resultSet.getInt("c.id");
+
+                    return new CartBuilder(cartId)
+                            .setCustomerId(id)
+                            .getCard();
+                }
+                return null;
+
+            });
+
+            return Optional.of(cart);
+
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return Optional.empty();
         }
     }
 
