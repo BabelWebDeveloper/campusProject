@@ -1,6 +1,10 @@
+let data = sessionStorage.getItem('id');
+          console.log(data);
+
+
 const retrieveOrders = () => {
     return new Promise( (resolve, reject) => {
-        fetch('http://localhost:8080/api/payment')
+        fetch('http://localhost:8080/api/payment/orders?id=' + data)
             .then( async result => {
 
                 const data = await result.json();

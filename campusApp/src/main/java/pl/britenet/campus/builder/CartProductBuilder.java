@@ -2,6 +2,7 @@ package pl.britenet.campus.builder;
 
 import pl.britenet.campus.obj.model.Cart;
 import pl.britenet.campus.obj.model.CartProduct;
+import pl.britenet.campus.obj.model.Customer;
 import pl.britenet.campus.obj.model.Product;
 
 public class CartProductBuilder {
@@ -26,10 +27,10 @@ public class CartProductBuilder {
         return this;
     }
 
-//    public CartProductBuilder setCategory (Category category) {
-//        this.cartProduct.setCategory(category);
-//        return this;
-//    }
+    public CartProductBuilder setCustomer (Customer customer) {
+        this.cartProduct.setCustomer(customer);
+        return this;
+    }
 //
 //    public CartProductBuilder setProduct (Product product) {
 //        this.cartProduct.setProduct(product);

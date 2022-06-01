@@ -9,6 +9,7 @@ public class CartProduct {
 
     private Cart cart;
     private Product product;
+    private Customer customer;
 
     public CartProduct(int id) {
         this.id = id;
@@ -67,6 +68,14 @@ public class CartProduct {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

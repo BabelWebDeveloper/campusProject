@@ -87,14 +87,14 @@ public class PaymentService {
         }
     }
 
-    public List<Payment> retrieveOrdersLogin(String email) {
-        String sqlQuery = String.format("SELECT p.id, p.name AS productName, p.price AS price, cp.quantity AS quantity, py.date AS paymentDate, c.isOrdered AS status, ct.first_name AS firstName, cp.id, ct.last_name AS lastName, ct.email AS email, ct.address AS address, ct.id, c.id AS cartId, py.id\n" +
+    public List<Payment> retrieveOrdersCustomerId(int id) {
+        String sqlQuery = String.format("SELECT p.id, p.name AS productName, p.price AS price, cp.quantity AS quantity, py.date AS paymentDate, c.isOrdered AS status,ct.email, ct.first_name AS firstName, cp.id, ct.last_name AS lastName, ct.email AS email, ct.address AS address, ct.id, c.id AS cartId, py.id\n" +
                 "FROM product p\n" +
                 "INNER JOIN cartproduct cp ON cp.productId = p.id\n" +
                 "INNER JOIN cart c ON c.id = cp.cartId\n" +
                 "INNER JOIN payment py ON py.cartId = c.id\n" +
                 "INNER JOIN customer ct ON c.customerId = ct.id\n" +
-                "WHERE ct.email LIKE '%s'", email);
+                "WHERE ct.id = %d", id);
 
 
         try {
@@ -102,11 +102,11 @@ public class PaymentService {
 
                 List<Payment> paymentList = new ArrayList<>();
                 while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
                     int cartId = resultSet.getInt("cartId");
                     int productId = resultSet.getInt("p.id");
                     int cartproductId = resultSet.getInt("cp.id");
                     int customerId = resultSet.getInt("ct.id");
+                    String email = resultSet.getString("ct.email");
 
                     double productPrice = resultSet.getDouble("price");
                     int productQuantity = resultSet.getInt("quantity");

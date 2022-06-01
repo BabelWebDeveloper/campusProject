@@ -38,9 +38,9 @@ public class CartproductController {
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/cart")
-    public List<CartProduct> getCartProduct(@RequestParam(name = "email") @PathVariable String email) {
+    public List<CartProduct> getCustomerCartProduct(@RequestParam(name = "id") @PathVariable int id) {
         System.out.println("Order2");
-        return this.cartProductService.retrieveCartProducts(email);
+        return this.cartProductService.retrieveCartProducts2(id);
     }
 
     @PostMapping

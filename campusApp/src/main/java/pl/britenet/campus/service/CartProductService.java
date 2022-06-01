@@ -64,14 +64,14 @@ public class CartProductService {
         }
     }
 
-    public List<CartProduct> retrieveCartProducts(String email) {
-        String sqlQuery = String.format("SELECT p.name AS \"name\", p.id AS productId, SUM(cp.quantity) AS quantity, c.id AS cartId,ct.id,ct.email, cp.id AS catproductId, p.price AS price, ct.email,\n" +
+    public List<CartProduct> retrieveCartProducts2(int customerId) {
+        String sqlQuery = String.format("SELECT p.name AS \"name\", p.id AS productId, SUM(cp.quantity) AS quantity, c.id AS cartId,ct.id,ct.email,ct.first_name AS firstName,ct.last_name AS lastName,ct.address AS address, cp.id AS catproductId, p.price AS price,\n" +
                 "SUM(cp.quantity) * price AS totalPrice FROM product p\n" +
                 "INNER JOIN cartproduct cp ON cp.productId = p.id\n" +
                 "INNER JOIN cart c ON c.id = cp.cartId\n" +
                 "INNER JOIN customer ct ON ct.id = c.customerId\n" +
-                "WHERE ct.email LIKE '%s'\n" +
-                "GROUP BY p.name", email);
+                "WHERE ct.id = %d\n" +
+                "GROUP BY p.name", customerId);
 
 
         try {
@@ -87,9 +87,16 @@ public class CartProductService {
                     int cartId = resultSet.getInt("cartId");
 
                     int cpId = resultSet.getInt("catproductId");
-                    int customerId = resultSet.getInt("ct.id");
+                    String email = resultSet.getString("ct.email");
+
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    String address = resultSet.getString("address");
 
                     Customer customer = new CustomerBuilder(customerId)
+                            .setFirstName(firstName)
+                            .setLastName(lastName)
+                            .setAddress(address)
                             .setEmail(email)
                             .getCustomer();
 
@@ -105,6 +112,7 @@ public class CartProductService {
                             .setQuantity(cpQuantity)
                             .setCart(cart)
                             .setProduct(product)
+                            .setCustomer(customer)
                             .getCardProduct();
 
                     cartProductList.add(cartProduct);

@@ -133,7 +133,7 @@ public class Main {
 //                System.out.println("Nieznana komenda.");
 //            }
 //        }
-//        System.out.println(customerService.retrieve("@przemo","124"));
+        System.out.println(cartProductService.retrieveCartProducts2(4));
     }
 
 }

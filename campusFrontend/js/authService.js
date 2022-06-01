@@ -30,6 +30,4 @@ const login = (username, password) => {
         });
 }
 
-function logging (email, password) {
-    alert("Value is:" + email + password)
-}
+login("@skoki.co","123")

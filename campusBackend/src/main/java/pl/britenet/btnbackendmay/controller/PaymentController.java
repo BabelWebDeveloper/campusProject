@@ -36,9 +36,9 @@ public class PaymentController {
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/orders")
-    public List<Payment> getPayment(@RequestParam(name = "email") @PathVariable String email) {
+    public List<Payment> getPayment(@RequestParam(name = "id") @PathVariable int id) {
         System.out.println("Payment2");
-        return this.paymentService.retrieveOrdersLogin(email);
+        return this.paymentService.retrieveOrdersCustomerId(id);
     }
 
 
