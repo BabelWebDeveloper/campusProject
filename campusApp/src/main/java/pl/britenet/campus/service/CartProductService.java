@@ -159,6 +159,38 @@ public class CartProductService {
 
     }
 
+    public Optional<CartProduct> retrieveByCartId(int cartId) {
+        String sqlQuery = String.format("SELECT cp.id AS cartproductId, ct.id AS cartId\n" +
+                "FROM cartproduct cp\n" +
+                "INNER JOIN cart ct ON cp.cartId = ct.id\n" +
+                "WHERE ct.id = %d", cartId);
+
+        try {
+            CartProduct cartProduct = this.databaseService.performQuery(sqlQuery, resultSet -> {
+
+                if (resultSet.next()) {
+                    int cartproductId = resultSet.getInt("cartproductId");
+
+                    Cart cart = new CartBuilder(cartId)
+                            .getCard();
+
+                    return new CartProductBuilder(cartproductId)
+                            .setCart(cart)
+                            .getCardProduct();
+                }
+                return null;
+
+            });
+
+            return Optional.of(cartProduct);
+        } catch (RuntimeException e) {
+            System.out.println("ERROR!");
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
+
+    }
+
     public CartProduct create(CartProduct cartProduct) {
         String dml = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",
                 cartProduct.getCard_id(),

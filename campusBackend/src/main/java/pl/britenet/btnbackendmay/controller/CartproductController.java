@@ -43,6 +43,13 @@ public class CartproductController {
         return this.cartProductService.retrieveCartProducts2(id);
     }
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/retrieve")
+    public Optional<CartProduct> getCartproductByCart(@RequestParam(name = "id") @PathVariable int cartId) {
+        System.out.println("CP service");
+        return this.cartProductService.retrieveByCartId(cartId);
+    }
+
     @PostMapping
     public void createCartProduct(@RequestBody CartProduct cartProduct) {
         this.cartProductService.create(cartProduct);

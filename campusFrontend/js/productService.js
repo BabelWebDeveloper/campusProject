@@ -1,3 +1,5 @@
+let data = sessionStorage.getItem('id');
+          console.log('Customer id: ' + data);
 // CATEGORIES:
 const retrieveCategories = () => {
   return new Promise( (resolve, reject) => {
@@ -46,7 +48,7 @@ retrieveProducts()
                   <p class="shopbar__item--details--name">${product.name}</p>
                   <p class="shopbar__item--details--desc">${product.description}</p>
   
-                  <form class="shopbar__item--details--cartPriceBar">
+                  <form class="shopbar__item--details--cartPriceBar" onsubmit="return checkCart()">
                     <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
                     <input type="submit" class="shopbar__item--details--cartPriceBar-button" value="Dodaj do koszyka"></input>
                   </form>
@@ -58,6 +60,68 @@ retrieveProducts()
         
              
     } );
+  
+// Dodaj do koszyka:
+// ++++++++++++++++++++
+const checkCart = () => {
+  return new Promise( (resolve, reject) => {
+      fetch('http://localhost:8080/api/cart/checkCart?id=' + data)
+          .then( async result => {
+              const cartData = await result.json();
+              resolve(cartData);
+              console.log('cartId: ' + cartData.id)
+              return cartData.id;
+          } )
+          .catch( err => {
+              reject(err);
+          } );
+  } );
+}
+
+const checkCartproductId = (cartId) => {
+  return new Promise( (resolve, reject) => {
+      fetch('http://localhost:8080/api/cartproduct/retrieve?id=' + cartId)
+          .then( async result => {
+
+              const data = await result.json();
+              resolve(data);
+              console.log('cartproductId: ' + data.id)
+          } )
+          .catch( err => {
+              reject(err);
+          } );
+  } );
+}
+
+const cartId = checkCart()
+  .then(data => {
+    checkCartproductId(data.id);
+  })
+// DOTĄD GIT
+
+
+// const cartproductId = checkCartproductId(cartId);//return cartproductId or null [X]
+const productId = () => {};//return productId
+const addToCartproduct = (productId) => {};
+
+const createCartProduct = (cartId,productId) => {};//quantity domyślnie na 1
+const createCart = () => {}//return cartId
+
+const addToCart = (productId) => {
+  if (cartId != null) { //sprawdzanie czy customer ma cart
+    if (cartproductId(cartId) != null) { //jeśli ma cart (not null) sprawdza czy ma cartproduct (gdy dodaje drugi produkt), return cartproductID
+      addToCartproduct(productId); //jeśli ma cartproduct to dodaje product do cartproduct
+    } else { //jeśli nie ma cartproduct wtedy:
+      createCartProduct(cartId, productId); //tworzy nowy cartproduct, return cartproductId
+    }
+  } else { //jeśli nie ma cart wtedy:
+    createCart();//tworzy nowy cart, return cartId
+    createCartProduct(cartId);//tworzy nowy cartproduct, return cartproductID
+    addToCartproduct(productId);//dodaje product do cartprouct
+  }
+}
+
+// ++++++++++++++++++++
 
 // ============================================
 
@@ -111,10 +175,6 @@ const search = () => {
 
 // ===========================
 // ZAMÓWIENIA:
-
-let data = sessionStorage.getItem('id');
-          console.log(data);
-
 
 const retrieveOrders = () => {
     return new Promise( (resolve, reject) => {
@@ -219,7 +279,6 @@ retrieveOrders()
 
 // ===========================
 // KOSZYK:
-
 
 const quantityinputControl = () => {
   const incrementBtn = document.getElementsByClassName('incr');
@@ -345,7 +404,7 @@ retrieveCartproducts()
 // STRONA PRODUKTU:
 
 let id = window.location.href.slice(-2);
-console.log(id)
+// console.log(id)
 
 const retrieveProduct = () => {
     return new Promise( (resolve, reject) => {
