@@ -34,7 +34,6 @@ import pl.britenet.campus.service.*;
 import pl.britenet.campus.service.database.DatabaseService;
 import pl.britenet.campus.service.reportService.*;
 
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -46,7 +45,7 @@ public class Main {
         DatabaseService databaseService = new DatabaseService();
         ProductService productService = new ProductService(databaseService);
         CategoryService categoryService = new CategoryService(databaseService);
-        CartService cartService = new CartService(databaseService);
+        CartService cartService = new CartService(databaseService/*, cartProductService*/);
         CartProductService cartProductService = new CartProductService(databaseService);
         CustomerService customerService = new CustomerService(databaseService);
         PaymentService paymentService = new PaymentService(databaseService);
@@ -133,7 +132,10 @@ public class Main {
 //                System.out.println("Nieznana komenda.");
 //            }
 //        }
-        System.out.println(cartProductService.retrieveByCartId(29));
+//        System.out.println(cartService.create(8,34));
+//        System.out.println(cartService.retrieveMaxCartId());
+        System.out.println(cartService.retrieveOrderedOrders(1));
+
     }
 
 }

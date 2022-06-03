@@ -34,7 +34,6 @@ public class CategoryController {
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/search")
     public List<Category> getProductCategories(@RequestParam(name = "name") @PathVariable String name) {
-        System.out.println("Here2");
         return this.categoryService.retrieveAllByName(name);
     }
 

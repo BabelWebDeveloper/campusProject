@@ -3,10 +3,7 @@ package pl.britenet.campus.service.database;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseService {
 
@@ -30,6 +27,26 @@ public class DatabaseService {
             throw new RuntimeException(e);
         }
     }
+
+//    public void performDML(String dmlQuery) {
+//        try (Connection connection = this.dataSource.getConnection() ;
+//             PreparedStatement statement = connection.prepareStatement(dmlQuery, Statement.RETURN_GENERATED_KEYS)) {
+//
+//            statement.executeUpdate();
+//            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+//                if (generatedKeys.next()) {
+//                    System.out.println((generatedKeys.getLong(1)));
+//                }
+//                else {
+//                    System.out.println("Creating user failed, no ID obtained.");
+////                    throw new SQLException("Creating user failed, no ID obtained.");
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public<T> T performQuery(String sqlQuery, ResultParser<T> parser) {
         try (Connection connection = this.dataSource.getConnection() ;

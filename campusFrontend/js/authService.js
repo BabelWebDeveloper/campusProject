@@ -1,10 +1,12 @@
 const btn = document.querySelector('#login__button')
-btn.onclick = () => {
-    const email = document.getElementById('login__emailid').value;
-    const password = document.getElementById('login__password').value;
-    console.log(email, password)
-
-    login(email,password)
+if (btn) {
+    btn.onclick = () => {
+        const email = document.getElementById('login__emailid').value;
+        const password = document.getElementById('login__password').value;
+        console.log(email, password)
+    
+        login(email,password)
+    }
 }
 
 const login = (email, password) => {
@@ -14,8 +16,8 @@ const login = (email, password) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email: email,
-            passw: password
+            email: email,//customerId
+            passw: password//productId
         })
     })
         .then( async result => {
@@ -30,5 +32,3 @@ const login = (email, password) => {
             console.log(err);
         });
 }
-
-// login("@boks.com","124")

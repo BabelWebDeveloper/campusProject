@@ -34,16 +34,8 @@ public class ProductController {
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/search")
     public Optional<Product> getProduct(@RequestParam(name = "name") @PathVariable String name) {
-        System.out.println("Here2");
         return this.productService.retrieveName(name);
     }
-
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping("/{productId}")
-//    public Optional<Product> getProduct(@PathVariable String name) {
-//        System.out.println("Here");
-//        return this.productService.retrieveName(name);
-//    }
 
     @PostMapping
     public void createProduct(@RequestBody Product product) {

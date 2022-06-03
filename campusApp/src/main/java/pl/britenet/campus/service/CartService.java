@@ -2,9 +2,12 @@ package pl.britenet.campus.service;
 
 import pl.britenet.campus.builder.CartBuilder;
 import pl.britenet.campus.builder.CartProductBuilder;
+import pl.britenet.campus.builder.CustomerBuilder;
+import pl.britenet.campus.builder.ProductBuilder;
 import pl.britenet.campus.obj.model.Cart;
 import pl.britenet.campus.obj.model.CartProduct;
 import pl.britenet.campus.obj.model.Customer;
+import pl.britenet.campus.obj.model.Product;
 import pl.britenet.campus.service.database.DatabaseService;
 
 import java.util.*;
@@ -36,6 +39,78 @@ public class CartService {
                 return idList;
 
             });
+        } catch (RuntimeException exception) {
+            System.out.println("ERROR!");
+            System.out.println(exception.getMessage());
+
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Cart> retrieveOrderedOrders(int customerId) {
+        String sqlQuery = String.format("SELECT ct.id AS cartId, ct.isOrdered AS status,\n" +
+                "cp.id AS cartproductId, cp.productId AS productId, SUM(cp.quantity) AS quantity,\n" +
+                "p.price, p.name,\n" +
+                "cr.first_name AS firstName, cr.last_name AS lastName, cr.email AS email, cr.address as address, cr.id\n" +
+                "FROM cart ct\n" +
+                "INNER JOIN cartProduct cp ON ct.id = cp.cartId\n" +
+                "INNER JOIN product p ON p.id = cp.productId\n" +
+                "INNER JOIN customer cr ON cr.id = ct.customerId\n" +
+                "WHERE ct.isOrdered = 1 AND cr.id = %d\n" +
+                "GROUP BY cp.productId", customerId);
+
+        try {
+
+            return this.databaseService.performQuery(sqlQuery, resultSet -> {
+                List<Cart> orderedOrders = new ArrayList<>();
+
+                while (resultSet.next()) {
+
+                    int cartProductId = resultSet.getInt("cartProductId");
+                    int productId = resultSet.getInt("productId");
+                    int quantity = resultSet.getInt("quantity");
+
+                    double productPrice = resultSet.getDouble("p.price");
+                    String productName = resultSet.getString("p.name");
+
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    String email = resultSet.getString("email");
+                    String address = resultSet.getString("address");
+
+                    int cartId = resultSet.getInt("cartId");
+                    boolean status = resultSet.getBoolean("status");
+
+                    CartProduct cartProduct = new CartProductBuilder(cartProductId)
+                            .setProductId(productId)
+                            .setQuantity(quantity)
+                            .getCardProduct();
+
+                    Product product = new ProductBuilder(productId)
+                            .setPrice(productPrice)
+                            .setName(productName)
+                            .getProduct();
+
+                    Customer customer = new CustomerBuilder(customerId)
+                            .setFirstName(firstName)
+                            .setLastName(lastName)
+                            .setEmail(email)
+                            .setAddress(address)
+                            .getCustomer();
+
+                    Cart cart = new CartBuilder(cartId)
+                            .setOrdered(status)
+                            .setCartProduct(cartProduct)
+                            .setProduct(product)
+                            .setCustomer(customer)
+                            .getCard();
+
+                    orderedOrders.add(cart);
+                }
+
+                return orderedOrders;
+            });
+
         } catch (RuntimeException exception) {
             System.out.println("ERROR!");
             System.out.println(exception.getMessage());
@@ -79,7 +154,7 @@ public class CartService {
 
                 if (resultSet.next()) {
                     int customer_id = resultSet.getInt("customerId");
-                    double total_cost = resultSet.getDouble("total_cost");//przecinek zamienić na kropkę
+                    double total_cost = resultSet.getDouble("total_cost");
                     boolean isOrdered = resultSet.getBoolean("isOrdered");
 
                     return new CartBuilder(id)
@@ -101,12 +176,86 @@ public class CartService {
         }
     }
 
+
+
+    public Cart create(int customerId, int productId) {
+        String sqlQuery = String.format("SELECT ct.id, cr.id AS customerID, ct.isOrdered\n" +
+                "FROM cart ct\n" +
+                "INNER JOIN customer cr ON ct.customerId = cr.id\n" +
+                "WHERE cr.id = %d", customerId);
+
+        try {
+            Cart cart = this.databaseService.performQuery(sqlQuery, resultSet -> {
+
+                if (resultSet.next()) {
+                    int cartId = resultSet.getInt("ct.id");
+                    System.out.println(cartId + " cart istnieje");
+                    String sqlQuery2 = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",cartId,productId,1);
+
+                    try {
+                        this.databaseService.performDML(sqlQuery2);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else {
+                    System.out.println("Cart NIE istnieje");
+                    int id = 0;
+                    Cart createdCart = new CartBuilder(id)
+                            .setCustomerId(customerId)
+                            .setTotal_Cost(0)
+                            .getCard();
+                    this.create(createdCart);
+
+                    String sqlQuery3 = String.format("SELECT ct.id, ct.customerId\n" +
+                            "FROM cart ct\n" +
+                            "WHERE ct.customerId = %d", customerId);
+                    try {
+                        Cart checkCart = this.databaseService.performQuery(sqlQuery3,resultSet1 -> {
+                            if (resultSet1.next()) {
+                                int cartId = resultSet1.getInt("ct.id");
+
+                                return new CartBuilder(cartId)
+                                        .getCard();
+                            }
+                            return null;
+                        });
+                        System.out.println(checkCart.getId());
+                        String dml = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",
+                                checkCart.getId(),
+                                productId,
+                                1);
+
+                        try {
+                            this.databaseService.performDML(dml);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        return null;
+
+                    } catch (RuntimeException e) {
+                        System.out.println("ERROR!");
+                        System.out.println(e.getMessage());
+                    }
+                }
+                return null;
+
+            });
+
+            return cart;
+
+        }
+        catch (RuntimeException e) {
+            System.out.println("ERROR! to tutaj");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public Cart create(Cart cart) {
-        String dml = String.format("INSERT INTO cart (customerId, total_cost, isOrdered) VALUES (%d, %s, %b)",
-                cart.getCustomerId(),
-                String.valueOf(cart.getTotal_cost()).replace(",","."),
-                cart.isOrdered());
-        System.out.println(dml);
+        String dml = String.format("INSERT INTO cart (customerId, total_cost, isOrdered) VALUES (%d, 0, 0)",
+                cart.getCustomerId());
         try {
             this.databaseService.performDML(dml);
         } catch (RuntimeException e) {
@@ -152,9 +301,4 @@ public class CartService {
 
     }
 
-//    public void display(){
-//        for (Card card : this.cards){
-//            System.out.println("User id of this card: " + card.getCustomer_id());
-//        }
-//    }
 }

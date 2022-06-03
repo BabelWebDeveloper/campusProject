@@ -192,10 +192,9 @@ public class CartProductService {
     }
 
     public CartProduct create(CartProduct cartProduct) {
-        String dml = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",
+        String dml = String.format("INSERT INTO cartproduct (cartId, productId) VALUES (%d, %d)",
                 cartProduct.getCard_id(),
-                cartProduct.getProductId(),
-                cartProduct.getQuantity());
+                cartProduct.getProductId());
 
         try {
             this.databaseService.performDML(dml);

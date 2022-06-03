@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.britenet.campus.obj.model.Cart;
 import pl.britenet.campus.obj.model.CartProduct;
+import pl.britenet.campus.service.CartProductService;
 import pl.britenet.campus.service.CartService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -14,28 +16,42 @@ import java.util.Optional;
 public class CartController {
 
     private final CartService cartService;
+    private final CartProductService cartProductService;
 
     @Autowired
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, CartProductService cartProductService) {
         this.cartService = cartService;
+        this.cartProductService = cartProductService;
     }
 
-    @GetMapping("/{cartId}")
+    @GetMapping("/getCart/{cartId}")
     public Optional<Cart> getCart(@PathVariable int cartId) {
         return this.cartService.retrieve(cartId);
     }
 
-//    metoda do sprawdzania czy istnieje cart przypisany do customera (działa):
+//    Sprawdź cart po customerze:
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/checkCart")
     public Optional<Cart> getCartCustomer(@RequestParam(name = "id") @PathVariable int id) {
-        System.out.println("Order2");
         return this.cartService.retrieveCartCustomer(id);
     }
 
-    @PostMapping
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/ordered-orders")
+    public List<Cart> getOrderedOrders(@RequestParam(name = "id") @PathVariable int customerId) {
+        return this.cartService.retrieveOrderedOrders(customerId);
+    }
+
+    @PostMapping("/createCart")
     public void createCart(@RequestBody Cart cart) {
         this.cartService.create(cart);
+    }
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @PostMapping("/createCart/createProduct")
+    public Map<String, String> createCartCartProduct(@RequestBody Map<String, String> json) {
+        int customerId = Integer.parseInt(json.get("customerId"));
+        int productId = Integer.parseInt(json.get("productId"));
+        return (Map<String, String>) this.cartService.create(customerId,productId);
     }
 
     @PutMapping

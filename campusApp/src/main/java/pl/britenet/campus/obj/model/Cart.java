@@ -7,6 +7,8 @@ public class Cart {
     private double total_cost;
 
     private boolean isOrdered;
+    private CartProduct cartProduct;
+    private Product product;
 
     private Customer customer;
 
@@ -45,6 +47,22 @@ public class Cart {
         return customer;
     }
 
+    public CartProduct getCartProduct() {
+        return cartProduct;
+    }
+
+    public void setCartProduct(CartProduct cartProduct) {
+        this.cartProduct = cartProduct;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -55,6 +73,6 @@ public class Cart {
 
     @Override
     public String toString() {
-        return String.format("customer_id: %d, idOrdered: %b", customerId, isOrdered);
+        return String.format("cartId: %d, cartproductId: %d", id, cartProduct.getId());
     }
 }
