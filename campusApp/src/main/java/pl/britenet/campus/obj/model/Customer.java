@@ -101,7 +101,7 @@ public class Customer {
     @Override
     public String toString() {
         try {
-            return String.format("first name: %s, last name: %s", first_name, last_name);
+            return String.format("first name: %s, last name: %s, address: %s, password: %s", first_name, last_name, address, password);
         } catch (NullPointerException e){
             return null;
         }

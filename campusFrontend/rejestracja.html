@@ -13,63 +13,67 @@
           <div class="header__wrapper--logo">
               <img src="img/kampusLogo3.png" alt="">
           </div>
-
+  
           <nav class="header__items" role="list">
             <p class="header__item" role="listitem"><a href="indexShop.html">Sklep</a></p>
             <p class="header__item" role="listitem"><a href="indexOrders.html">Zamówienia</a></p>
           </nav>
-
+  
           <form class="header__items" onsubmit="return search()">
             <input class="header__items--searchInput" id="search_input" type="text" placeholder="Type to search..."/>
             <input class="header__items--searchSubmit" type="submit" value=&#9740; class="header__wrapper--search--p">
           </form>
           
-          <nav class="header__items" role="list">
+          <nav class="header__items" id="zaloguj" role="list">
             <p class="header__item" role="listitem"><a href="logowanie.html">Logowanie</a></p>
             <p class="header__item" role="listitem"><a href="rejestracja.html">Rejestracja</a></p>
           </nav>
-
+  
+          <div class="header__items" id="wyloguj" role="list">
+            <p class="header__item" role="button" id="logout__button">Wyloguj</p>
+          </div>
+  
           <a class="header__wrapper--logo" href="indexCartproduct.html"><img src="img/shopping-cart3.png" alt=""></a>
       </div>
     </header>
 
-      <main class="shopMain">
-          
-        <section class="login">
-          <h2>Rejestracja</h2>
-          <div class="login__Wrapper">
-            <h4>Imię</h4>
-            <input class="login__email" type="text" name="" id="">
-          </div>
-          <div class="login__Wrapper">
-            <h4>Nazwisko</h4>
-            <input class="login__email" type="text" name="" id="">
-          </div>
-          <div class="login__Wrapper">
-            <h4>Adres</h4>
-            <input class="login__email" type="text" name="" id="">
-          </div>
-          <div class="login__Wrapper">
-            <h4>Email</h4>
-            <input class="login__email" type="text" name="" id="">
-          </div>
-          <div class="login__Wrapper">
-            <h4>Hasło</h4>
-            <input class="login__email" type="text" name="" id="">
-          </div>
-          <p role="button" class="login__button">Zaloguj</p>
+    <main class="shopMain">
+        
+      <section class="login">
+        <h2>Rejestracja</h2>
+        <div class="login__Wrapper">
+          <h4>Imię</h4>
+          <input class="login__email" type="text" name="" id="">
+        </div>
+        <div class="login__Wrapper">
+          <h4>Nazwisko</h4>
+          <input class="login__email" type="text" name="" id="">
+        </div>
+        <div class="login__Wrapper">
+          <h4>Adres</h4>
+          <input class="login__email" type="text" name="" id="">
+        </div>
+        <div class="login__Wrapper">
+          <h4>Email</h4>
+          <input class="login__email" type="text" name="" id="">
+        </div>
+        <div class="login__Wrapper">
+          <h4>Hasło</h4>
+          <input class="login__email" type="text" name="" id="">
+        </div>
+        <p role="button" class="login__button">Zaloguj</p>
 
-        </section>
+      </section>
 
-      </main>
+    </main>
 
-      <footer>
-        <a href="oNas.html">O nas</a>
-        <a href="kontakt.html">Kontakt</a>
-        <a href="politykaPrywatnosci.html">Polityka prywatności</a>
-        <a href="regulamin.html">Regulamin</a>
-      </footer>
-      <script src="js/authService.js"></script>
-      <script src="js/productService.js"></script>
+    <footer>
+      <a href="oNas.html">O nas</a>
+      <a href="kontakt.html">Kontakt</a>
+      <a href="politykaPrywatnosci.html">Polityka prywatności</a>
+      <a href="regulamin.html">Regulamin</a>
+    </footer>
+    <script src="js/authService.js"></script>
+    <script src="js/productService.js"></script>
   </body>
 </html>

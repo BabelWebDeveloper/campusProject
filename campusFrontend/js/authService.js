@@ -1,4 +1,8 @@
 const btn = document.querySelector('#login__button')
+
+// const zaloguj = document.querySelector('#zaloguj')
+// const wyloguj = document.querySelector('#wyloguj')
+
 if (btn) {
     btn.onclick = () => {
         const email = document.getElementById('login__emailid').value;
@@ -22,11 +26,24 @@ const login = (email, password) => {
     })
         .then( async result => {
             const data = await result.json();
+            console.log(data)
             const userId = data.id;
+            const firstName = data.first_name;
+            const lastName = data.last_name;
+            const address = data.address;
+
+            console.log(firstName)
+            console.log(lastName)
+            console.log(address)
 
             sessionStorage.setItem('id', userId);
-            console.log(data);
+            sessionStorage.setItem('firstName', firstName)
+            sessionStorage.setItem('lastName', lastName)
+            sessionStorage.setItem('address', address)
         } )
+        .then (
+            window.location.href = 'indexShop.html'
+        )
         .catch( err => {
             alert('Error! Check logs');
             console.log(err);

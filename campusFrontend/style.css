@@ -50,6 +50,16 @@ header {
         justify-content: center;
         gap: 20px;
     }
+        #zaloguj {
+            text-align: center;
+        }
+        #wyloguj {
+            text-align: center;
+        }
+        #customerLogged{
+            cursor:default;
+            border: none;
+        }
         .header__item {
             cursor: pointer;
             border-style: hidden;

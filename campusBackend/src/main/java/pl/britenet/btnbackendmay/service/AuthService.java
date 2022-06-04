@@ -20,10 +20,10 @@ public class AuthService {
         this.loggedInCustomers = new HashMap<>();
         this.customerService = customerService;
     }
-//to jest tak jakby cartservice
-    public Map<String, String> login(String email, String password){//customerId, productId
-        Optional<Customer> opCustomer = this.customerService.retrieve(email,password);//jeśli cartService otrzyma cartId to tworzy się przy niej cartproduct
-        Customer customer = opCustomer.orElseThrow();//tutaj orElseThrow dla Cart cart
+
+    public Map<String, String> login(String email, String password){
+        Optional<Customer> opCustomer = this.customerService.retrieve(email,password);
+        Customer customer = opCustomer.orElseThrow();
 
         String token = UUID.randomUUID().toString();
         this.loggedInCustomers.put(token, customer);
@@ -31,6 +31,9 @@ public class AuthService {
         Map<String, String> result = new HashMap<>();
         result.put("token", token);
         result.put("id", String.valueOf(customer.getId()));
+        result.put("first_name", customer.getFirst_name());
+        result.put("last_name", customer.getLast_name());
+        result.put("address", customer.getAddress());
 
         return result;
     }

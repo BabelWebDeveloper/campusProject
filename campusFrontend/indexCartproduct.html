@@ -13,66 +13,39 @@
           <div class="header__wrapper--logo">
               <img src="img/kampusLogo3.png" alt="">
           </div>
-
+  
           <nav class="header__items" role="list">
             <p class="header__item" role="listitem"><a href="indexShop.html">Sklep</a></p>
             <p class="header__item" role="listitem"><a href="indexOrders.html">Zamówienia</a></p>
           </nav>
-
+  
           <form class="header__items" onsubmit="return search()">
             <input class="header__items--searchInput" id="search_input" type="text" placeholder="Type to search..."/>
             <input class="header__items--searchSubmit" type="submit" value=&#9740; class="header__wrapper--search--p">
           </form>
           
-          <nav class="header__items" role="list">
+          <nav class="header__items" id="zaloguj" role="list">
             <p class="header__item" role="listitem"><a href="logowanie.html">Logowanie</a></p>
             <p class="header__item" role="listitem"><a href="rejestracja.html">Rejestracja</a></p>
           </nav>
-
+  
+          <div class="header__items" id="wyloguj" role="list">
+            <p class="header__item" role="button" id="logout__button">Wyloguj</p>
+          </div>
+  
           <a class="header__wrapper--logo" href="indexCartproduct.html"><img src="img/shopping-cart3.png" alt=""></a>
       </div>
     </header>
 
-      <main class="cartProductMain">
+      <main class="cartProductMain" id="cartProductMain">
         
         <section class="cartProducts" id="cartProducts">
           
-          
-
         </section>
 
-        <div class="emty-div">
+        <div class="emty-div"></div>
 
-        </div>
-
-          <aside class="payment" id="payment">
-            <h3>Podsumowanie zamówienia:</h3>
-        <table>
-          <tbody>
-            <tr>
-              <td class="payment__td">Imię i nazwisko:</td>
-              <td class="payment__space"></td>
-              <td>Przemysław Bąbel</td>
-            </tr>
-            <tr>
-              <td class="payment__td">Adres dostawy:</td>
-              <td class="payment__space"></td>
-              <td>Kielce</td>
-            </tr>
-            <tr>
-              <td class="payment__td">E-mail:</td>
-              <td class="payment__space"></td>
-              <td>@przemo</td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <p>Koszt całkowity:</p>
-        <output class="payment__total" id="payment__total"></output>
-        <p role="button" class="payment__payButton">Zapłać</p>
-        <p><a href="regulamin.html">Regulamin zwrotów</a></p>
-        <p><a href="dostawa.html">Informacje o dostawie</a></p>
-          </aside>
+       
 
       </main>
       <footer>

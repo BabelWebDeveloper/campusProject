@@ -31,11 +31,11 @@ public class CategoryController {
         return this.categoryService.retrieveAll();
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
-    @GetMapping("/search")
-    public List<Category> getProductCategories(@RequestParam(name = "name") @PathVariable String name) {
-        return this.categoryService.retrieveAllByName(name);
-    }
+//    @CrossOrigin(origins = "http://127.0.0.1:5500")
+//        @GetMapping("/search")
+//        public List<Category> getProductCategories(@RequestParam(name = "name") @PathVariable String name) {
+//            return this.categoryService.retrieveAllByName(name);
+//    }
 
     @PostMapping
     public void createCustomer(@RequestBody Category category) {

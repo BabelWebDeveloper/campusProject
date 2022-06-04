@@ -132,9 +132,10 @@ public class Main {
 //                System.out.println("Nieznana komenda.");
 //            }
 //        }
-//        System.out.println(cartService.create(8,34));
+//        System.out.println(cartService.create(5,34));
 //        System.out.println(cartService.retrieveMaxCartId());
-        System.out.println(cartService.retrieveOrderedOrders(1));
+//        System.out.println(cartService.retrieveProductsInCart(3));
+        System.out.println(customerService.retrieve("@przemo","123"));
 
     }
 

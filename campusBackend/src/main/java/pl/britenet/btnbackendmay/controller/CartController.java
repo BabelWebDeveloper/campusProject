@@ -16,12 +16,10 @@ import java.util.Optional;
 public class CartController {
 
     private final CartService cartService;
-    private final CartProductService cartProductService;
 
     @Autowired
-    public CartController(CartService cartService, CartProductService cartProductService) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
-        this.cartProductService = cartProductService;
     }
 
     @GetMapping("/getCart/{cartId}")
@@ -29,12 +27,12 @@ public class CartController {
         return this.cartService.retrieve(cartId);
     }
 
-//    Sprawdź cart po customerze:
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
-    @GetMapping("/checkCart")
-    public Optional<Cart> getCartCustomer(@RequestParam(name = "id") @PathVariable int id) {
-        return this.cartService.retrieveCartCustomer(id);
-    }
+////    Sprawdź cart po customerze:
+//    @CrossOrigin(origins = "http://127.0.0.1:5500")
+//    @GetMapping("/checkCart")
+//    public Optional<Cart> getCartCustomer(@RequestParam(name = "id") @PathVariable int id) {
+//        return this.cartService.retrieveCartCustomer(id);
+//    }
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/ordered-orders")
@@ -42,16 +40,30 @@ public class CartController {
         return this.cartService.retrieveOrderedOrders(customerId);
     }
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/not-ordered-orders")
+    public List<Cart> getNotOrdered(@RequestParam(name = "id") @PathVariable int customerId) {
+        return this.cartService.retrieveProductsInCart(customerId);
+    }
+
     @PostMapping("/createCart")
     public void createCart(@RequestBody Cart cart) {
         this.cartService.create(cart);
     }
+//    @CrossOrigin(origins = "http://127.0.0.1:5500")
+//    @PostMapping("/createCart/createProduct")
+//    public Map<String, String> createCartCartProduct(@RequestBody Map<String, String> json) {
+//        int customerId = Integer.parseInt(json.get("customerId"));
+//        int productId = Integer.parseInt(json.get("productId"));
+//        return (Map<String, String>) this.cartService.create(customerId,productId);
+//    }
+
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/createCart/createProduct")
-    public Map<String, String> createCartCartProduct(@RequestBody Map<String, String> json) {
+    public Map<Integer, Integer> createCartCartProduct(@RequestBody Map<String, String> json) {
         int customerId = Integer.parseInt(json.get("customerId"));
         int productId = Integer.parseInt(json.get("productId"));
-        return (Map<String, String>) this.cartService.create(customerId,productId);
+        return this.cartService.create(customerId,productId);
     }
 
     @PutMapping

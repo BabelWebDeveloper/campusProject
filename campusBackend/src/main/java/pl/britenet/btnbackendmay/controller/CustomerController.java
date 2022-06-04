@@ -18,6 +18,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/{customerId}")
     public Optional<Customer> getCustomer(@PathVariable int customerId) {
         return this.customerService.retrieve(customerId);

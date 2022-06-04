@@ -60,14 +60,14 @@ public class CustomerService {
                     String last_name = resultSet.getString("last_name");
                     String email = resultSet.getString("email");
                     String address = resultSet.getString("address");
-                    String password = resultSet.getString("passw");
+//                    String password = resultSet.getString("passw");
 
                     return new CustomerBuilder(id)
                             .setFirstName(first_name)
                             .setLastName(last_name)
                             .setEmail(email)
                             .setAddress(address)
-                            .setPassword(password)
+//                            .setPassword(password)
                             .getCustomer();
                 }
                 return null;
@@ -84,15 +84,22 @@ public class CustomerService {
     }
 
     public Optional<Customer> retrieve(String email, String password) {
-        String sqlQuery = String.format("SELECT * FROM customer c\n" +
+        String sqlQuery = String.format("SELECT c.id, c.first_name, c.last_name, c.email, c.address, c.passw\n" +
+                "FROM customer c\n" +
                 "WHERE c.email LIKE '%s' AND c.passw LIKE '%s'", email, password);
         try {
             Customer customer = this.databaseService.performQuery(sqlQuery, resultSet -> {
 
                 if (resultSet.next()) {
                     int id = resultSet.getInt("id");
+                    String first_name = resultSet.getString("c.first_name");
+                    String last_name = resultSet.getString("c.last_name");
+                    String address = resultSet.getString("c.address");
 
                     return new CustomerBuilder(id)
+                            .setFirstName(first_name)
+                            .setLastName(last_name)
+                            .setAddress(address)
                             .setEmail(email)
                             .setPassword(password)
                             .getCustomer();
