@@ -19,52 +19,6 @@
 // ===========================
 // ===========================
 
-// INDEX SHOP:
-const retrieveProducts = () => {
-  return new Promise( (resolve, reject) => {
-      fetch('http://localhost:8080/api/product')
-          .then( async result => {
-
-              const data = await result.json();
-              resolve(data);
-
-          } )
-          .catch( err => {
-              reject(err);
-          } );
-  } );
-}
-
-retrieveProducts()
-  .then( products => {
-      const wrapper = document.querySelector('#shopbar');
-      if (wrapper) {
-        products.forEach( product => {
-          wrapper.innerHTML += `
-          <article class="shopbar__item">
-              <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" style="background-image: url(img/products/${product.id}.jpg);">
-              </a>
-
-              <div class="shopbar__item--details">
-                <p class="shopbar__item--details--name">${product.name}</p>
-                <p class="shopbar__item--details--desc">${product.description}</p>
-
-                <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
-                  <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                  <p role="button" onclick="window.addEventListener('click', addToCart);" class="shopbar__item--details--cartPriceBar-button" id="${product.id}">Dodaj do koszyka</p>
-                </div>
-              </div>
-          </article>
-          `
-      } );
-      }
-      
-           
-  } );
-
-// ===========================
-// ===========================
-
 // WYSZUKIWANIE:
 const retrieveProductByName = (name) => {
 url = 'http://localhost:8080/api/product/search?name=' + name;
@@ -81,16 +35,13 @@ return new Promise( (resolve, reject) => {
 } );
 }
 const search = () => {
-const searchInput = document.querySelector('#search_input');
-const searchPhrase = searchInput.value;
+  const searchInput = document.querySelector('#search_input');
+  const searchPhrase = searchInput.value;
 
-retrieveProductByName(searchPhrase)
-.then( product => {
-    const wrapper = document.querySelector('#shopbar');
-    if (product == null) {
-      wrapper.innerHTML = `
-      <h2>Nie ma takiego produktu</h2>`
-    } else {
+  retrieveProductByName(searchPhrase)
+  .then( product => {
+      const wrapper = document.querySelector('#shopbar');
+      const mainHmtl = document.getElementsByTagName('main');
 
       const innerItems = (product) => {
         wrapper.innerHTML = ``;
@@ -112,23 +63,20 @@ retrieveProductByName(searchPhrase)
         </article>
         `
       }
-
       if (wrapper) {
-        innerItems(product);
+        if (product == null) {
+          wrapper.innerHTML = `
+          <h2>Nie ma takiego produktu</h2>`
+        } else {
+          innerItems(product);
+        }
       } 
-      // else {() => {
-      //   return new Promise( (resolve) => {
-      //     window.location.href = 'indexShop.html';
-      //     resolve(product);
-      //   })
-      //   .then(
-      //     innerItems(product)
-      //   )
-      //   }
-      // }
-    }
-})
-    return false;  
+      else {
+        const location = window.location = "indexShop.html";
+      }
+      
+  })
+      return false;  
 };
 
 // ===========================
@@ -141,6 +89,73 @@ console.log('Customer id: ' + data);
 const firstName = sessionStorage.getItem('firstName');
 const lastName = sessionStorage.getItem('lastName');
 const address = sessionStorage.getItem('address');
+
+// ===========================
+// ===========================
+
+// INDEX SHOP:
+const retrieveProducts = () => {
+  return new Promise( (resolve, reject) => {
+      fetch('http://localhost:8080/api/product')
+          .then( async result => {
+
+              const data = await result.json();
+              resolve(data);
+
+          } )
+          .catch( err => {
+              reject(err);
+          } );
+  } );
+}
+
+retrieveProducts()
+  .then( products => {
+      const wrapper = document.querySelector('#shopbar');
+      if (wrapper) {
+        if (data !== null) {
+          products.forEach( product => {
+            wrapper.innerHTML += `
+            <article class="shopbar__item">
+                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" style="background-image: url(img/products/${product.id}.jpg);">
+                </a>
+  
+                <div class="shopbar__item--details">
+                  <p class="shopbar__item--details--name">${product.name}</p>
+                  <p class="shopbar__item--details--desc">${product.description}</p>
+  
+                  <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
+                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
+                    <p role="button" onclick="window.addEventListener('click', addToCart);" class="shopbar__item--details--cartPriceBar-button" id="${product.id}">Dodaj do koszyka</p>
+                  </div>
+                </div>
+            </article>
+            `
+          } );
+        } else {
+          products.forEach( product => {
+            wrapper.innerHTML += `
+            <article class="shopbar__item">
+                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" style="background-image: url(img/products/${product.id}.jpg);">
+                </a>
+  
+                <div class="shopbar__item--details">
+                  <p class="shopbar__item--details--name">${product.name}</p>
+                  <p class="shopbar__item--details--desc">${product.description}</p>
+  
+                  <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
+                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
+                  </div>
+                </div>
+            </article>
+            `
+          } );
+        }
+        
+      }
+      
+           
+  } );
 
 // ===========================
 // ===========================
@@ -190,8 +205,9 @@ return new Promise( (resolve, reject) => {
         } );
 } );
 }
-
 let total = 0;
+
+
 const calculateTotalCart = (price, quantity) => {
   total += price * quantity;
   return total.toFixed(2);
@@ -256,6 +272,8 @@ if (wrapper) {
   
               <hr class="cartProductHr">
               `;
+              
+              
               totalOutput = calculateTotalCart(products.product.price, products.cartProduct.quantity) + ' zł';
             })
   
@@ -469,6 +487,9 @@ const quantityinputControl = () => {
         const cartProductId = buttonClicked.parentElement.id;
         console.log(cartProductId);
         incrementCartProduct(cartProductId);
+
+        window.location.reload();
+        // paymentReload()
     })
   }
   
@@ -490,8 +511,19 @@ const quantityinputControl = () => {
           } else {
               input.value = 1;
           }
+
+          window.location.reload();
+          // paymentReload()
       })
   }
+}
+
+const paymentReload = () => {
+  let container = document.getElementById("payment__total");
+  container.innerHTML += ``;
+  
+ //this line is to watch the result in console , you can remove it later	
+  console.log("Refreshed"); 
 }
 
 // Zwiększ ilość produktu w koszyku:
