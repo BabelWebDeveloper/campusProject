@@ -251,100 +251,27 @@ public class CartService {
     }
 
 
-//    public Cart create(int customerId, int productId) {
-//        String sqlQuery = String.format("SELECT ct.id, cr.id AS customerID, ct.isOrdered\n" +
-//                "FROM cart ct\n" +
-//                "INNER JOIN customer cr ON ct.customerId = cr.id\n" +
-//                "WHERE cr.id = %d", customerId);
-//
-//        try {
-//            Cart cart = this.databaseService.performQuery(sqlQuery, resultSet -> {
-//
-//                if (resultSet.next()) {
-//                    int cartId = resultSet.getInt("ct.id");
-//                    System.out.println(cartId + " cart istnieje");
-//                    String sqlQuery2 = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",cartId,productId,1);
-//
-//                    try {
-//                        this.databaseService.performDML(sqlQuery2);
-//                    } catch (Exception e) {
-//                        throw new RuntimeException(e);
-//                    }
-//
-//                }
-//                else {
-//                    System.out.println("Cart NIE istnieje");
-//                    int id = 0;
-//                    Cart createdCart = new CartBuilder(id)
-//                            .setCustomerId(customerId)
-//                            .setTotal_Cost(0)
-//                            .getCard();
-//                    this.create(createdCart);
-//
-//                    String sqlQuery3 = String.format("SELECT ct.id, ct.customerId\n" +
-//                            "FROM cart ct\n" +
-//                            "WHERE ct.customerId = %d", customerId);
-//                    try {
-//                        Cart checkCart = this.databaseService.performQuery(sqlQuery3,resultSet1 -> {
-//                            if (resultSet1.next()) {
-//                                int cartId = resultSet1.getInt("ct.id");
-//
-//                                return new CartBuilder(cartId)
-//                                        .getCard();
-//                            }
-//                            return null;
-//                        });
-//                        System.out.println(checkCart.getId());
-//                        String dml = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",
-//                                checkCart.getId(),
-//                                productId,
-//                                1);
-//
-//                        try {
-//                            this.databaseService.performDML(dml);
-//                        } catch (Exception e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                        return null;
-//
-//                    } catch (RuntimeException e) {
-//                        System.out.println("ERROR!");
-//                        System.out.println(e.getMessage());
-//                    }
-//                }
-//                return null;
-//
-//            });
-//
-//            return cart;
-//
-//        }
-//        catch (RuntimeException e) {
-//            System.out.println("ERROR! to tutaj");
-//            System.out.println(e.getMessage() + " to tutaj");
-//            return null;
-//        }
-//    }
-
-
-
-    public Map<Integer, Integer> create(int customerId, int productId) {
-        String sqlQuery = String.format("SELECT ct.id, cr.id AS customerID, ct.isOrdered\n" +
+    public Map<String, String> create(String customerId, String productId) {
+        String sqlQuery1 = String.format("SELECT ct.id, cr.id AS customerID, ct.isOrdered\n" +
                 "FROM cart ct\n" +
                 "INNER JOIN customer cr ON ct.customerId = cr.id\n" +
-                "WHERE cr.id = %d", customerId);
+                "WHERE cr.id = %s AND ct.isOrdered = 0;", customerId);
+
+        String sqlQuery2 = String.format("SELECT ct.id, ct.customerId\n" +
+                "FROM cart ct\n" +
+                "WHERE ct.customerId = %s AND ct.isOrdered = 0;", customerId);
 
         try {
-            Map <Integer, Integer> cartMap = new HashMap<>();
-            Cart cart = this.databaseService.performQuery(sqlQuery, resultSet -> {
+            Map <String, String> cartMap = new HashMap<>();
+            Cart cart = this.databaseService.performQuery(sqlQuery1, resultSet -> {
 
                 if (resultSet.next()) {
                     int cartId = resultSet.getInt("ct.id");
                     System.out.println(cartId + " cart istnieje");
-                    String sqlQuery2 = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",cartId,productId,1);
+                    String dml1 = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %s, %d);",cartId,productId,1);
 
                     try {
-                        this.databaseService.performDML(sqlQuery2);
+                        this.databaseService.performDML(dml1);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -355,33 +282,35 @@ public class CartService {
                 else {
                     System.out.println("Cart NIE istnieje");
                     int id = 0;
-                    Cart createdCart = new CartBuilder(id)
-                            .setCustomerId(customerId)
-                            .setTotal_Cost(0)
-                            .getCard();
-                    this.create(createdCart);
 
-                    String sqlQuery3 = String.format("SELECT ct.id, ct.customerId\n" +
-                            "FROM cart ct\n" +
-                            "WHERE ct.customerId = %d", customerId);
+                    String dml2 = String.format("INSERT INTO cart (customerId, total_cost, isOrdered) VALUES (%s, 0, 0);",
+                            customerId);
+
                     try {
-                        Cart checkCart = this.databaseService.performQuery(sqlQuery3,resultSet1 -> {
+                        this.databaseService.performDML(dml2);
+                    } catch (RuntimeException e) {
+                        System.out.println("ERROR! to tutaj");
+                        System.out.println(e.getMessage());
+                    }
+
+                    try {
+                        Cart checkCart = this.databaseService.performQuery(sqlQuery2,resultSet1 -> {
                             if (resultSet1.next()) {
                                 int cartId = resultSet1.getInt("ct.id");
+                                System.out.println(cartId);
 
                                 return new CartBuilder(cartId)
                                         .getCard();
                             }
                             return null;
                         });
-                        System.out.println(checkCart.getId());
-                        String dml = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %d, %d)",
+                        String dml3 = String.format("INSERT INTO cartproduct (cartId, productId, quantity) VALUES (%d, %s, %d);",
                                 checkCart.getId(),
                                 productId,
                                 1);
 
                         try {
-                            this.databaseService.performDML(dml);
+                            this.databaseService.performDML(dml3);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -403,8 +332,8 @@ public class CartService {
 
         }
         catch (RuntimeException e) {
-            System.out.println("ERROR! to tutaj");
-            System.out.println(e.getMessage() + " to tutaj");
+            System.out.println("ERROR! runtime");
+            System.out.println(e.getLocalizedMessage());
             return null;
         }
     }
@@ -412,10 +341,11 @@ public class CartService {
     public Cart create(Cart cart) {
         String dml = String.format("INSERT INTO cart (customerId, total_cost, isOrdered) VALUES (%d, 0, 0)",
                 cart.getCustomerId());
+        System.out.println("create działa");
         try {
             this.databaseService.performDML(dml);
         } catch (RuntimeException e) {
-            System.out.println("ERROR!");
+            System.out.println("ERROR! to tutaj");
             System.out.println(e.getMessage());
         }
         return cart;
@@ -445,6 +375,19 @@ public class CartService {
             System.out.println(e.getMessage());
         }
         return cart;
+    }
+
+    public void update(int customerId) {
+        String dml = String.format("UPDATE cart ct\n" +
+                        "SET ct.isOrdered = 1\n" +
+                        "WHERE ct.customerId = %d AND ct.isOrdered = 0", customerId);
+
+        try {
+            this.databaseService.performDML(dml);
+        } catch (RuntimeException e) {
+            System.out.println("ERROR!");
+            System.out.println(e.getMessage());
+        }
     }
 
     public void display(int id){

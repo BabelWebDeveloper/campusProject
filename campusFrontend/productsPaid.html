@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header role="navigation">
+    <div class="header__wrapper">
+        <div class="header__wrapper--logo">
+            <img src="img/kampusLogo3.png" alt="">
+        </div>
+
+        <nav class="header__items" role="list">
+          <p class="header__item" role="listitem"><a href="indexShop.html">Sklep</a></p>
+          <p class="header__item" role="listitem"><a href="indexOrders.html">Zamówienia</a></p>
+        </nav>
+
+        <form class="header__items" onsubmit="return search()">
+          <input class="header__items--searchInput" id="search_input" type="text" placeholder="Type to search..."/>
+          <input class="header__items--searchSubmit" type="submit" value=&#9740; class="header__wrapper--search--p">
+        </form>
+        
+        <nav class="header__items" id="zaloguj" role="list">
+          <p class="header__item" role="listitem"><a href="logowanie.html">Logowanie</a></p>
+          <p class="header__item" role="listitem"><a href="rejestracja.html">Rejestracja</a></p>
+        </nav>
+
+        <div class="header__items" id="wyloguj" role="list">
+          <p class="header__item" role="button" id="logout__button">Wyloguj</p>
+        </div>
+
+        <a class="header__wrapper--logo" href="indexCartproduct.html"><img src="img/shopping-cart3.png" alt=""></a>
+    </div>
+  </header>
+  
+  <main>
+      <p class="regulamin">Dziękujemy za zakup, zakupione produkty możesz zobaczyć w sekcji <a href="indexOrders.html">zamówienia</a></p>
+  </main>
+
+  <footer>
+      <a href="oNas.html">O nas</a>
+      <a href="kontakt.html">Kontakt</a>
+      <a href="politykaPrywatnosci.html">Polityka prywatności</a>
+      <a href="regulamin.html">Regulamin</a>
+  </footer>
+  <script src="js/authService.js"></script>
+  <script src="js/productService.js"></script>
+</body>
+</html>

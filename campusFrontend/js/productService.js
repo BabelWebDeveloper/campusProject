@@ -83,6 +83,7 @@ return new Promise( (resolve, reject) => {
 const search = () => {
 const searchInput = document.querySelector('#search_input');
 const searchPhrase = searchInput.value;
+
 retrieveProductByName(searchPhrase)
 .then( product => {
     const wrapper = document.querySelector('#shopbar');
@@ -90,6 +91,8 @@ retrieveProductByName(searchPhrase)
       wrapper.innerHTML = `
       <h2>Nie ma takiego produktu</h2>`
     } else {
+
+      const innerItems = (product) => {
         wrapper.innerHTML = ``;
         console.log(product)
         wrapper.innerHTML += `
@@ -108,6 +111,21 @@ retrieveProductByName(searchPhrase)
             </div>
         </article>
         `
+      }
+
+      if (wrapper) {
+        innerItems(product);
+      } 
+      // else {() => {
+      //   return new Promise( (resolve) => {
+      //     window.location.href = 'indexShop.html';
+      //     resolve(product);
+      //   })
+      //   .then(
+      //     innerItems(product)
+      //   )
+      //   }
+      // }
     }
 })
     return false;  
@@ -147,17 +165,17 @@ if (data == null) {
   wyloguj.style.display = 'none'
 } 
 
-if (data !== null & customerLogged) {
+if (data !== null/* & customerLogged*/) {
   zaloguj.style.display = 'none'
   wyloguj.style.display = 'flex'
-  customerLogged.innerText = firstName + " " + lastName;
+  // customerLogged.innerText = firstName + " " + lastName;
 }
 
 
 // ===========================
 // ===========================
 
-// CART PRODUCT:
+// CART PRODUCT (koszyk):
 const retrieveCartproducts = () => {
 return new Promise( (resolve, reject) => {
     fetch('http://localhost:8080/api/cart/not-ordered-orders?id=' + data)
@@ -223,13 +241,13 @@ if (wrapper) {
                       <tr>
                           <td>Ilość:</td>
                       </tr>
-                      <tr class="input-container">
+                      <tr class="input-container" id="${products.cartProduct.id}">
                           <td class="decr" role="button"> - </td>
                           <td class="cartProduct__details--productQuantityInput inputJs"><input type="number" value="${products.cartProduct.quantity}"></td>
-                          <td class="incr" role="button"> + </td>
+                          <td class="incr" role="button" name="${products.cartProduct.id}"> + </td>
                       </tr>
                       <tr>
-                          <td><p role="button" class="cartProduct__details--deleteItem">Usuń z koszyka</p></td>
+                          <td><p role="button" class="cartProduct__details--deleteItem" onclick="window.addEventListener('click', deleteProduct);">Usuń z koszyka</p></td>
                       </tr>
                       </tbody>
                   </table>
@@ -266,7 +284,7 @@ if (wrapper) {
           
               <p>Koszt całkowity:</p>
               <output class="payment__total" id="payment__total">${totalOutput}</output>
-              <p role="button" class="payment__payButton">Zapłać</p>
+              <p role="button" class="payment__payButton" id="payment__payButton" onclick="payCart()">Zapłać</p>
               <p><a href="regulamin.html">Regulamin zwrotów</a></p>
               <p><a href="dostawa.html">Informacje o dostawie</a></p>
             </aside>
@@ -281,44 +299,6 @@ if (wrapper) {
     wrapper.innerHTML += `<h3>Zaloguj się!</h3>`
   }
 }
-
-// ===========================
-// ===========================
-
-// KOSZYK przyciski:
-const quantityinputControl = () => {
-  const incrementBtn = document.getElementsByClassName('incr');
-  const decrementBtn = document.getElementsByClassName('decr');
-  
-  for(let i = 0; i < incrementBtn.length; i++){
-    const button = incrementBtn[i];
-    button.addEventListener('click', event => {
-  
-        const buttonClicked = event.target;
-        const input = buttonClicked.parentElement.children[1].children[0];
-        const inputvalue = input.value;
-        const newValue = parseInt(inputvalue) + 1;
-        input.value = newValue;
-    })
-  }
-  
-  for(let i = 0; i < decrementBtn.length; i++){
-      const button = decrementBtn[i];
-      button.addEventListener('click', event => {
-  
-          const buttonClicked = event.target;
-          const input = buttonClicked.parentElement.children[1].children[0];
-          const inputvalue = input.value;
-          const newValue = parseInt(inputvalue) - 1;
-  
-          if (newValue >= 1) {
-              input.value = newValue;
-          } else {
-              input.value = 1;
-          }
-      })
-  }
-  }
 
 // ===========================
 // ===========================
@@ -471,6 +451,42 @@ if (window.location.href.length > 50) {
 // ===========================
 // ===========================
 
+// KOSZYK przyciski:
+const quantityinputControl = () => {
+  const incrementBtn = document.getElementsByClassName('incr');
+  const decrementBtn = document.getElementsByClassName('decr');
+  
+  for(let i = 0; i < incrementBtn.length; i++){
+    const button = incrementBtn[i];
+    button.addEventListener('click', event => {
+  
+        const buttonClicked = event.target;
+        const input = buttonClicked.parentElement.children[1].children[0];
+        const inputvalue = input.value;
+        const newValue = parseInt(inputvalue) + 1;
+        input.value = newValue;
+        console.log(buttonClicked.parentElement.id)
+    })
+  }
+  
+  for(let i = 0; i < decrementBtn.length; i++){
+      const button = decrementBtn[i];
+      button.addEventListener('click', event => {
+  
+          const buttonClicked = event.target;
+          const input = buttonClicked.parentElement.children[1].children[0];
+          const inputvalue = input.value;
+          const newValue = parseInt(inputvalue) - 1;
+  
+          if (newValue >= 1) {
+              input.value = newValue;
+          } else {
+              input.value = 1;
+          }
+      })
+  }
+  }
+
 // Dodaj do koszyka:
 const addToCart = (target) => {//dodać czyszczenie koszyka
   cartProduct(data,target.srcElement.id)
@@ -497,4 +513,52 @@ fetch('http://localhost:8080/api/cart/createCart/createProduct', {
     });
 }
 
-// Usuń produkt z koszyka:
+// Usuń produkt z koszyka (decrement):
+const deleteProduct = (target) => {
+  const productId = target.srcElement.id;
+  window.location.reload();
+  deleteCartProduct(productId);
+}
+
+const deleteCartProduct = (productId) => {
+  const url = 'http://localhost:8080/api/cartproduct/' + productId;
+  console.log(url);
+  fetch(url, {
+    method: 'DELETE'
+  })
+      .then( async result => {
+        const data = await result.json();
+        const userId = data.id;
+        
+      })
+      .catch( err => {
+          console.log(err);
+      });
+  }
+
+
+// Zwiększ ilość produktu w koszyku:
+
+
+// Zapłać za koszyk:
+const payCart = () => {
+  return new Promise( (resolve, reject) => {
+    const url = 'http://localhost:8080/api/cart/pay?id=' + data;
+    console.log(url);
+    fetch(url, {
+      method: 'PUT'
+    })
+        .then( async result => {
+          const data = await result.json();
+          resolve(data)
+        })
+        .then(
+          window.location = "productsPaid.html"
+        )
+        .catch( err => {
+            console.log(err);
+        });
+  })
+  
+  }
+

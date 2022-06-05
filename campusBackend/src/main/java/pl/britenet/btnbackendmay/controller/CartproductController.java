@@ -58,6 +58,8 @@ public class CartproductController {
         this.cartProductService.update(cartProduct);
     }
 
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @DeleteMapping("/{cartId}")
     public void deleteCartProduct(@PathVariable int cartId) {
         this.cartProductService.remove(cartId);

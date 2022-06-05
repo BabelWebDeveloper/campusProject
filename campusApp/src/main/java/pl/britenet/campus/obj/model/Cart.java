@@ -4,6 +4,8 @@ public class Cart {
     private int id;
     private int customerId;
 
+    private String sCustomerId;
+
     private double total_cost;
 
     private boolean isOrdered;
@@ -29,6 +31,10 @@ public class Cart {
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.sCustomerId = customerId;
     }
 
     public double getTotal_cost() {
@@ -73,6 +79,6 @@ public class Cart {
 
     @Override
     public String toString() {
-        return String.format("cartId: %d, cartproductId: %d", id, cartProduct.getId());
+        return String.format("cartId: %d, cartproductId: %d", id);
     }
 }

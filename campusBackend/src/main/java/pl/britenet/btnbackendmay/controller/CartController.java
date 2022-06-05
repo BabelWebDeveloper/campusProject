@@ -50,25 +50,21 @@ public class CartController {
     public void createCart(@RequestBody Cart cart) {
         this.cartService.create(cart);
     }
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @PostMapping("/createCart/createProduct")
-//    public Map<String, String> createCartCartProduct(@RequestBody Map<String, String> json) {
-//        int customerId = Integer.parseInt(json.get("customerId"));
-//        int productId = Integer.parseInt(json.get("productId"));
-//        return (Map<String, String>) this.cartService.create(customerId,productId);
-//    }
+
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/createCart/createProduct")
-    public Map<Integer, Integer> createCartCartProduct(@RequestBody Map<String, String> json) {
-        int customerId = Integer.parseInt(json.get("customerId"));
-        int productId = Integer.parseInt(json.get("productId"));
+    public Map<String, String> createCartCartProduct(@RequestBody Map<String, String> json) {
+        String customerId = json.get("customerId");
+        String productId = json.get("productId");
         return this.cartService.create(customerId,productId);
     }
 
-    @PutMapping
-    public void updateCart(@RequestBody Cart cart) {
-        this.cartService.update(cart);
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @PutMapping("/pay")
+    public void updateCart(@RequestParam(name = "id") @PathVariable int customerId) {
+        this.cartService.update(customerId);
     }
 
     @DeleteMapping("/{cartId}")

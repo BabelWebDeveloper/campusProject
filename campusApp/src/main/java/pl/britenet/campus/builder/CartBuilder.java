@@ -17,6 +17,11 @@ public class CartBuilder {
         return this;
     }
 
+    public CartBuilder setCustomerId(String customer_id) {
+        this.cart.setCustomerId(customer_id);
+        return this;
+    }
+
     public CartBuilder setTotal_Cost(double total_cost) {
         this.cart.setTotal_cost(total_cost);
         return this;
