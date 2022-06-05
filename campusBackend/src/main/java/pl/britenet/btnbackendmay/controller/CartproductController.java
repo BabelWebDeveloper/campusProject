@@ -23,14 +23,6 @@ public class CartproductController {
         this.cartProductService = cartProduct;
     }
 
-
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping
-//    public List<CartProduct> getCartproducts() {
-//        return this.cartProductService.retrieveCartproducts(3);
-//    }
-
-
     @GetMapping("/{cartId}")
     public Optional<CartProduct> getCartProduct(@PathVariable int cartId) {
         return this.cartProductService.retrieve(cartId);
@@ -53,9 +45,16 @@ public class CartproductController {
         this.cartProductService.create(cartProduct);
     }
 
-    @PutMapping
-    public void updateCartProduct(@RequestBody CartProduct cartProduct) {
-        this.cartProductService.update(cartProduct);
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @PutMapping("/increment/{cartProduct}")
+    public void cartProductIncrement(@PathVariable int cartProduct) {
+        this.cartProductService.cartProductIncrement(cartProduct);
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @PutMapping("/decrement/{cartProduct}")
+    public void cartProductDecrement(@PathVariable int cartProduct) {
+        this.cartProductService.cartProductDecrement(cartProduct);
     }
 
 

@@ -247,7 +247,7 @@ if (wrapper) {
                           <td class="incr" role="button" name="${products.cartProduct.id}"> + </td>
                       </tr>
                       <tr>
-                          <td><p role="button" class="cartProduct__details--deleteItem" onclick="window.addEventListener('click', deleteProduct);">Usuń z koszyka</p></td>
+                          <td><p role="button" class="cartProduct__details--deleteItem" onclick="window.addEventListener('click', deleteProduct);" id="${products.cartProduct.id}">Usuń z koszyka</p></td>
                       </tr>
                       </tbody>
                   </table>
@@ -465,7 +465,10 @@ const quantityinputControl = () => {
         const inputvalue = input.value;
         const newValue = parseInt(inputvalue) + 1;
         input.value = newValue;
-        console.log(buttonClicked.parentElement.id)
+
+        const cartProductId = buttonClicked.parentElement.id;
+        console.log(cartProductId);
+        incrementCartProduct(cartProductId);
     })
   }
   
@@ -477,6 +480,10 @@ const quantityinputControl = () => {
           const input = buttonClicked.parentElement.children[1].children[0];
           const inputvalue = input.value;
           const newValue = parseInt(inputvalue) - 1;
+
+          const cartProductId = buttonClicked.parentElement.id;
+          console.log(cartProductId);
+          decrementCartProduct(cartProductId);
   
           if (newValue >= 1) {
               input.value = newValue;
@@ -485,7 +492,43 @@ const quantityinputControl = () => {
           }
       })
   }
-  }
+}
+
+// Zwiększ ilość produktu w koszyku:
+const incrementCartProduct = (cartProductId) => {
+  fetch('http://localhost:8080/api/cartproduct/increment/' + cartProductId, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+      .then( async result => {
+          const data = await result.json();
+          const userId = data.id;
+          
+      } )
+      .catch( err => {
+          console.log(err);
+      });
+}
+
+// Zmniejsz ilość produktu w koszyku:
+const decrementCartProduct = (cartProductId) => {
+  fetch('http://localhost:8080/api/cartproduct/decrement/' + cartProductId, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+      .then( async result => {
+          const data = await result.json();
+          const userId = data.id;
+          
+      } )
+      .catch( err => {
+          console.log(err);
+      });
+}
 
 // Dodaj do koszyka:
 const addToCart = (target) => {//dodać czyszczenie koszyka
@@ -517,6 +560,7 @@ fetch('http://localhost:8080/api/cart/createCart/createProduct', {
 const deleteProduct = (target) => {
   const productId = target.srcElement.id;
   window.location.reload();
+  console.log(productId)
   deleteCartProduct(productId);
 }
 
@@ -529,15 +573,12 @@ const deleteCartProduct = (productId) => {
       .then( async result => {
         const data = await result.json();
         const userId = data.id;
-        
+        console.log(data)
       })
       .catch( err => {
           console.log(err);
       });
   }
-
-
-// Zwiększ ilość produktu w koszyku:
 
 
 // Zapłać za koszyk:
