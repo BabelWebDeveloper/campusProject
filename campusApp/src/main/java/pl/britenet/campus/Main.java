@@ -117,28 +117,28 @@ public class Main {
 
         boolean isRunning = true;
 
-//        while (isRunning){
-//            String userCommand = scanner.nextLine();
-//            Optional<Command> oCommand = commandService.getCommand(userCommand);
-//
-//            if (userCommand.equals("exit")){
-//                isRunning = false;
-//            }
-//
-//            if (oCommand.isPresent()) {
-//                oCommand.get().perform();
-//            }
-//            else {
-//                System.out.println("Nieznana komenda.");
-//            }
-//        }
+        while (isRunning){
+            String userCommand = scanner.nextLine();
+            Optional<Command> oCommand = commandService.getCommand(userCommand);
+
+            if (userCommand.equals("exit")){
+                isRunning = false;
+            }
+
+            if (oCommand.isPresent()) {
+                oCommand.get().perform();
+            }
+            else {
+                System.out.println("Nieznana komenda.");
+            }
+        }
 //        System.out.println(cartService.create("1", String.valueOf(34)));
 //        System.out.println(cartService.retrieveMaxCartId());
 //        System.out.println(cartService.retrieveProductsInCart(3));
 //        System.out.println(customerService.retrieve("@przemo","123"));
 //        cartService.update(1);
-        cartProductService.cartProductDecrement(25);
-
+//        cartProductService.cartProductDecrement(25);
+//        System.out.println(customerService.create("1","1", "1","1", "1"));
     }
 
 }

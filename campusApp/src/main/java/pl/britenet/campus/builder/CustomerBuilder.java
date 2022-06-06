@@ -30,31 +30,9 @@ public class CustomerBuilder {
     }
 
     public CustomerBuilder setPassword(String password) {
-        this.customer.setAddress(password);
+        this.customer.setPassword(password);
         return this;
     }
-
-
-//    public CustomerBuilder setCategory (Category category) {
-//        this.customer.setCategory(category);
-//        return this;
-//    }
-//
-//    public CustomerBuilder setProduct (Product product) {
-//        this.customer.setProduct(product);
-//        return this;
-//    }
-//
-//    public CustomerBuilder setCart (Cart cart) {
-//        this.customer.setCart(cart);
-//        return this;
-//    }
-//
-//    public CustomerBuilder setCartProduct (CartProduct cartProduct) {
-//        this.customer.setCartProduct(cartProduct);
-//        return this;
-//    }
-
 
     public Customer getCustomer() {
         return this.customer;

@@ -60,14 +60,14 @@ public class CustomerService {
                     String last_name = resultSet.getString("last_name");
                     String email = resultSet.getString("email");
                     String address = resultSet.getString("address");
-//                    String password = resultSet.getString("passw");
+                    String password = resultSet.getString("passw");
 
                     return new CustomerBuilder(id)
                             .setFirstName(first_name)
                             .setLastName(last_name)
                             .setEmail(email)
                             .setAddress(address)
-//                            .setPassword(password)
+                            .setPassword(password)
                             .getCustomer();
                 }
                 return null;
@@ -115,6 +115,26 @@ public class CustomerService {
             return Optional.empty();
         }
 
+    }
+
+    public Map<String, String> create(String first_name, String last_name, String email,String address,String password) {
+        String dml = String.format("INSERT INTO customer (first_name, last_name, email, address, passw) VALUES ('%s','%s','%s','%s','%s')", first_name, last_name, email, address, password);
+
+        Map <String, String> customerMap = new HashMap<>();
+        try {
+            this.databaseService.performDML(dml);
+        } catch (RuntimeException e) {
+            System.out.println("ERROR!");
+            System.out.println(e.getMessage());
+        }
+
+        customerMap.put("first_name", first_name);
+        customerMap.put("last_name", last_name);
+        customerMap.put("email", email);
+        customerMap.put("address", address);
+        customerMap.put("password", password);
+
+        return customerMap;
     }
 
     public Customer create(Customer customer) {
@@ -170,9 +190,4 @@ public class CustomerService {
 
     }
 
-//    public void display(){
-//        for (Customer customer : this.customers){
-//            System.out.println(customer);
-//        }
-//    }
 }

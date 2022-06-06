@@ -350,81 +350,87 @@ const retrieveOrders = () => {
     }
   }
 
-if (data !== null) {
-  retrieveOrders()
-  .then( orders => {
-      const wrapper = document.querySelector('#mainOrders');
-
-      if (wrapper) {
-        orders.forEach( order => {
-          wrapper.innerHTML += `
-            <section class="order">
-              <h2>Zamówienie:</h2>
-              <article class="order__invoice">
-                  <p>Faktura:</p>
-                  <output>PV01_23/05/22</output>
-              </article>
-
-              <article class="order__items">
-                <table>
-                  <caption>Zamówione produkty:</caption>
-                  <tbody>
-                    <tr>
-                      <td>Nazwa produktu:</td>
-                      <td class="order__items--productName">${order.product.name}</td>
-                    </tr>
-                    <tr>
-                      <td>Cena jednostkowa:</td>
-                      <td class="order__items--productPrice">${order.product.price} zł</td>
-                    </tr>
-                    <tr>
-                      <td>Ilość sztuk:</td>
-                      <td class="order__items--productQuantity">${order.cartProduct.quantity}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </article>
-
-              <article class="order__details">
-                <table>
-                  <caption>Dla:</caption>
-                  <tbody>
-                    <tr>
-                      <td>Imię i nazwisko:</td>
-                      <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
-                    </tr>
-                    <tr>
-                      <td>Adres:</td>
-                      <td class="order__details--customerAddress">${order.customer.address}</td>
-                    </tr>
-                    <tr>
-                      <td>E-mail:</td>
-                      <td class="order__details--customerEmail">${order.customer.email}</td>
-                    </tr>
-                    <tr>
-                      <td>Data płatności:</td>
-                      <td class="order__details--customerPaymentDate">${order.date}</td>
-                    </tr>
-                    <tr>
-                      <td>Zapłacono:</td>
-                      <td class="order__details--customerTotalPay">${calcTotalCost(order)}</td>
-                    </tr>
-                    <tr>
-                      <td>Status:</td>
-                      <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </article>
-            </section>
-
-          <hr>`
+const wrapper1 = document.querySelector('#mainOrders');
+if (wrapper1) {
+  if (data !== null) {
+    retrieveOrders()
+    .then( orders => {
         
-        } );
-      }
-      
-  } );
+
+        if (wrapper1) {
+          orders.forEach( order => {
+            wrapper1.innerHTML += `
+              <section class="order">
+                <h2>Zamówienie:</h2>
+                <article class="order__invoice">
+                    <p>Faktura:</p>
+                    <output>PV01_23/05/22</output>
+                </article>
+
+                <article class="order__items">
+                  <table>
+                    <caption>Zamówione produkty:</caption>
+                    <tbody>
+                      <tr>
+                        <td>Nazwa produktu:</td>
+                        <td class="order__items--productName">${order.product.name}</td>
+                      </tr>
+                      <tr>
+                        <td>Cena jednostkowa:</td>
+                        <td class="order__items--productPrice">${order.product.price} zł</td>
+                      </tr>
+                      <tr>
+                        <td>Ilość sztuk:</td>
+                        <td class="order__items--productQuantity">${order.cartProduct.quantity}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </article>
+
+                <article class="order__details">
+                  <table>
+                    <caption>Dla:</caption>
+                    <tbody>
+                      <tr>
+                        <td>Imię i nazwisko:</td>
+                        <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
+                      </tr>
+                      <tr>
+                        <td>Adres:</td>
+                        <td class="order__details--customerAddress">${order.customer.address}</td>
+                      </tr>
+                      <tr>
+                        <td>E-mail:</td>
+                        <td class="order__details--customerEmail">${order.customer.email}</td>
+                      </tr>
+                      <tr>
+                        <td>Data płatności:</td>
+                        <td class="order__details--customerPaymentDate">${order.date}</td>
+                      </tr>
+                      <tr>
+                        <td>Zapłacono:</td>
+                        <td class="order__details--customerTotalPay">${calcTotalCost(order)}</td>
+                      </tr>
+                      <tr>
+                        <td>Status:</td>
+                        <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </article>
+              </section>
+
+            <hr>`
+          
+          } );
+        } 
+        
+    } );
+  } else {
+    wrapper1.innerHTML = `<h3>Zaloguj się!</h3>`
+  }
 }
+  
 
 // ===========================
 // ===========================
@@ -447,25 +453,47 @@ const retrieveProduct = () => {
   } );
 }
 
-if (window.location.href.length > 50) {
-  retrieveProduct()
-  .then( product => {
-      const wrapper = document.querySelector('#productWrapper');
-      if (wrapper) {
-        wrapper.innerHTML += `
-        <div class="productWrapper__image">
-            <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
-        </div>
-        <div class="productWrapper__details" id="productWrapper__details">
-            <h2>${product.name}</h2>
-            <p>${product.description}</p>
-            <p>${product.price} zł</p>
-            <p class="productWrapper__details--button" role="button" onclick="window.addEventListener('click', addToCart);" id="${product.id}">Dodaj do koszyka</p>
-        </div>
-        `
-      }
-  } );
+if (data) {
+  if (window.location.href.length > 50) {
+    retrieveProduct()
+    .then( product => {
+        const wrapper = document.querySelector('#productWrapper');
+        if (wrapper) {
+          wrapper.innerHTML += `
+          <div class="productWrapper__image">
+              <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
+          </div>
+          <div class="productWrapper__details" id="productWrapper__details">
+              <h2>${product.name}</h2>
+              <p>${product.description}</p>
+              <p>${product.price} zł</p>
+              <p class="productWrapper__details--button" role="button" onclick="window.addEventListener('click', addToCart);" id="${product.id}">Dodaj do koszyka</p>
+          </div>
+          `
+        }
+    } );
+  }
+} else {
+  if (window.location.href.length > 50) {
+    retrieveProduct()
+    .then( product => {
+        const wrapper = document.querySelector('#productWrapper');
+        if (wrapper) {
+          wrapper.innerHTML += `
+          <div class="productWrapper__image">
+              <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
+          </div>
+          <div class="productWrapper__details" id="productWrapper__details">
+              <h2>${product.name}</h2>
+              <p>${product.description}</p>
+              <p>${product.price} zł</p>
+          </div>
+          `
+        }
+    } );
+  }
 }
+
 
 // ===========================
 // ===========================
@@ -636,3 +664,4 @@ const payCart = () => {
   
   }
 
+// REJESTRACJA:

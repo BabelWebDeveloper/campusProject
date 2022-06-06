@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.britenet.campus.obj.model.Customer;
 import pl.britenet.campus.service.CustomerService;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +28,17 @@ public class CustomerController {
     @PostMapping
     public void createCustomer(@RequestBody Customer customer) {
         this.customerService.create(customer);
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @PostMapping("/createCustomer")
+    public Map<String, String> createCustomer(@RequestBody Map<String, String> json) {
+        String first_name = json.get("first_name");
+        String last_name = json.get("last_name");
+        String email = json.get("email");
+        String address = json.get("address");
+        String password = json.get("password");
+        return this.customerService.create(first_name,last_name,email,address,password);
     }
 
     @PutMapping

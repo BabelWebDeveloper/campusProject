@@ -10,11 +10,6 @@ public class Customer {
 
     private String password;
 
-//    private Cart cart;
-//    private CartProduct cartProduct;
-//    private Product product;
-//    private Category category;
-
     public Customer(int id) {
         this.id = id;
     }
@@ -66,42 +61,10 @@ public class Customer {
         this.password = password;
     }
 
-    //    public Cart getCart() {
-//        return cart;
-//    }
-//
-//    public void setCart(Cart cart) {
-//        this.cart = cart;
-//    }
-//
-//    public CartProduct getCartProduct() {
-//        return cartProduct;
-//    }
-//
-//    public void setCartProduct(CartProduct cartProduct) {
-//        this.cartProduct = cartProduct;
-//    }
-//
-//    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
-//
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
-
     @Override
     public String toString() {
         try {
-            return String.format("first name: %s, last name: %s, address: %s, password: %s", first_name, last_name, address, password);
+            return String.format("first name: %s, last name: %s, email: %s, address: %s, password: %s", first_name, last_name, email, address, password);
         } catch (NullPointerException e){
             return null;
         }
