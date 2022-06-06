@@ -41,6 +41,12 @@ public class CartController {
     }
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/ordered-orders2")
+    public List<Cart> getOrderedOrders2(@RequestParam(name = "id") @PathVariable int customerId) {
+        return this.cartService.retrieveOrderedOrders2(customerId);
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/not-ordered-orders")
     public List<Cart> getNotOrdered(@RequestParam(name = "id") @PathVariable int customerId) {
         return this.cartService.retrieveProductsInCart(customerId);
@@ -55,9 +61,9 @@ public class CartController {
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/createCart/createProduct")
     public Map<String, String> createCartCartProduct(@RequestBody Map<String, String> json) {
-        String customerId = json.get("customerId");//to są row
-        String productId = json.get("productId");//to są row
-        return this.cartService.create(customerId,productId);//i tutaj tyle ile potrzeba zaciągane ze stringów
+        String customerId = json.get("customerId");
+        String productId = json.get("productId");
+        return this.cartService.create(customerId,productId);
     }
 
 

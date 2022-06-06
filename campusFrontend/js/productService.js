@@ -227,13 +227,13 @@ return new Promise( (resolve, reject) => {
         } );
 } );
 }
-let total = 0;
+// let total = 0;
 
 
-const calculateTotalCart = (price, quantity) => {
-  total += price * quantity;
-  return total.toFixed(2);
-}
+// const calculateTotalCart = (price, quantity) => {
+//   total += price * quantity;
+//   return total.toFixed(2);
+// }
 
 const cartMain = document.querySelector('#cartProductMain')
 const wrapper = document.querySelector('#cartProducts');
@@ -344,49 +344,41 @@ if (wrapper) {
 // ===========================
 
 // ZAMÓWIENIA:
+
 const retrieveOrders = () => {
   return new Promise( (resolve, reject) => {
-      fetch('http://localhost:8080/api/cart/ordered-orders?id=' + data)
+      fetch('http://localhost:8080/api/cart/ordered-orders2?id=' + data)
           .then( async result => {
   
               const data = await result.json();
               resolve(data);
-              // console.log(data)
+              console.log(data)
           } )
           .catch( err => {
               reject(err);
           } );
-  } );
-  }
-  
-  const calcTotalCost = (order) => {
-    return order.product.price * order.cartProduct.quantity;
-  }
-  
-  const reformatStatus = (order) => {
-    if(order){
-      return "Zapłacono";
-    } else {
-      return "Nie wysłano";
-    }
-  }
+  });
+}
 
-const wrapper1 = document.querySelector('#mainOrders');
-if (wrapper1) {
-  if (data !== null) {
-    retrieveOrders()
-    .then( orders => {
-        
+const reformatStatus = (order) => {
+  if(order){
+    return "Zapłacono";
+  } else {
+    return "Nie wysłano";
+  }
+}
 
-        if (wrapper1) {
-          orders.forEach( order => {
-            wrapper1.innerHTML += `
+const orderTitle = (order) => {
+  ordersWrapper.innerHTML += `
+              <section class="order__invoice">
+                <h2>Zamówienie:${order.id}</h2>
+              </section>
+            `
+}
+
+const orderProducts = (cartproduct) => {
+  ordersWrapper.innerHTML += `
               <section class="order">
-                <h2>Zamówienie:</h2>
-                <article class="order__invoice">
-                    <p>Faktura:</p>
-                    <output>PV01_23/05/22</output>
-                </article>
 
                 <article class="order__items">
                   <table>
@@ -394,61 +386,110 @@ if (wrapper1) {
                     <tbody>
                       <tr>
                         <td>Nazwa produktu:</td>
-                        <td class="order__items--productName">${order.product.name}</td>
+                        <td class="order__items--productName">${cartproduct.product.name}</td>
                       </tr>
                       <tr>
                         <td>Cena jednostkowa:</td>
-                        <td class="order__items--productPrice">${order.product.price} zł</td>
+                        <td class="order__items--productPrice">${cartproduct.product.price} zł</td>
                       </tr>
                       <tr>
                         <td>Ilość sztuk:</td>
-                        <td class="order__items--productQuantity">${order.cartProduct.quantity}</td>
+                        <td class="order__items--productQuantity">${cartproduct.quantity}</td>
                       </tr>
                     </tbody>
                   </table>
                 </article>
 
-                <article class="order__details">
-                  <table>
-                    <caption>Dla:</caption>
-                    <tbody>
-                      <tr>
-                        <td>Imię i nazwisko:</td>
-                        <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
-                      </tr>
-                      <tr>
-                        <td>Adres:</td>
-                        <td class="order__details--customerAddress">${order.customer.address}</td>
-                      </tr>
-                      <tr>
-                        <td>E-mail:</td>
-                        <td class="order__details--customerEmail">${order.customer.email}</td>
-                      </tr>
-                      <!-- <tr>
-                        <td>Data płatności:</td>
-                        <td class="order__details--customerPaymentDate">${order.date}</td>
-                      </tr> -->
-                      <tr>
-                        <td>Zapłacono:</td>
-                        <td class="order__details--customerTotalPay">${calcTotalCost(order)}</td>
-                      </tr>
-                      <tr>
-                        <td>Status:</td>
-                        <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </article>
               </section>
+            `
+}
 
-            <hr>`
-          
-          } );
-        } 
+const orderDetails = (order, totalCost) => {
+  ordersWrapper.innerHTML += `
+          <section class="order__details">
+            <table>
+              <caption>Dla:</caption>
+              <tbody>
+                <tr>
+                  <td>Imię i nazwisko:</td>
+                  <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
+                </tr>
+                <tr>
+                  <td>Adres:</td>
+                  <td class="order__details--customerAddress">${order.customer.address}</td>
+                </tr>
+                <tr>
+                  <td>E-mail:</td>
+                  <td class="order__details--customerEmail">${order.customer.email}</td>
+                </tr>
+                <tr>
+                  <td>Data płatności:</td>
+                  <td class="order__details--customerPaymentDate"></td>
+                </tr>
+                <tr>
+                  <td>Zapłacono:</td>
+                  <td class="order__details--customerTotalPay">${totalCost}</td>
+                </tr>
+                <tr>
+                  <td>Status:</td>
+                  <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <hr>
+  `
+}
+
+const orderItem = (order) => {
+  let total = 0
+  order.cartProductList.forEach(cartproduct => {
+  
+    ordersWrapper.innerHTML += `
+        <section class="order">
+
+          <article class="order__items">
+            <table>
+              <caption>Zamówione produkty:</caption>
+              <tbody>
+                <tr>
+                  <td>Nazwa produktu:</td>
+                  <td class="order__items--productName">${cartproduct.product.name}</td>
+                </tr>
+                <tr>
+                  <td>Cena jednostkowa:</td>
+                  <td class="order__items--productPrice">${cartproduct.product.price} zł</td>
+                </tr>
+                <tr>
+                  <td>Ilość sztuk:</td>
+                  <td class="order__items--productQuantity">${cartproduct.quantity}</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+        </section>
+      `
+      total += cartproduct.quantity * cartproduct.product.price
+  })
+  orderDetails(order,total)
+}
+
+const ordersWrapper = document.querySelector('#mainOrders');
+
+if (ordersWrapper) {
+  if (data !== null) {
+    retrieveOrders()
+    .then( orders => {
+    
+          orders.forEach( order => {
+            orderTitle(order)
+            orderItem(order);
+          });
         
     } );
   } else {
-    wrapper1.innerHTML = `<h3>Zaloguj się!</h3>`
+    ordersWrapper.innerHTML = `<h3>Zaloguj się!</h3>`
   }
 }
   
@@ -568,14 +609,6 @@ const quantityinputControl = () => {
   }
 }
 
-const paymentReload = () => {
-  let container = document.getElementById("payment__total");
-  container.innerHTML += ``;
-  
- //this line is to watch the result in console , you can remove it later	
-  console.log("Refreshed"); 
-}
-
 // Zwiększ ilość produktu w koszyku:
 const incrementCartProduct = (cartProductId) => {
   fetch('http://localhost:8080/api/cartproduct/increment/' + cartProductId, {
@@ -613,8 +646,8 @@ const decrementCartProduct = (cartProductId) => {
 }
 
 // Dodaj do koszyka:
-const addToCart = (target) => {//dodać czyszczenie koszyka
-  cartProduct(data,target.srcElement.id)
+const addToCart = (target) => {
+  cartProduct(data,target.srcElement.id)// data to customer ID
 }
 
 const cartProduct = (customerIdin, productIdin) => {

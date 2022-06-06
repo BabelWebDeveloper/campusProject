@@ -5,6 +5,8 @@ import pl.britenet.campus.obj.model.CartProduct;
 import pl.britenet.campus.obj.model.Customer;
 import pl.britenet.campus.obj.model.Product;
 
+import java.util.List;
+
 public class CartBuilder {
     private final Cart cart;
 
@@ -44,6 +46,11 @@ public class CartBuilder {
 
     public CartBuilder setProduct(Product product) {
         this.cart.setProduct(product);
+        return this;
+    }
+
+    public CartBuilder setCartProductList(List<CartProduct> cartProductList) {
+        this.cart.setCartProductList(cartProductList);
         return this;
     }
 

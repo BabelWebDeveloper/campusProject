@@ -20,33 +20,6 @@ public class CartService {
         this.databaseService = databaseService;
     }
 
-//    public List<Integer> retrieveIds() {
-//        String sqlQuery = "SELECT id FROM cart";
-//
-//        try {
-//            return this.databaseService.performQuery(sqlQuery, resultSet -> {
-//
-//                List<Integer> idList = new ArrayList<>();
-//                while (resultSet.next()) {
-//                    int id = resultSet.getInt("id");
-//
-//                    Cart cart = new CartBuilder(id)
-//                            .getCard();
-//
-//                    idList.add(cart.getId());
-//                }
-//
-//                return idList;
-//
-//            });
-//        } catch (RuntimeException exception) {
-//            System.out.println("ERROR!");
-//            System.out.println(exception.getMessage());
-//
-//            return new ArrayList<>();
-//        }
-//    }
-
     public List<Cart> retrieveOrderedOrders(int customerId) {
         String sqlQuery = String.format("SELECT ct.id AS cartId, ct.isOrdered AS status,\n" +
                 "cp.id AS cartproductId, cp.productId AS productId, SUM(cp.quantity) AS quantity,\n" +
@@ -102,6 +75,105 @@ public class CartService {
                             .setOrdered(status)
                             .setCartProduct(cartProduct)
                             .setProduct(product)
+                            .setCustomer(customer)
+                            .getCard();
+
+                    orderedOrders.add(cart);
+                }
+
+                return orderedOrders;
+            });
+
+        } catch (RuntimeException exception) {
+            System.out.println("ERROR!");
+            System.out.println(exception.getMessage());
+
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Cart> retrieveOrderedOrders2(int customerId) {
+//        String sqlQuery = String.format("SELECT ct.id AS cartId, ct.isOrdered AS status,\n" +
+//                "cp.id AS cartproductId, cp.productId AS productId, SUM(cp.quantity) AS quantity,\n" +
+//                "p.price, p.name,\n" +
+//                "cr.first_name AS firstName, cr.last_name AS lastName, cr.email AS email, cr.address as address, cr.id\n" +
+//                "FROM cart ct\n" +
+//                "INNER JOIN cartProduct cp ON ct.id = cp.cartId\n" +
+//                "INNER JOIN product p ON p.id = cp.productId\n" +
+//                "INNER JOIN customer cr ON cr.id = ct.customerId\n" +
+//                "WHERE ct.isOrdered = 1 AND cr.id = %d\n" +
+//                "GROUP BY cartId", customerId);
+        String sqlQuery = String.format("SELECT ct.id AS cartId, ct.isOrdered AS status,\n" +
+                "cp.id AS cartproductId, cp.productId AS productId, SUM(cp.quantity) AS quantity,\n"+
+                "cr.first_name AS firstName, cr.last_name AS lastName, cr.email AS email, cr.address as address, cr.id\n" +
+                "FROM cart ct\n" +
+                "INNER JOIN cartProduct cp ON ct.id = cp.cartId\n" +
+                "INNER JOIN customer cr ON cr.id = ct.customerId\n" +
+                "WHERE ct.isOrdered = 1 AND cr.id = %d\n" +
+                "GROUP BY cartId", customerId);
+
+        try {
+
+            return this.databaseService.performQuery(sqlQuery, resultSet -> {
+                List<Cart> orderedOrders = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    List<CartProduct> cartProductList = new ArrayList<>();
+
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    String email = resultSet.getString("email");
+                    String address = resultSet.getString("address");
+
+                    int cartId = resultSet.getInt("cartId");
+                    boolean status = resultSet.getBoolean("status");
+
+                    String sqlQuery2 = String.format("SELECT ct.id as cartId, cp.id AS cartproduct, cp.quantity, cp.productId, cr.first_name, pt.name, pt.price\n" +
+                            "FROM cart ct\n" +
+                            "INNER JOIN cartproduct cp ON ct.id = cp.cartId\n" +
+                            "INNER JOIN product pt ON pt.id = cp.productId\n" +
+                            "INNER JOIN customer cr ON cr.id = ct.customerId\n" +
+                            "WHERE cr.id = %d AND ct.isOrdered = 1 AND cartId = %d", customerId, cartId);
+                    try {
+                        this.databaseService.performQuery(sqlQuery2, resultSet1 -> {
+                            while (resultSet1.next()) {
+                                int cartProductId1 = resultSet1.getInt("cartproduct");
+                                int productId1 = resultSet1.getInt("cp.productId");
+                                int quantity1 = resultSet1.getInt("cp.quantity");
+
+                                double productPrice = resultSet1.getDouble("pt.price");
+                                String productName = resultSet1.getString("pt.name");
+
+                                Product product = new ProductBuilder(productId1)
+                                        .setPrice(productPrice)
+                                        .setName(productName)
+                                        .getProduct();
+
+                                CartProduct cartProduct = new CartProductBuilder(cartProductId1)
+                                        .setProductId(productId1)
+                                        .setQuantity(quantity1)
+                                        .setProduct(product)
+                                        .getCardProduct();
+
+                                cartProductList.add(cartProduct);
+                            }
+
+                            return null;
+                        });
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    Customer customer = new CustomerBuilder(customerId)
+                            .setFirstName(firstName)
+                            .setLastName(lastName)
+                            .setEmail(email)
+                            .setAddress(address)
+                            .getCustomer();
+
+                    Cart cart = new CartBuilder(cartId)
+                            .setOrdered(status)
+                            .setCartProductList(cartProductList)
                             .setCustomer(customer)
                             .getCard();
 

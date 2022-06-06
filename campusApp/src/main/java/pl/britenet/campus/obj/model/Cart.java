@@ -1,5 +1,7 @@
 package pl.britenet.campus.obj.model;
 
+import java.util.List;
+
 public class Cart {
     private int id;
     private int customerId;
@@ -10,6 +12,7 @@ public class Cart {
 
     private boolean isOrdered;
     private CartProduct cartProduct;
+    private List<CartProduct> cartProductList;
     private Product product;
 
     private Customer customer;
@@ -77,8 +80,16 @@ public class Cart {
         isOrdered = ordered;
     }
 
+    public List<CartProduct> getCartProductList() {
+        return cartProductList;
+    }
+
+    public void setCartProductList(List<CartProduct> cartProductList) {
+        this.cartProductList = cartProductList;
+    }
+
     @Override
     public String toString() {
-        return String.format("cartId: %d, cartproductId: %d", id);
+        return String.format("cartId: %d", id);
     }
 }

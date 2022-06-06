@@ -38,8 +38,66 @@
     </header>
 
       <main id="mainOrders">
-          
+          <!-- for each order -> for each order item -->
+          <!-- <section class="order__invoice">
+            <h2>Zamówienie:${order.id}</h2>
+          </section> -->
 
+          <!-- <section class="order">
+
+            <article class="order__items">
+              <table>
+                <caption>Zamówione produkty:</caption>
+                <tbody>
+                  <tr>
+                    <td>Nazwa produktu:</td>
+                    <td class="order__items--productName">${order.product.name}</td>
+                  </tr>
+                  <tr>
+                    <td>Cena jednostkowa:</td>
+                    <td class="order__items--productPrice">${order.product.price} zł</td>
+                  </tr>
+                  <tr>
+                    <td>Ilość sztuk:</td>
+                    <td class="order__items--productQuantity">${order.cartProduct.quantity}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+
+          </section>
+
+          <section class="order__details">
+            <table>
+              <caption>Dla:</caption>
+              <tbody>
+                <tr>
+                  <td>Imię i nazwisko:</td>
+                  <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
+                </tr>
+                <tr>
+                  <td>Adres:</td>
+                  <td class="order__details--customerAddress">${order.customer.address}</td>
+                </tr>
+                <tr>
+                  <td>E-mail:</td>
+                  <td class="order__details--customerEmail">${order.customer.email}</td>
+                </tr>
+                <tr>
+                  <td>Data płatności:</td>
+                  <td class="order__details--customerPaymentDate">${order.date}</td>
+                </tr>
+                <tr>
+                  <td>Zapłacono:</td>
+                  <td class="order__details--customerTotalPay">${calcTotalCost(order)}</td>
+                </tr>
+                <tr>
+                  <td>Status:</td>
+                  <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section> -->
       </main>
       <footer>
         <a href="oNas.html">O nas</a>
