@@ -19,65 +19,7 @@
 // ===========================
 // ===========================
 
-// WYSZUKIWANIE:
-const retrieveProductByName = (name) => {
-url = 'http://localhost:8080/api/product/search?name=' + name;
-return new Promise( (resolve, reject) => {
-    fetch(url)
-        .then( async result => {
 
-            const data = await result.json();
-            resolve(data);
-        } )
-        .catch( err => {
-            reject(err);
-        } );
-} );
-}
-const search = () => {
-  const searchInput = document.querySelector('#search_input');
-  const searchPhrase = searchInput.value;
-
-  retrieveProductByName(searchPhrase)
-  .then( product => {
-      const wrapper = document.querySelector('#shopbar');
-      const mainHmtl = document.getElementsByTagName('main');
-
-      const innerItems = (product) => {
-        wrapper.innerHTML = ``;
-        console.log(product)
-        wrapper.innerHTML += `
-        <article class="shopbar__item">
-            <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
-            </a>
-
-            <div class="shopbar__item--details">
-              <p class="shopbar__item--details--name">${product.name}</p>
-              <p class="shopbar__item--details--desc">${product.description}</p>
-
-              <div class="shopbar__item--details--cartPriceBar">
-                <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                <p role="button" class="shopbar__item--details--cartPriceBar-button">Dodaj do koszyka</p>
-              </div>
-            </div>
-        </article>
-        `
-      }
-      if (wrapper) {
-        if (product == null) {
-          wrapper.innerHTML = `
-          <h2>Nie ma takiego produktu</h2>`
-        } else {
-          innerItems(product);
-        }
-      } 
-      else {
-        const location = window.location = "indexShop.html";
-      }
-      
-  })
-      return false;  
-};
 
 // ===========================
 // ===========================
@@ -93,6 +35,85 @@ console.log(firstName)
 
 // ===========================
 // ===========================
+
+// WYSZUKIWANIE:
+const retrieveProductByName = (name) => {
+  url = 'http://localhost:8080/api/product/search?name=' + name;
+  return new Promise( (resolve, reject) => {
+      fetch(url)
+          .then( async result => {
+  
+              const data = await result.json();
+              resolve(data);
+          } )
+          .catch( err => {
+              reject(err);
+          } );
+  } );
+  }
+  const search = () => {
+    const searchInput = document.querySelector('#search_input');
+    const searchPhrase = searchInput.value;
+  
+    retrieveProductByName(searchPhrase)
+    .then( product => {
+        const wrapper = document.querySelector('#shopbar');
+        const mainHmtl = document.getElementsByTagName('main');
+  
+        const innerItems = (product) => {
+          wrapper.innerHTML = ``;
+          console.log(product)
+          if (data !== null) {
+            wrapper.innerHTML += `
+            <article class="shopbar__item">
+                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
+                </a>
+    
+                <div class="shopbar__item--details">
+                  <p class="shopbar__item--details--name">${product.name}</p>
+                  <p class="shopbar__item--details--desc">${product.description}</p>
+    
+                  <div class="shopbar__item--details--cartPriceBar">
+                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
+                    <p role="button" class="shopbar__item--details--cartPriceBar-button">Dodaj do koszyka</p>
+                  </div>
+                </div>
+            </article>
+          `
+          } else {
+            wrapper.innerHTML += `
+            <article class="shopbar__item">
+                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
+                </a>
+    
+                <div class="shopbar__item--details">
+                  <p class="shopbar__item--details--name">${product.name}</p>
+                  <p class="shopbar__item--details--desc">${product.description}</p>
+    
+                  <div class="shopbar__item--details--cartPriceBar">
+                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
+                  </div>
+                </div>
+            </article>
+          `
+          }
+          
+        }
+        if (wrapper) {
+          if (product == null) {
+            wrapper.innerHTML = `
+            <h2>Nie ma takiego produktu</h2>`
+          } else {
+            innerItems(product);
+          }
+        } 
+        else {
+          const location = window.location = "indexShop.html";
+        }
+        
+    })
+        return false;  
+  };
 
 // INDEX SHOP:
 const retrieveProducts = () => {
@@ -403,10 +424,10 @@ if (wrapper1) {
                         <td>E-mail:</td>
                         <td class="order__details--customerEmail">${order.customer.email}</td>
                       </tr>
-                      <tr>
+                      <!-- <tr>
                         <td>Data płatności:</td>
                         <td class="order__details--customerPaymentDate">${order.date}</td>
-                      </tr>
+                      </tr> -->
                       <tr>
                         <td>Zapłacono:</td>
                         <td class="order__details--customerTotalPay">${calcTotalCost(order)}</td>
