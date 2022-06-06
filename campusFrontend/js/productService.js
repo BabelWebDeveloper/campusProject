@@ -89,6 +89,7 @@ console.log('Customer id: ' + data);
 const firstName = sessionStorage.getItem('firstName');
 const lastName = sessionStorage.getItem('lastName');
 const address = sessionStorage.getItem('address');
+console.log(firstName)
 
 // ===========================
 // ===========================
