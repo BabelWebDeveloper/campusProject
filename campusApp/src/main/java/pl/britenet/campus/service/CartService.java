@@ -193,7 +193,7 @@ public class CartService {
 
     public List<Cart> retrieveProductsInCart(int customerId) {
         String sqlQuery = String.format("SELECT ct.id AS cartId, ct.isOrdered AS status,\n" +
-                "cp.id AS cartproductId, cp.productId AS productId, SUM(cp.quantity) AS quantity,\n" +
+                "cp.id AS cartproductId, cp.productId AS productId, cp.quantity AS quantity,\n" +
                 "p.price, p.name,\n" +
                 "cr.first_name AS firstName, cr.last_name AS lastName, cr.email AS email, cr.address AS address, cr.id\n" +
                 "\n" +
@@ -202,8 +202,7 @@ public class CartService {
                 "INNER JOIN product p ON p.id = cp.productId\n" +
                 "INNER JOIN customer cr ON cr.id = ct.customerId\n" +
                 "\n" +
-                "WHERE ct.isOrdered = 0 AND cr.id = %d\n" +
-                "GROUP BY cp.productId", customerId);
+                "WHERE ct.isOrdered = 0 AND cr.id = %d", customerId);
 
         try {
 

@@ -31,6 +31,7 @@ const login = (email, password) => {
             const firstName = data.first_name;
             const lastName = data.last_name;
             const address = data.address;
+            const email = data.email
 
             console.log(firstName)
             console.log(lastName)
@@ -40,6 +41,7 @@ const login = (email, password) => {
             sessionStorage.setItem('firstName', firstName)
             sessionStorage.setItem('lastName', lastName)
             sessionStorage.setItem('address', address)
+            sessionStorage.setItem('email', email)
         } )
         .then (
             window.location.href = 'indexShop.html'

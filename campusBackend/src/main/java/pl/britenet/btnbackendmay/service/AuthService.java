@@ -34,6 +34,7 @@ public class AuthService {
         result.put("first_name", customer.getFirst_name());
         result.put("last_name", customer.getLast_name());
         result.put("address", customer.getAddress());
+        result.put("email", email);
 
         return result;
     }

@@ -31,6 +31,7 @@ console.log('Customer id: ' + data);
 const firstName = sessionStorage.getItem('firstName');
 const lastName = sessionStorage.getItem('lastName');
 const address = sessionStorage.getItem('address');
+const email = sessionStorage.getItem('email')
 console.log(firstName)
 
 // ===========================
@@ -188,6 +189,7 @@ const wyloguj = document.querySelector('#wyloguj')
 
 const btnLogOut = document.querySelector('#logout__button')
 const customerLogged = document.querySelector('#customerLogged');
+const ordersNavTo = document.querySelector('#ordersNavTo');
 
 if (btnLogOut) {
     btnLogOut.onclick = () => {
@@ -200,11 +202,13 @@ if (btnLogOut) {
 if (data == null) {
   zaloguj.style.display = 'flex'
   wyloguj.style.display = 'none'
+  ordersNavTo.style.display = 'none'
 } 
 
 if (data !== null/* & customerLogged*/) {
   zaloguj.style.display = 'none'
   wyloguj.style.display = 'flex'
+  ordersNavTo.style.display = 'flex'
   // customerLogged.innerText = firstName + " " + lastName;
 }
 
@@ -227,28 +231,31 @@ return new Promise( (resolve, reject) => {
         } );
 } );
 }
-// let total = 0;
+let total = 0;
 
 
-// const calculateTotalCart = (price, quantity) => {
-//   total += price * quantity;
-//   return total.toFixed(2);
-// }
+const calculateTotalCart = (price, quantity) => {
+  total += price * quantity;
+  return total.toFixed(2);
+}
 
 const cartMain = document.querySelector('#cartProductMain')
 const wrapper = document.querySelector('#cartProducts');
-const paymentDetails = document.querySelector('#payment')
+const paymentDetails = document.querySelector('#payment');
+
+const cartCount = document.querySelector('.header__wrapper--logo--count');
+
+let totalQuantity = 0;
 
 if (wrapper) {
   if (data !== null) {
     retrieveCartproducts()
     .then( notOrdered => {
-        console.log(notOrdered)
         if (notOrdered.length > 0) {
           
           let totalOutput = 0;
   
-          if (wrapper) {
+          // if (wrapper) {
             notOrdered.forEach( products => {
               wrapper.innerHTML += `
               <article class="cartProduct">
@@ -295,8 +302,8 @@ if (wrapper) {
               <hr class="cartProductHr">
               `;
               
-              
               totalOutput = calculateTotalCart(products.product.price, products.cartProduct.quantity) + ' zł';
+              totalQuantity += products.cartProduct.quantity;
             })
   
             cartMain.innerHTML += `
@@ -312,13 +319,13 @@ if (wrapper) {
                   <tr>
                     <td class="payment__td">Adres dostawy:</td>
                     <td class="payment__space"></td>
-                    <td></td>
+                    <td>${address}</td>
                   </tr>
-                  <tr>
+                  <!--<tr>
                     <td class="payment__td">E-mail:</td>
                     <td class="payment__space"></td>
-                    <td></td>
-                  </tr>
+                    <td>${email}</td>
+                  </tr>-->
                 </tbody>
               </table>
           
@@ -330,7 +337,7 @@ if (wrapper) {
             </aside>
             `
             quantityinputControl()
-          }
+            console.log(totalQuantity)
         } else {
           wrapper.innerHTML = `Brak produktów w koszyku!`
         }
@@ -339,7 +346,6 @@ if (wrapper) {
     wrapper.innerHTML += `<h3>Zaloguj się!</h3>`
   }
 }
-
 // ===========================
 // ===========================
 
@@ -515,52 +521,56 @@ const retrieveProduct = () => {
   } );
 }
 
-if (data) {
-  if (window.location.href.length > 50) {
-    retrieveProduct()
-    .then( product => {
-        const wrapper = document.querySelector('#productWrapper');
-        if (wrapper) {
-          wrapper.innerHTML += `
-          <div class="productWrapper__image">
-              <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
-          </div>
-          <div class="productWrapper__details" id="productWrapper__details">
-              <h2>${product.name}</h2>
-              <p>${product.description}</p>
-              <p>${product.price} zł</p>
-              <p class="productWrapper__details--button" role="button" onclick="window.addEventListener('click', addToCart);" id="${product.id}">Dodaj do koszyka</p>
-          </div>
-          `
-        }
-    } );
-  }
-} else {
-  if (window.location.href.length > 50) {
-    retrieveProduct()
-    .then( product => {
-        const wrapper = document.querySelector('#productWrapper');
-        if (wrapper) {
-          wrapper.innerHTML += `
-          <div class="productWrapper__image">
-              <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
-          </div>
-          <div class="productWrapper__details" id="productWrapper__details">
-              <h2>${product.name}</h2>
-              <p>${product.description}</p>
-              <p>${product.price} zł</p>
-          </div>
-          `
-        }
-    } );
+const wrapper2 = document.querySelector('#productWrapper');
+if (wrapper2) {
+  if (data) {
+    if (window.location.href.length > 50) {
+      retrieveProduct()
+      .then( product => {
+          
+          if (wrapper2) {
+            wrapper2.innerHTML += `
+            <div class="productWrapper__image">
+                <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
+            </div>
+            <div class="productWrapper__details" id="productWrapper__details">
+                <h2>${product.name}</h2>
+                <p>${product.description}</p>
+                <p>${product.price} zł</p>
+                <p class="productWrapper__details--button" role="button" onclick="window.addEventListener('click', addToCart);" id="${product.id}">Dodaj do koszyka</p>
+            </div>
+            `
+          }
+      } );
+    }
+  } else {
+    if (window.location.href.length > 50) {
+      retrieveProduct()
+      .then( product => {
+          const wrapper = document.querySelector('#productWrapper');
+          if (wrapper2) {
+            wrapper2.innerHTML += `
+            <div class="productWrapper__image">
+                <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
+            </div>
+            <div class="productWrapper__details" id="productWrapper__details">
+                <h2>${product.name}</h2>
+                <p>${product.description}</p>
+                <p>${product.price} zł</p>
+            </div>
+            `
+          }
+      } );
+    }
   }
 }
 
 
+
 // ===========================
 // ===========================
 
-// KOSZYK przyciski:
+// KOSZYK przyciski plus minus:
 const quantityinputControl = () => {
   const incrementBtn = document.getElementsByClassName('incr');
   const decrementBtn = document.getElementsByClassName('decr');
@@ -604,10 +614,12 @@ const quantityinputControl = () => {
           }
 
           window.location.reload();
-          // paymentReload()
       })
   }
 }
+
+// ===========================
+// ===========================
 
 // Zwiększ ilość produktu w koszyku:
 const incrementCartProduct = (cartProductId) => {
@@ -627,6 +639,9 @@ const incrementCartProduct = (cartProductId) => {
       });
 }
 
+// ===========================
+// ===========================
+
 // Zmniejsz ilość produktu w koszyku:
 const decrementCartProduct = (cartProductId) => {
   fetch('http://localhost:8080/api/cartproduct/decrement/' + cartProductId, {
@@ -645,10 +660,15 @@ const decrementCartProduct = (cartProductId) => {
       });
 }
 
+// ===========================
+// ===========================
+
 // Dodaj do koszyka:
 const addToCart = (target) => {
-  cartProduct(data,target.srcElement.id)// data to customer ID
+  cartProduct(data,target.srcElement.id)
 }
+
+let quantity = 0;
 
 const cartProduct = (customerIdin, productIdin) => {
 fetch('http://localhost:8080/api/cart/createCart/createProduct', {
@@ -664,12 +684,14 @@ fetch('http://localhost:8080/api/cart/createCart/createProduct', {
     .then( async result => {
         const data = await result.json();
         const userId = data.id;
-        
+        console.log(totalQuantity)
     } )
     .catch( err => {
         console.log(err);
     });
 }
+// ===========================
+// ===========================
 
 // Usuń produkt z koszyka (decrement):
 const deleteProduct = (target) => {
@@ -695,6 +717,8 @@ const deleteCartProduct = (productId) => {
       });
   }
 
+// ===========================
+// ===========================
 
 // Zapłać za koszyk:
 const payCart = () => {
@@ -719,3 +743,82 @@ const payCart = () => {
   }
 
 // REJESTRACJA:
+
+const registerUser = (first_nameIn, last_nameIn, emailIn, addressIn, passwordIn) => {
+  fetch('http://localhost:8080/api/customer/createCustomer', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          first_name: first_nameIn,
+          last_name: last_nameIn,
+          email: emailIn,
+          address: addressIn,
+          password: passwordIn
+      })
+  })
+      .then( async result => {
+          const data = await result.json();
+          const userId = data.id;
+      } )
+      .catch( err => {
+          console.log(err);
+      });
+  }
+
+let tc = (a) => {
+  let x = document.querySelector(a).value;
+  return x;
+}
+
+let msgb = (a) => {
+  let x = document.querySelector(".emsgb").innerHTML=a;
+  return x;
+}
+
+let size = (a) => {
+  let x = document.querySelector(a).value.length;
+  console.log(x)
+  return x;
+}
+
+let signupRegister = () => {
+  const first_name = tc(".fname");
+  const last_name = tc(".lname");
+  const email = tc(".email");
+  const address = tc(".address")
+  const password = tc("#pwd");
+  const confirmPassword = tc("#conpwd");
+
+  if (first_name==null || first_name=="") {
+    msgb("Please Enter First name");
+    return false;
+  }
+  if (last_name==null || last_name=="") {
+    msgb("Please Enter Last name");
+    return false;
+  }
+  if (email==null || email=="") {
+    msgb("Please Enter Email");
+    return false;
+  }
+  if (address==null || address=="") {
+    msgb("Please Enter Adress");
+    return false;
+  }
+  if (size("#pwd") <= 10) {
+    msgb("Minimum Password length 10");
+    return false;
+  }
+  if (password==null || password=="") {
+    msgb("Please Enter Password");
+    return false;
+  }
+  if (password != confirmPassword) {
+    msgb("Password Miss match");
+    return false;
+  }
+
+  registerUser(first_name, last_name, email, address, confirmPassword);
+}
