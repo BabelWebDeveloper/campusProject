@@ -212,7 +212,6 @@ if (data !== null/* & customerLogged*/) {
   // customerLogged.innerText = firstName + " " + lastName;
 }
 
-
 // ===========================
 // ===========================
 
@@ -224,16 +223,14 @@ return new Promise( (resolve, reject) => {
 
             const data = await result.json();
             resolve(data);
-            // console.log(data)
         } )
         .catch( err => {
             reject(err);
         } );
 } );
 }
+
 let total = 0;
-
-
 const calculateTotalCart = (price, quantity) => {
   total += price * quantity;
   return total.toFixed(2);
@@ -242,8 +239,6 @@ const calculateTotalCart = (price, quantity) => {
 const cartMain = document.querySelector('#cartProductMain')
 const wrapper = document.querySelector('#cartProducts');
 const paymentDetails = document.querySelector('#payment');
-
-const cartCount = document.querySelector('.header__wrapper--logo--count');
 
 let totalQuantity = 0;
 
@@ -255,7 +250,6 @@ if (wrapper) {
           
           let totalOutput = 0;
   
-          // if (wrapper) {
             notOrdered.forEach( products => {
               wrapper.innerHTML += `
               <article class="cartProduct">
@@ -337,15 +331,19 @@ if (wrapper) {
             </aside>
             `
             quantityinputControl()
-            console.log(totalQuantity)
+            return totalQuantity
         } else {
           wrapper.innerHTML = `Brak produktów w koszyku!`
         }
+    })
+    .then((resolve) => {
+      sessionStorage.setItem('totalQ', resolve)
     });
   } else {
     wrapper.innerHTML += `<h3>Zaloguj się!</h3>`
   }
 }
+
 // ===========================
 // ===========================
 
@@ -378,6 +376,7 @@ const orderTitle = (order) => {
   ordersWrapper.innerHTML += `
               <section class="order__invoice">
                 <h2>Zamówienie:${order.id}</h2>
+                <caption>Zamówione produkty:</caption>
               </section>
             `
 }
@@ -428,13 +427,13 @@ const orderDetails = (order, totalCost) => {
                   <td>E-mail:</td>
                   <td class="order__details--customerEmail">${order.customer.email}</td>
                 </tr>
-                <tr>
+                <!--<tr>
                   <td>Data płatności:</td>
                   <td class="order__details--customerPaymentDate"></td>
-                </tr>
+                </tr>-->
                 <tr>
                   <td>Zapłacono:</td>
-                  <td class="order__details--customerTotalPay">${totalCost}</td>
+                  <td class="order__details--customerTotalPay">${totalCost} zł</td>
                 </tr>
                 <tr>
                   <td>Status:</td>
@@ -453,10 +452,8 @@ const orderItem = (order) => {
   
     ordersWrapper.innerHTML += `
         <section class="order">
-
           <article class="order__items">
             <table>
-              <caption>Zamówione produkty:</caption>
               <tbody>
                 <tr>
                   <td>Nazwa produktu:</td>
@@ -473,6 +470,7 @@ const orderItem = (order) => {
               </tbody>
             </table>
           </article>
+          &nbsp;
 
         </section>
       `
@@ -569,6 +567,12 @@ if (wrapper2) {
 
 // ===========================
 // ===========================
+// Koszyk count:
+const cartCount = document.querySelector('.header__wrapper--logo--count');
+if (cartCount) {
+  let quantity = sessionStorage.getItem('totalQ');
+  console.log(quantity)
+}
 
 // KOSZYK przyciski plus minus:
 const quantityinputControl = () => {
@@ -664,9 +668,24 @@ const decrementCartProduct = (cartProductId) => {
 // ===========================
 
 // Dodaj do koszyka:
+const modal = document.querySelector('.modal-content');
+const modalExit = document.querySelector('.modalClose');
+const styleElem = document.head.appendChild(document.createElement("style"));
+const shopMain  = document.querySelector('.shopMain')
+
+
 const addToCart = (target) => {
   cartProduct(data,target.srcElement.id)
 }
+
+const exitModal = () => {
+  modal.style.display = "none";
+  styleElem.innerHTML = ".shopMain:before {display: none;}";
+}
+
+// const addToCart = (target) => {
+//   cartProduct(data,target.srcElement.id)
+// }
 
 let quantity = 0;
 
@@ -683,9 +702,11 @@ fetch('http://localhost:8080/api/cart/createCart/createProduct', {
 })
     .then( async result => {
         const data = await result.json();
-        const userId = data.id;
-        console.log(totalQuantity)
     } )
+    .then(() => {
+      modal.style.display = "flex";
+      styleElem.innerHTML = ".shopMain:before {display: inline-block;}";
+    })
     .catch( err => {
         console.log(err);
     });
@@ -807,7 +828,7 @@ let signupRegister = () => {
     msgb("Please Enter Adress");
     return false;
   }
-  if (size("#pwd") <= 10) {
+  if (size("#pwd") <= 3) {
     msgb("Minimum Password length 10");
     return false;
   }

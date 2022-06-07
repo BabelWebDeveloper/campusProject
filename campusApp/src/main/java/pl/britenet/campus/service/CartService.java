@@ -334,7 +334,8 @@ public class CartService {
 
         try {
             Map <String, String> cartMap = new HashMap<>();
-            Cart cart = this.databaseService.performQuery(sqlQuery1, resultSet -> {
+//            Cart cart =
+            this.databaseService.performQuery(sqlQuery1, resultSet -> {
 
                 if (resultSet.next()) {
                     int cartId = resultSet.getInt("ct.id");
