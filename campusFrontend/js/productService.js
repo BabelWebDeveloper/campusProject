@@ -236,7 +236,7 @@ const orderTitle = (order) => {
   ordersWrapper.innerHTML += `
               <section class="order__invoice">
                 <h2>Zamówienie  ${order.id}</h2>
-                <caption>Zamówione produkty:</caption>
+                <h4>Zamówione produkty:</h4>
               </section>
             `
 }
@@ -247,21 +247,20 @@ const orderProducts = (cartproduct) => {
 
                 <article class="order__items">
                   <table>
-                    <caption>Zamówione produkty:</caption>
                     <tbody>
                       <tr>
                         <td>Nazwa produktu:</td>
-                        <td></td>
+                        <td class="orderSpace"></td>
                         <td class="order__items--productName">${cartproduct.product.name}</td>
                       </tr>
                       <tr>
                         <td>Cena jednostkowa:</td>
-                        <td></td>
+                        <td class="orderSpace"></td>
                         <td class="order__items--productPrice">${cartproduct.product.price} zł</td>
                       </tr>
                       <tr>
                         <td>Ilość sztuk:</td>
-                        <td></td>
+                        <td class="orderSpace"></td>
                         <td class="order__items--productQuantity">${cartproduct.quantity}</td>
                       </tr>
                     </tbody>
@@ -274,38 +273,38 @@ const orderProducts = (cartproduct) => {
 
 const orderDetails = (order, totalCost) => {
   ordersWrapper.innerHTML += `
-          <section class="order__details">
+          <section class="order__items orderSpace">
             <table>
               <caption>Dla:</caption>
               <tbody>
                 <tr>
                   <td>Imię i nazwisko:</td>
-                  <td></td>
+                  <td class="orderSpace"></td>
                   <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
                 </tr>
                 <tr>
                   <td>Adres:</td>
-                  <td></td>
+                  <td class="orderSpace"></td>
                   <td class="order__details--customerAddress">${order.customer.address}</td>
                 </tr>
                 <tr>
                   <td>E-mail:</td>
-                  <td></td>
+                  <td class="orderSpace"></td>
                   <td class="order__details--customerEmail">${order.customer.email}</td>
                 </tr>
                 <!--<tr>
                   <td>Data płatności:</td>
-                  <td></td>
+                  <td class="orderSpace"></td>
                   <td class="order__details--customerPaymentDate"></td>
                 </tr>-->
                 <tr>
                   <td>Zapłacono:</td>
-                  <td></td>
+                  <td class="orderSpace"></td>
                   <td class="order__details--customerTotalPay">${totalCost} zł</td>
                 </tr>
                 <tr>
                   <td>Status:</td>
-                  <td></td>
+                  <td class="orderSpace"></td>
                   <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
                 </tr>
               </tbody>
