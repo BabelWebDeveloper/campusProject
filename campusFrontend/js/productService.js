@@ -19,11 +19,6 @@
 // ===========================
 // ===========================
 
-
-
-// ===========================
-// ===========================
-
 // REQUIRED SESSION STORAGE
 const data = sessionStorage.getItem('id');
 console.log('Customer id: ' + data);
@@ -133,52 +128,51 @@ const retrieveProducts = () => {
 }
 
 retrieveProducts()
-  .then( products => {
-      const wrapper = document.querySelector('#shopbar');
-      if (wrapper) {
-        if (data !== null) {
-          products.forEach( product => {
-            wrapper.innerHTML += `
-            <article class="shopbar__item">
-                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" style="background-image: url(img/products/${product.id}.jpg);">
-                </a>
-  
-                <div class="shopbar__item--details">
-                  <p class="shopbar__item--details--name">${product.name}</p>
-                  <p class="shopbar__item--details--desc">${product.description}</p>
-  
-                  <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
-                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                    <p role="button" onclick="window.addEventListener('click', addToCart);" class="shopbar__item--details--cartPriceBar-button" id="${product.id}">Dodaj do koszyka</p>
-                  </div>
-                </div>
-            </article>
-            `
-          } );
-        } else {
-          products.forEach( product => {
-            wrapper.innerHTML += `
-            <article class="shopbar__item">
-                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" style="background-image: url(img/products/${product.id}.jpg);">
-                </a>
-  
-                <div class="shopbar__item--details">
-                  <p class="shopbar__item--details--name">${product.name}</p>
-                  <p class="shopbar__item--details--desc">${product.description}</p>
-  
-                  <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
-                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                  </div>
-                </div>
-            </article>
-            `
-          } );
-        }
-        
-      }
+.then( products => {
+  const wrapper = document.querySelector('#shopbar');
+  if (wrapper) {
+    if (data !== null) {
+      products.forEach( product => {
+        wrapper.innerHTML += `
+        <article class="shopbar__item">
+            <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" style="background-image: url(img/products/${product.id}.jpg);">
+            </a>
+
+            <div class="shopbar__item--details">
+              <p class="shopbar__item--details--name">${product.name}</p>
+              <p class="shopbar__item--details--desc">${product.description}</p>
+
+              <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
+                <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
+                <p role="button" onclick="window.addEventListener('click', addToCart);" class="shopbar__item--details--cartPriceBar-button" id="${product.id}">Dodaj do koszyka</p>
+              </div>
+            </div>
+        </article>
+        `
+      } );
+    } else {
+      products.forEach( product => {
+        wrapper.innerHTML += `
+        <article class="shopbar__item">
+            <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" onclick="location.href=this.href+'?productID='+${product.id};return false;" style="background-image: url(img/products/${product.id}.jpg);">
+            </a>
+
+            <div class="shopbar__item--details">
+              <p class="shopbar__item--details--name">${product.name}</p>
+              <p class="shopbar__item--details--desc">${product.description}</p>
+
+              <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
+                <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
+              </div>
+            </div>
+        </article>
+        `
+      } );
+    }
+    
+  }
       
-           
-  } );
+} );
 
 // ===========================
 // ===========================
@@ -205,150 +199,16 @@ if (data == null) {
   ordersNavTo.style.display = 'none'
 } 
 
-if (data !== null/* & customerLogged*/) {
+if (data !== null) {
   zaloguj.style.display = 'none'
   wyloguj.style.display = 'flex'
   ordersNavTo.style.display = 'flex'
-  // customerLogged.innerText = firstName + " " + lastName;
-}
-
-// ===========================
-// ===========================
-
-// CART PRODUCT (koszyk):
-const retrieveCartproducts = () => {
-return new Promise( (resolve, reject) => {
-    fetch('http://localhost:8080/api/cart/not-ordered-orders?id=' + data)
-        .then( async result => {
-
-            const data = await result.json();
-            resolve(data);
-        } )
-        .catch( err => {
-            reject(err);
-        } );
-} );
-}
-
-let total = 0;
-const calculateTotalCart = (price, quantity) => {
-  total += price * quantity;
-  return total.toFixed(2);
-}
-
-const cartMain = document.querySelector('#cartProductMain')
-const wrapper = document.querySelector('#cartProducts');
-const paymentDetails = document.querySelector('#payment');
-
-let totalQuantity = 0;
-
-if (wrapper) {
-  if (data !== null) {
-    retrieveCartproducts()
-    .then( notOrdered => {
-        if (notOrdered.length > 0) {
-          
-          let totalOutput = 0;
-  
-            notOrdered.forEach( products => {
-              wrapper.innerHTML += `
-              <article class="cartProduct">
-                  <div class="cartProduct__image">
-                  <img src="img/products/${products.product.id}.jpg" class="cartProduct__image--img" alt="">
-                  </div>
-  
-                  <div class="cartProduct__details">
-                  <table>
-                      <tbody>
-                      <tr>
-                          <td>Nazwa produktu:</td>
-                      </tr>
-                      <tr>
-                          <td class="cartProduct__details--productName">${products.product.name}</td>
-                      </tr>
-                      <tr>
-                          <td>Cena jednostkowa:</td>
-                      </tr>
-                      <tr>
-                          <td class="cartProduct__details--productName">${products.product.price} zł</td>
-                      </tr>
-                      </tbody>
-                  </table>
-  
-                  <table>
-                      <tbody>
-                      <tr>
-                          <td>Ilość:</td>
-                      </tr>
-                      <tr class="input-container" id="${products.cartProduct.id}">
-                          <td class="decr" role="button"> - </td>
-                          <td class="cartProduct__details--productQuantityInput inputJs"><input type="number" value="${products.cartProduct.quantity}"></td>
-                          <td class="incr" role="button" name="${products.cartProduct.id}"> + </td>
-                      </tr>
-                      <tr>
-                          <td><p role="button" class="cartProduct__details--deleteItem" onclick="window.addEventListener('click', deleteProduct);" id="${products.cartProduct.id}">Usuń z koszyka</p></td>
-                      </tr>
-                      </tbody>
-                  </table>
-                  </div>
-              </article>
-  
-              <hr class="cartProductHr">
-              `;
-              
-              totalOutput = calculateTotalCart(products.product.price, products.cartProduct.quantity) + ' zł';
-              totalQuantity += products.cartProduct.quantity;
-            })
-  
-            cartMain.innerHTML += `
-            <aside class="payment" id="payment">
-              <h3>Podsumowanie zamówienia:</h3>
-              <table>
-                <tbody>
-                  <tr>
-                    <td class="payment__td">Imię i nazwisko:</td>
-                    <td class="payment__space"></td>
-                    <td>${firstName} ${lastName}</td>
-                  </tr>
-                  <tr>
-                    <td class="payment__td">Adres dostawy:</td>
-                    <td class="payment__space"></td>
-                    <td>${address}</td>
-                  </tr>
-                  <!--<tr>
-                    <td class="payment__td">E-mail:</td>
-                    <td class="payment__space"></td>
-                    <td>${email}</td>
-                  </tr>-->
-                </tbody>
-              </table>
-          
-              <p>Koszt całkowity:</p>
-              <output class="payment__total" id="payment__total">${totalOutput}</output>
-              <p role="button" class="payment__payButton" id="payment__payButton" onclick="payCart()">Zapłać</p>
-              <p><a href="regulamin.html">Regulamin zwrotów</a></p>
-              <p><a href="dostawa.html">Informacje o dostawie</a></p>
-            </aside>
-            `
-            quantityinputControl()
-            return totalQuantity
-        } else {
-          wrapper.innerHTML = `Brak produktów w koszyku!`
-        }
-    })
-    .then((resolve) => {
-      sessionStorage.setItem('totalQ', resolve)
-    });
-  } else {
-    wrapper.innerHTML += `<h3>Zaloguj się!</h3>`
-  }
 }
 
 // ===========================
 // ===========================
 
 // ZAMÓWIENIA:
-
 const retrieveOrders = () => {
   return new Promise( (resolve, reject) => {
       fetch('http://localhost:8080/api/cart/ordered-orders2?id=' + data)
@@ -375,7 +235,7 @@ const reformatStatus = (order) => {
 const orderTitle = (order) => {
   ordersWrapper.innerHTML += `
               <section class="order__invoice">
-                <h2>Zamówienie:${order.id}</h2>
+                <h2>Zamówienie  ${order.id}</h2>
                 <caption>Zamówione produkty:</caption>
               </section>
             `
@@ -391,14 +251,17 @@ const orderProducts = (cartproduct) => {
                     <tbody>
                       <tr>
                         <td>Nazwa produktu:</td>
+                        <td></td>
                         <td class="order__items--productName">${cartproduct.product.name}</td>
                       </tr>
                       <tr>
                         <td>Cena jednostkowa:</td>
+                        <td></td>
                         <td class="order__items--productPrice">${cartproduct.product.price} zł</td>
                       </tr>
                       <tr>
                         <td>Ilość sztuk:</td>
+                        <td></td>
                         <td class="order__items--productQuantity">${cartproduct.quantity}</td>
                       </tr>
                     </tbody>
@@ -417,26 +280,32 @@ const orderDetails = (order, totalCost) => {
               <tbody>
                 <tr>
                   <td>Imię i nazwisko:</td>
+                  <td></td>
                   <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
                 </tr>
                 <tr>
                   <td>Adres:</td>
+                  <td></td>
                   <td class="order__details--customerAddress">${order.customer.address}</td>
                 </tr>
                 <tr>
                   <td>E-mail:</td>
+                  <td></td>
                   <td class="order__details--customerEmail">${order.customer.email}</td>
                 </tr>
                 <!--<tr>
                   <td>Data płatności:</td>
+                  <td></td>
                   <td class="order__details--customerPaymentDate"></td>
                 </tr>-->
                 <tr>
                   <td>Zapłacono:</td>
+                  <td></td>
                   <td class="order__details--customerTotalPay">${totalCost} zł</td>
                 </tr>
                 <tr>
                   <td>Status:</td>
+                  <td></td>
                   <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
                 </tr>
               </tbody>
@@ -457,14 +326,17 @@ const orderItem = (order) => {
               <tbody>
                 <tr>
                   <td>Nazwa produktu:</td>
+                  <td></td>
                   <td class="order__items--productName">${cartproduct.product.name}</td>
                 </tr>
                 <tr>
                   <td>Cena jednostkowa:</td>
+                  <td></td>
                   <td class="order__items--productPrice">${cartproduct.product.price} zł</td>
                 </tr>
                 <tr>
                   <td>Ilość sztuk:</td>
+                  <td></td>
                   <td class="order__items--productQuantity">${cartproduct.quantity}</td>
                 </tr>
               </tbody>
@@ -501,7 +373,7 @@ if (ordersWrapper) {
 // ===========================
 // ===========================
 
-// STRONA PRODUKTU:
+// INDEX PRODUCT STRONA PRODUKTU: 
 let id = window.location.href.slice(-2);
 
 const retrieveProduct = () => {
@@ -564,9 +436,208 @@ if (wrapper2) {
 }
 
 
+// ===========================
+// ===========================
 
-// ===========================
-// ===========================
+// CART PRODUCT (koszyk):
+const cartMain = document.querySelector('#cartProductMain')
+const wrapper = document.querySelector('#cartProducts');
+const paymentDetails = document.querySelector('#payment');
+let totalOutput = 0;
+let totalQuantity = 0;
+
+const retrieveCartproducts = () => {
+  return new Promise( (resolve, reject) => {
+      fetch('http://localhost:8080/api/cart/not-ordered-orders?id=' + data)
+          .then( async result => {
+
+              const data = await result.json();
+              resolve(data);
+              return data;
+          } )
+          // .then((resolve) => {
+          //   console.log(resolve)
+          // })
+          .then(()=> {
+            document.querySelector('#payment__payButton').addEventListener('click', ()=> {
+              document.querySelector('.modal-content-confirm-order').style.display = "flex";
+              document.head.appendChild(document.createElement("style")).innerHTML = ".cartProductMain:before {display: inline-block;}";
+            })
+          })
+          .then(()=> {
+            document.querySelector('#modalCancel').addEventListener('click', ()=> {
+              document.querySelector('.modal-content-confirm-order').style.display = "none";
+              document.head.appendChild(document.createElement("style")).innerHTML = ".cartProductMain:before {display: none;}"
+            })
+          })
+          .catch( err => {
+              reject(err);
+          } );
+  } );
+}
+
+let total = 0;
+const calculateTotalCart = (price, quantity) => {
+  total += price * quantity;
+  return total.toFixed(2);
+}
+
+if (wrapper) {
+  if (data !== null) {
+    retrieveCartproducts()
+    .then( notOrdered => {
+        if (notOrdered.length > 0) {
+          
+          let item = [];
+          
+
+          let items = [];
+          
+          // let totalOutput = 0;
+  
+            notOrdered.forEach( products => {
+              wrapper.innerHTML += `
+              <article class="cartProduct">
+                  <div class="cartProduct__image">
+                  <img src="img/products/${products.product.id}.jpg" class="cartProduct__image--img" alt="">
+                  </div>
+  
+                  <div class="cartProduct__details">
+                  <table>
+                      <tbody>
+                      <tr>
+                          <td>Nazwa produktu:</td>
+                      </tr>
+                      <tr>
+                          <td class="cartProduct__details--productName">${products.product.name}</td>
+                      </tr>
+                      <tr>
+                          <td>Cena jednostkowa:</td>
+                      </tr>
+                      <tr>
+                          <td class="cartProduct__details--productName">${products.product.price} zł</td>
+                      </tr>
+                      </tbody>
+                  </table>
+  
+                  <table>
+                      <tbody>
+                      <tr>
+                          <td>Ilość:</td>
+                      </tr>
+                      <tr class="input-container" id="${products.cartProduct.id}">
+                          <td class="decr" role="button"> - </td>
+                          <td class="cartProduct__details--productQuantityInput inputJs"><input type="number" value="${products.cartProduct.quantity}"></td>
+                          <td class="incr" role="button" name="${products.cartProduct.id}"> + </td>
+                      </tr>
+                      <tr>
+                          <td><p role="button" class="cartProduct__details--deleteItem" onclick="window.addEventListener('click', deleteProduct);" id="${products.cartProduct.id}">Usuń z koszyka</p></td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  </div>
+              </article>
+  
+              <hr class="cartProductHr">
+              `;
+              
+              totalOutput = calculateTotalCart(products.product.price, products.cartProduct.quantity) + ' zł';
+              totalQuantity += products.cartProduct.quantity;
+
+            })
+            
+
+            item.items = notOrdered
+            item.totalCost = totalOutput
+
+            items.push(item);
+  
+            cartMain.innerHTML += `
+            <aside class="payment" id="payment">
+              <h3>Podsumowanie zamówienia:</h3>
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="payment__td">Imię i nazwisko:</td>
+                    <td class="payment__space"></td>
+                    <td>${firstName} ${lastName}</td>
+                  </tr>
+                  <tr>
+                    <td class="payment__td">Adres dostawy:</td>
+                    <td class="payment__space"></td>
+                    <td>${address}</td>
+                  </tr>
+                  <!--<tr>
+                    <td class="payment__td">E-mail:</td>
+                    <td class="payment__space"></td>
+                    <td>${email}</td>
+                  </tr>-->
+                </tbody>
+              </table>
+          
+              <p>Koszt całkowity:</p>
+              <output class="payment__total" id="payment__total">${totalOutput}</output>
+              <p role="button" class="payment__payButton" id="payment__payButton">Przejdź do płatności</p>
+              <p><a href="regulamin.html">Regulamin zwrotów</a></p>
+              <p><a href="dostawa.html">Informacje o dostawie</a></p>
+            </aside>
+            `
+            quantityinputControl()
+            return item
+
+        } else {
+          wrapper.innerHTML = `Brak produktów w koszyku!`
+        }
+    })
+    .then((resolve) => {
+      console.log(resolve)
+      showModalDetails(resolve)
+    })
+  } else {
+    wrapper.innerHTML += `<h3>Zaloguj się!</h3>`
+  }
+}
+
+// modal zamówienia
+const showModalDetails = (array) => {
+  const items = array.items;
+  items.forEach(item => {
+    console.log(item)
+    document.querySelector('#modal-details').innerHTML += 
+  `
+    <p>${item.product.name} x ${item.cartProduct.quantity}</p>
+  `
+  })
+  document.querySelector('#modal-details').innerHTML += 
+  `
+    <p>W sumie do zapłaty : ${array.totalCost}</p>
+  `
+}
+
+// Zapłać za koszyk:
+const payCart = () => {
+  return new Promise( (resolve, reject) => {
+    const url = 'http://localhost:8080/api/cart/pay?id=' + data;
+    console.log(url);
+    fetch(url, {
+      method: 'PUT'
+    })
+        .then( async result => {
+          const data = await result.json();
+          resolve(data)
+        })
+        .then(
+          document.querySelector('.modal-content-confirm-order').style.display = "flex",
+          document.head.appendChild(document.createElement("style")).innerHTML = ".cartProductMain:before {display: none;}",
+          window.location = "productsPaid.html"
+        )
+        .catch( err => {
+            console.log(err);
+        });
+  })
+  
+}
+
 // Koszyk count:
 const cartCount = document.querySelector('.header__wrapper--logo--count');
 if (cartCount) {
@@ -622,9 +693,6 @@ const quantityinputControl = () => {
   }
 }
 
-// ===========================
-// ===========================
-
 // Zwiększ ilość produktu w koszyku:
 const incrementCartProduct = (cartProductId) => {
   fetch('http://localhost:8080/api/cartproduct/increment/' + cartProductId, {
@@ -642,9 +710,6 @@ const incrementCartProduct = (cartProductId) => {
           console.log(err);
       });
 }
-
-// ===========================
-// ===========================
 
 // Zmniejsz ilość produktu w koszyku:
 const decrementCartProduct = (cartProductId) => {
@@ -664,11 +729,8 @@ const decrementCartProduct = (cartProductId) => {
       });
 }
 
-// ===========================
-// ===========================
-
 // Dodaj do koszyka:
-const modal = document.querySelector('.modal-content');
+const modal = document.querySelector('.modal-content-product');
 const modalExit = document.querySelector('.modalClose');
 const styleElem = document.head.appendChild(document.createElement("style"));
 const shopMain  = document.querySelector('.shopMain')
@@ -682,10 +744,6 @@ const exitModal = () => {
   modal.style.display = "none";
   styleElem.innerHTML = ".shopMain:before {display: none;}";
 }
-
-// const addToCart = (target) => {
-//   cartProduct(data,target.srcElement.id)
-// }
 
 let quantity = 0;
 
@@ -711,8 +769,6 @@ fetch('http://localhost:8080/api/cart/createCart/createProduct', {
         console.log(err);
     });
 }
-// ===========================
-// ===========================
 
 // Usuń produkt z koszyka (decrement):
 const deleteProduct = (target) => {
@@ -738,30 +794,7 @@ const deleteCartProduct = (productId) => {
       });
   }
 
-// ===========================
-// ===========================
 
-// Zapłać za koszyk:
-const payCart = () => {
-  return new Promise( (resolve, reject) => {
-    const url = 'http://localhost:8080/api/cart/pay?id=' + data;
-    console.log(url);
-    fetch(url, {
-      method: 'PUT'
-    })
-        .then( async result => {
-          const data = await result.json();
-          resolve(data)
-        })
-        .then(
-          window.location = "productsPaid.html"
-        )
-        .catch( err => {
-            console.log(err);
-        });
-  })
-  
-  }
 
 // REJESTRACJA:
 
@@ -782,6 +815,8 @@ const registerUser = (first_nameIn, last_nameIn, emailIn, addressIn, passwordIn)
       .then( async result => {
           const data = await result.json();
           const userId = data.id;
+          window.location = "logowanie.html"
+          console.log("ddd");
       } )
       .catch( err => {
           console.log(err);
@@ -829,7 +864,7 @@ let signupRegister = () => {
     return false;
   }
   if (size("#pwd") <= 3) {
-    msgb("Minimum Password length 10");
+    msgb("Minimum Password length 3");
     return false;
   }
   if (password==null || password=="") {

@@ -27,18 +27,11 @@ public class CartController {
         return this.cartService.retrieve(cartId);
     }
 
-////    Sprawdź cart po customerze:
 //    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping("/checkCart")
-//    public Optional<Cart> getCartCustomer(@RequestParam(name = "id") @PathVariable int id) {
-//        return this.cartService.retrieveCartCustomer(id);
+//    @GetMapping("/ordered-orders")
+//    public List<Cart> getOrderedOrders(@RequestParam(name = "id") @PathVariable int customerId) {
+//        return this.cartService.retrieveOrderedOrders(customerId);
 //    }
-
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
-    @GetMapping("/ordered-orders")
-    public List<Cart> getOrderedOrders(@RequestParam(name = "id") @PathVariable int customerId) {
-        return this.cartService.retrieveOrderedOrders(customerId);
-    }
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/ordered-orders2")

@@ -26,12 +26,9 @@ public class CreatePaymentCommand extends Command {
         int cardId = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Wprowadź date");
-        String date = scanner.nextLine();
-
         Payment payment = new PaymentBuilder(id)
                 .setCartId(cardId)
-                .setDate(date)
+                .setDate()
                 .getPayment();
 
         paymentService.create(payment);

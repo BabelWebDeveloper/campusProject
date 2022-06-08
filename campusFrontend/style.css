@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: rgba(255, 255, 255, 0.381);
 }
 * {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -29,7 +30,8 @@ header {
             align-items: center;
         }
         .header__items--searchInput{
-            height: 30px;
+            height: 35px;
+            min-width: 250px;
             border-radius: 5px;
         }
         .header__items--searchSubmit{
@@ -135,7 +137,36 @@ caption {
 .cartProductMain {
     display: flex;
     flex-direction: row;
+    min-height: 80vh;
+    /* position: relative; */
 }
+    .cartProductMain::before{
+        display: none;
+        display: var(--displayBody);
+        content: "";
+        background-color: rgba(0, 0, 0, 0.459);
+        width: 100%;
+        height: 100vh;
+    }
+    .modal-content-confirm-order{
+        display: none;
+        position: absolute;
+        flex-direction: column;
+        align-items: center;
+        background-color: #143636c4;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 20px;
+        color: white;
+        border-radius: 5px;
+    }
+    .modal-content-confirm-order > *{
+        margin: 20px auto;
+    }
+    #modalPay{
+        cursor: pointer;
+    }
     .cartProducts {
         display: flex;
         flex-direction: column;
@@ -295,6 +326,7 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
 }
     main::before{
         content: "";
@@ -306,7 +338,7 @@ h2 {
         width: 100%;
         height: 100%;
     }
-    .modal-content{
+    .modal-content-product{
         position: fixed;
         top: 40%;
         transform: translateY(-50%);
@@ -321,17 +353,18 @@ h2 {
         background-color: #91733a;
         border-radius: 5px;
     }
-        .modal-content > * {
+        .modal-content-product > * {
             margin: 0;
             color: black;
             font-weight: bold;
         }
-        .modal-content > p {
+        .modal-content-product > p {
             cursor: pointer;
         }
 .shopbarWrapper {
     display: flex;
     justify-content: center;
+    width: 80%;
 }
 .categories {
     display: flex;
@@ -371,30 +404,36 @@ h2 {
     .shopbar__item {
         width: 25%;
         min-width: 200px;
+        margin: 0 10px;
         background-color:#143636;
         display: flex;
         flex-direction: column;
         align-items: center;
         border-radius: 5px;
         color: white;
+        height: 300px;
     }
         .shopbar__item--img {
             width: 100%;
             height: 60%;
-            min-height: 250px;
             cursor: pointer;
             background-size: cover;
             background-position: center;
         }
 
         .shopbar__item--details{
+            width: 100%;
             height: 40%;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
         }
 
         .shopbar__item--details--name {
-            font-size: 20px;
-            padding: 5px;
+            font-size: 16px;
+            padding: 2px;
+            margin: 0;
         }
         .shopbar__item--details--desc {
             font-size: 12px;
@@ -405,15 +444,24 @@ h2 {
             justify-content: space-evenly;
             width: 100%;
         }
-            .shopbar__item--details--cartPriceBar-price{
-                padding: 5px;
-            }
             .shopbar__item--details--cartPriceBar-button{
                 border-style: hidden;
                 border: 1px solid transparent;
-                padding: 5px;
+                font-size: 12px;
+                padding: 2px;
                 border-radius: 5px;
                 cursor: pointer;
+                margin: 2px;
+                text-align: center;
+            }
+            .shopbar__item--details--cartPriceBar-price{
+                border-style: hidden;
+                border: 1px solid transparent;
+                font-size: 12px;
+                padding: 2px;
+                border-radius: 5px;
+                margin: 2px;
+                text-align: center;
             }
             .shopbar__item--details--cartPriceBar-button:hover{
                 border-style:inherit;
@@ -581,6 +629,9 @@ h2 {
         width: 70%;
     }
     .productWrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-direction: column;
         width: 80%;
     }

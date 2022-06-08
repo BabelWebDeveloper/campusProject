@@ -38,6 +38,14 @@
     </header>
 
       <main class="cartProductMain" id="cartProductMain">
+
+        <div class="modal-content-confirm-order">
+          <p>Czy potwierdzasz zamówienie?</p>
+          <div id="modal-details">
+          </div>
+          <p role="button" class="payment__payButton" id="modalPay" onclick="return payCart()">Potwierdzam z obowiązkiem zapłaty</p>
+          <p role="button" class="payment__payButton" id="modalCancel" >Anuluj</p>
+        </div>
         
         <section class="cartProducts" id="cartProducts">
           

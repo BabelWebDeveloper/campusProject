@@ -2,6 +2,8 @@ package pl.britenet.campus.builder;
 
 import pl.britenet.campus.obj.model.*;
 
+import java.util.Date;
+
 public class PaymentBuilder {
     private final Payment payment;
 
@@ -14,8 +16,13 @@ public class PaymentBuilder {
         return this;
     }
 
-    public PaymentBuilder setDate(String date) {//tutaj musi się zmienić na date
+    public PaymentBuilder setDate(Date date) {
         this.payment.setDate(date);
+        return this;
+    }
+
+    public PaymentBuilder setDate() {
+        this.payment.setDate();
         return this;
     }
 

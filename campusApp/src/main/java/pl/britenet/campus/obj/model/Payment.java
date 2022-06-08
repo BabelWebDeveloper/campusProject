@@ -1,5 +1,6 @@
 package pl.britenet.campus.obj.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Payment {
@@ -36,8 +37,14 @@ public class Payment {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        this.date = sdf.format(date);
+    }
+
+    public void setDate(Date date) {
+        this.date = String.valueOf(date);
     }
 
     public Product getProduct() {
@@ -74,6 +81,6 @@ public class Payment {
 
     @Override
     public String toString() {
-        return String.format("nazwa produktu: %s", product.getName());
+        return String.format("id: %d", id);
     }
 }
