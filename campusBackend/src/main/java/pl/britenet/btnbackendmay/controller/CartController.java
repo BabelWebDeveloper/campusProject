@@ -27,12 +27,6 @@ public class CartController {
         return this.cartService.retrieve(cartId);
     }
 
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping("/ordered-orders")
-//    public List<Cart> getOrderedOrders(@RequestParam(name = "id") @PathVariable int customerId) {
-//        return this.cartService.retrieveOrderedOrders(customerId);
-//    }
-
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/ordered-orders2")
     public List<Cart> getOrderedOrders2(@RequestParam(name = "id") @PathVariable int customerId) {

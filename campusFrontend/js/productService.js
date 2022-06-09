@@ -131,11 +131,10 @@ retrieveProducts()
             <div class="shopbar__item--details">
               <p class="shopbar__item--details--name">${product.name}</p>
               <p class="shopbar__item--details--desc">${product.description}</p>
+              <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
+              <p role="button" onclick="window.addEventListener('click', addToCart);" class="shopbar__item--details--cartPriceBar-button" id="${product.id}">Dodaj do koszyka</p>
+            </div>
 
-              <div class="shopbar__item--details--cartPriceBar" onsubmit="return productId()">
-                <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                <p role="button" onclick="window.addEventListener('click', addToCart);" class="shopbar__item--details--cartPriceBar-button" id="${product.id}">Dodaj do koszyka</p>
-              </div>
             </div>
         </article>
         `

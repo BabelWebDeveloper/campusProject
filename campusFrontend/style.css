@@ -32,7 +32,6 @@ header {
         .header__items--searchInput{
             height: 35px;
             width: 350px;
-            /* max-width: 350px; */
             border-radius: 5px;
         }
         .header__items--searchSubmit{
@@ -119,14 +118,9 @@ main {
         }
         .order__items > table > tbody > tr > td:nth-child(1){
             text-align: left;
-            /* border: 1px solid black; */
         }
-        /* .order__items > table > tbody > tr > td:nth-child(2){
-            min-width: 20px;
-        } */
         .order__items > table > tbody > tr > td:nth-child(2){
             text-align: left;
-            /* border: 1px solid black; */
         }
         .orderSpace{
             margin-bottom: 40px;
@@ -411,15 +405,14 @@ h2 {
     justify-content:space-evenly;
     flex-wrap: wrap;
     list-style: none;
-    /* gap: 30px; */
     text-align: center;
     margin: 5% 0;
     width: 90%;
 }
     .shopbar__item {
-        width: 30%;
+        width: 27%;
         min-width: 200px;
-        margin: 30px 10px;
+        margin: 22px 0px;
         background-color:#143636;
         display: flex;
         flex-direction: column;
@@ -442,7 +435,8 @@ h2 {
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
+            justify-content: center;
+            align-items: center;
         }
 
         .shopbar__item--details--name {
@@ -453,27 +447,22 @@ h2 {
         .shopbar__item--details--desc {
             font-size: 12px;
         }
-        .shopbar__item--details--cartPriceBar{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-            width: 100%;
-        }
+        
             .shopbar__item--details--cartPriceBar-button{
                 border-style: hidden;
-                border: 1px solid transparent;
+                border: 1px solid white;
                 font-size: 12px;
-                padding: 2px;
+                padding: 5px;
                 border-radius: 5px;
                 cursor: pointer;
                 margin: 2px;
                 text-align: center;
+                width: 50%;
             }
             .shopbar__item--details--cartPriceBar-price{
                 border-style: hidden;
-                border: 1px solid transparent;
-                font-size: 12px;
-                padding: 2px;
+                font-size: 16px;
+                padding: 10px;
                 border-radius: 5px;
                 margin: 2px;
                 text-align: center;
@@ -481,6 +470,8 @@ h2 {
             .shopbar__item--details--cartPriceBar-button:hover{
                 border-style:inherit;
                 border: 1px solid white;
+                background-color: white;
+                color: #143636;
             }
 /* SHOP END */
 

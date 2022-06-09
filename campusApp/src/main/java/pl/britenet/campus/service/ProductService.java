@@ -197,10 +197,5 @@ public class ProductService {
             System.out.println(e.getMessage());
         }
     }
-
-//    public void display(){
-//        for (Product product : this.products){
-//            System.out.println(product);
-//        }
-//    }
+    
 }

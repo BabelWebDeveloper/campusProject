@@ -28,18 +28,6 @@ public class CartproductController {
         return this.cartProductService.retrieve(cartId);
     }
 
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping("/cart")
-//    public List<CartProduct> getCustomerCartProduct(@RequestParam(name = "id") @PathVariable int id) {
-//        return this.cartProductService.retrieveCartProducts2(id);
-//    }
-
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping("/retrieve")
-//    public Optional<CartProduct> getCartproductByCart(@RequestParam(name = "id") @PathVariable int cartId) {
-//        return this.cartProductService.retrieveByCartId(cartId);
-//    }
-
     @PostMapping
     public void createCartProduct(@RequestBody CartProduct cartProduct) {
         this.cartProductService.create(cartProduct);

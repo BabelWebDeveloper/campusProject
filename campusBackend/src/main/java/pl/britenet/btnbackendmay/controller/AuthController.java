@@ -25,15 +25,4 @@ public class AuthController {
         return this.authService.login(email, password);
     }
 
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @PostMapping
-//    public Map<String, String> cartCartProduct(@RequestBody Map<String, String> cart,  Map<String, String> cartProduct) {
-//        String cartId = cart.get("id");
-//        String productId = cartProduct.get("productId");
-//        return this.authService.login(cartId, productId);
-//    }
-
-//    customerId, productId
-//    /api/cart/{productId}/{userId}
-
 }

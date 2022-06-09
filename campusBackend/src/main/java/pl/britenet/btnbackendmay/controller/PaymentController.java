@@ -20,25 +20,6 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping
-//    public List<Payment> getPayments() {
-//        return this.paymentService.retrieveOrders();
-//    }
-
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping("/order")
-//    public List<Payment> getPayment() {
-//        return this.paymentService.retrieveOrders();
-//    }
-
-//    @CrossOrigin(origins = "http://127.0.0.1:5500")
-//    @GetMapping("/orders")
-//    public List<Payment> getPayment(@RequestParam(name = "id") @PathVariable int id) {
-//        return this.paymentService.retrieveOrdersByCustomerId(id);
-//    }
-
     @PostMapping
     public void createPayment(@RequestBody Payment payment) {
         this.paymentService.create(payment);

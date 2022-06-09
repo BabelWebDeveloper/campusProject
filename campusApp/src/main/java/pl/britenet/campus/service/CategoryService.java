@@ -162,9 +162,4 @@ public class CategoryService {
 
     }
 
-//    public void display(){
-//        for (Category category : this.categories){
-//            System.out.println(category);
-//        }
-//    }
 }
