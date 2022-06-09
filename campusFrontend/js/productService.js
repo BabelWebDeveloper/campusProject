@@ -240,17 +240,14 @@ const orderProducts = (cartproduct) => {
                     <tbody>
                       <tr>
                         <td>Nazwa produktu:</td>
-                        <td class="orderSpace"></td>
                         <td class="order__items--productName">${cartproduct.product.name}</td>
                       </tr>
                       <tr>
                         <td>Cena jednostkowa:</td>
-                        <td class="orderSpace"></td>
                         <td class="order__items--productPrice">${cartproduct.product.price} zł</td>
                       </tr>
                       <tr>
                         <td>Ilość sztuk:</td>
-                        <td class="orderSpace"></td>
                         <td class="order__items--productQuantity">${cartproduct.quantity}</td>
                       </tr>
                     </tbody>
@@ -269,32 +266,26 @@ const orderDetails = (order, totalCost) => {
               <tbody>
                 <tr>
                   <td>Imię i nazwisko:</td>
-                  <td class="orderSpace"></td>
                   <td class="order__details--customerName">${order.customer.first_name} ${order.customer.last_name}</td>
                 </tr>
                 <tr>
                   <td>Adres:</td>
-                  <td class="orderSpace"></td>
                   <td class="order__details--customerAddress">${order.customer.address}</td>
                 </tr>
                 <tr>
                   <td>E-mail:</td>
-                  <td class="orderSpace"></td>
                   <td class="order__details--customerEmail">${order.customer.email}</td>
                 </tr>
                 <!--<tr>
                   <td>Data płatności:</td>
-                  <td class="orderSpace"></td>
                   <td class="order__details--customerPaymentDate"></td>
                 </tr>-->
                 <tr>
                   <td>Zapłacono:</td>
-                  <td class="orderSpace"></td>
                   <td class="order__details--customerTotalPay">${totalCost} zł</td>
                 </tr>
                 <tr>
                   <td>Status:</td>
-                  <td class="orderSpace"></td>
                   <td class="order__details--customerIsOrdered">${reformatStatus(order)}</td>
                 </tr>
               </tbody>
@@ -311,21 +302,19 @@ const orderItem = (order) => {
     ordersWrapper.innerHTML += `
         <section class="order">
           <article class="order__items">
+          <img class="ordersImg" src="img/products/${cartproduct.product.id}.jpg" alt="">
             <table>
               <tbody>
                 <tr>
                   <td>Nazwa produktu:</td>
-                  <td></td>
                   <td class="order__items--productName">${cartproduct.product.name}</td>
                 </tr>
                 <tr>
                   <td>Cena jednostkowa:</td>
-                  <td></td>
                   <td class="order__items--productPrice">${cartproduct.product.price} zł</td>
                 </tr>
                 <tr>
                   <td>Ilość sztuk:</td>
-                  <td></td>
                   <td class="order__items--productQuantity">${cartproduct.quantity}</td>
                 </tr>
               </tbody>
