@@ -61,36 +61,26 @@ const retrieveProductByName = (name) => {
           console.log(product)
           if (data !== null) {
             wrapper.innerHTML += `
-            <article class="shopbar__item">
-                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
-                </a>
-    
-                <div class="shopbar__item--details">
-                  <p class="shopbar__item--details--name">${product.name}</p>
-                  <p class="shopbar__item--details--desc">${product.description}</p>
-    
-                  <div class="shopbar__item--details--cartPriceBar">
-                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                    <p role="button" class="shopbar__item--details--cartPriceBar-button">Dodaj do koszyka</p>
-                  </div>
-                </div>
-            </article>
+            <div class="productWrapper__image">
+                <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
+            </div>
+            <div class="productWrapper__details" id="productWrapper__details">
+                <h2>${product.name}</h2>
+                <p>${product.description}</p>
+                <p>${product.price} zł</p>
+                <p class="productWrapper__details--button" role="button" onclick="window.addEventListener('click', addToCart);" id="${product.id}">Dodaj do koszyka</p>
+            </div>
           `
           } else {
             wrapper.innerHTML += `
-            <article class="shopbar__item">
-                <a class="shopbar__item--img" role="link" value="indexProduct.html" href="indexProduct.html" id="${product.id}" style="background-image: url(img/products/${product.id}.jpg);">
-                </a>
-    
-                <div class="shopbar__item--details">
-                  <p class="shopbar__item--details--name">${product.name}</p>
-                  <p class="shopbar__item--details--desc">${product.description}</p>
-    
-                  <div class="shopbar__item--details--cartPriceBar">
-                    <p class="shopbar__item--details--cartPriceBar-price">${product.price} zł</p>
-                  </div>
-                </div>
-            </article>
+            <div class="productWrapper__image">
+                <img class="productWrapper__image--img" src="img/products/${product.id}.jpg" alt="">
+            </div>
+            <div class="productWrapper__details" id="productWrapper__details">
+                <h2>${product.name}</h2>
+                <p>${product.description}</p>
+                <p>${product.price} zł</p>
+            </div>
           `
           }
           
