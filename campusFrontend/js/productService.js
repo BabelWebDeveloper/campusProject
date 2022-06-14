@@ -261,7 +261,6 @@ const orderDetails = (order, totalCost) => {
   ordersWrapper.innerHTML += `
           <section class="order__items orderSpace">
             <table>
-              <caption>Dla:</caption>
               <tbody>
                 <tr>
                   <td>Imię i nazwisko:</td>

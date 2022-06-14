@@ -110,6 +110,9 @@ main {
         align-items: center;
         width: 100%;
     }
+        .orderSpace > table{
+            border: 1px solid black;
+        }
         .order__items > * {
             padding: 15px;
         }
@@ -133,6 +136,9 @@ main {
         flex-direction: row;
         justify-content: center;
         padding-bottom: 40px;
+    }
+    .order__details--customerTotalPay, .order__details--customerIsOrdered{
+        font-weight: bold;
     }
 caption {
     font-size: 20px;
